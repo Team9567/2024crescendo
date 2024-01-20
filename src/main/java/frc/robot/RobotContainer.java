@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.RobotChassis;
 
 public class RobotContainer {
@@ -22,17 +21,18 @@ public class RobotContainer {
   // JOYSTICK AND BUTTON ASSIGNMENTS
   public Joystick driver = new Joystick(0);
 
-  // The container for the robot. Contains subsystems, OI devices, and commands.
+  // The container for the robot. Contains subsystems, OI devices, and commands
   public RobotContainer() {
+
     chassis.setDefaultCommand(
         new RunCommand(
             () -> {
-              chassis.arcadeDrive(-driver.getRawAxis(1), driver.getRawAxis(2));
+              chassis.arcadeDrive(-driver.getRawAxis(1), driver.getRawAxis(0));
             }, chassis));
     // attach drive distance to button A
-
     // m_Chooser.addOption("drive 5 feet", new
     // DriveDistanceCommand(RobotChassis.class));
+
   }
 
   //public Command getAutonomousCommand() {
