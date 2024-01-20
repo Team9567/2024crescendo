@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+//import frc.robot.commands.DriveDistanceCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.RobotChassis;
 
 public class RobotContainer {
-  SendableChooser<Command> m_Chooser = new SendableChooser();
   // SUBSYSTEMS
 
   public RobotChassis chassis = new RobotChassis();
@@ -36,7 +35,7 @@ public class RobotContainer {
     // DriveDistanceCommand(RobotChassis.class));
   }
 
-  public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
-  }
+  //public Command getAutonomousCommand() {
+    //return new DriveDistanceCommand(chassis);
+  //}
 }
