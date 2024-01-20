@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
@@ -19,57 +18,63 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function is run when the robot is first started up and should be used
+   * for any
    * initialization code.
    */
 
- // @Override
-  //public void robotInit() {
-    //m_robotContainer = new RobotContainer();
-  //}
+  // @Override
+  public void robotInit() {
+    m_robotContainer = new RobotContainer();
+  }
 
-    /** This function is run once each time the robot enters autonomous mode. */
-    @Override
+  /** This function is run once each time the robot enters autonomous mode. */
+  @Override
   public void autonomousInit() {
     Object autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-  
-      // schedule the autonomous command (example)
-      if (autonomousCommand != null) {
-        ((Command) autonomousCommand).schedule();
-      }
+    // schedule the autonomous command (example)
+    if (autonomousCommand != null) {
+      ((Command) autonomousCommand).schedule();
     }
-  
+  }
+
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
-/** This function is called once each time the robot enters teleoperated mode. */
-@Override
-public void teleopInit() {
+  /**
+   * This function is called once each time the robot enters teleoperated mode.
+   */
+  @Override
+  public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
   }
 
-/** This function is called periodically during teleoperated mode. */
-@Override
-public void teleopPeriodic() {
+  /** This function is called periodically during teleoperated mode. */
+  @Override
+  public void teleopPeriodic() {
 
-}
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
-
-
-  @Override
-  public void autonomousExit() {}
+  public void disabledExit() {
+  }
 
   @Override
-  public void teleopExit() {}
+  public void autonomousExit() {
+  }
+
+  @Override
+  public void teleopExit() {
+  }
 
   /** This function is called once each time the robot enters test mode. */
   @Override
@@ -77,10 +82,12 @@ public void teleopPeriodic() {
     CommandScheduler.getInstance().cancelAll();
   }
 
-/** This function is called periodically during test mode. */
-@Override
-public void testPeriodic() {}
+  /** This function is called periodically during test mode. */
+  @Override
+  public void testPeriodic() {
+  }
 
   @Override
-  public void testExit() {}
+  public void testExit() {
+  }
 }

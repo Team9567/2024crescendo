@@ -11,35 +11,32 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.subsystems.RobotChassis;
 
-//public class RobotContainer {
-  //SendableChooser<Command> m_Chooser = new SendableChooser();
-  //SUBSYSTEMS
+public class RobotContainer {
+  SendableChooser<Command> m_Chooser = new SendableChooser();
+  // SUBSYSTEMS
 
-  //public RobotChassis chassis = new RobotChassis();
+  public RobotChassis chassis = new RobotChassis();
   // ROBOT COMMAND DEFINITIONS
-  
+
   // JOYSTICK AND BUTTON ASSIGNMENTS
-  //public Joystick driver = new Joystick(0);
+  public Joystick driver = new Joystick(0);
 
-  //The container for the robot. Contains subsystems, OI devices, and commands.
-   //public RobotContainer() {
-    //chassis.setDefaultCommand(
-  
-  
-  
+  // The container for the robot. Contains subsystems, OI devices, and commands.
+  public RobotContainer() {
+    chassis.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              chassis.arcadeDrive(-driver.getRawAxis(1), driver.getRawAxis(2));
+            }, chassis));
+    // attach drive distance to button A
 
- 
-    
-      //new RunCommand(            
-        //() -> {
-          //chassis.arcadeDrive(-driver.getRawAxis(1), driver.getRawAxis(2));
-       // }, chassis));
-        //attach drive distance to button A
+    // m_Chooser.addOption("drive 5 feet", new
+    // DriveDistanceCommand(RobotChassis.class));
+  }
 
-       // m_Chooser.addOption("drive 5 feet", new DriveDistanceCommand(chassis));
-      //}
-  //public Command getAutonomousCommand() {
-    //return Commands.print("No autonomous command configured");
-  //}
-//}
+  public Command getAutonomousCommand() {
+    return Commands.print("No autonomous command configured");
+  }
+}
