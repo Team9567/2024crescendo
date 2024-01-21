@@ -16,6 +16,10 @@ public class RobotChassis extends SubsystemBase {
     public CANSparkMax leftFollowerCanSparkMax = new CANSparkMax(2, MotorType.kBrushless);
     public CANSparkMax rightFollowerCanSparkMax = new CANSparkMax(4, MotorType.kBrushless);
     public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkMax, rightCanSparkMax);
+    public double targetSpeed = 0;
+    public double targetTurn = 0;
+    public double currentSpeed = 0;
+    public double currentTurn = 0;
 
     public RobotChassis(){
 
@@ -33,8 +37,33 @@ public class RobotChassis extends SubsystemBase {
     }
 
     public void arcadeDrive(double power, double turn) {
-        drivetrain.arcadeDrive(power, turn * -1);
+        targetSpeed = power;
+        targetTurn = turn * -1;
+        updateSpeed();
+    }
+    public void periodic(){
+        updateSpeed();
+    }
+    public void updateSpeed(){
+        var speedDiffrence = targetSpeed - currentSpeed;
+        var turnDiffrence = targetTurn - currentTurn;
+        if (speedDiffrence > .5){
+            currentSpeed += .15;
+        }else if (speedDiffrence > .15){
+            currentSpeed += .1;
+        }else{
+            currentSpeed = targetSpeed;
+        }
 
+        if (turnDiffrence > 0.5){
+            currentTurn += .15;
+        }else if (speedDiffrence > .15){
+            currentTurn += .1;
+        }else{
+            currentTurn = targetTurn;
+        }
+        drivetrain.arcadeDrive(currentSpeed, currentTurn);
     }
 
 }
+
