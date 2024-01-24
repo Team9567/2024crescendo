@@ -23,14 +23,16 @@ public class RobotChassis extends SubsystemBase {
 
     public RobotChassis(){
 
-        for (CANSparkMax m : new CANSparkMax[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,rightFollowerCanSparkMax }) {
+        for (CANSparkMax m : new CANSparkMax[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,rightFollowerCanSparkMax}) {
             m.clearFaults();
-            m.setIdleMode(IdleMode.kBrake);
+            m.setIdleMode(IdleMode.kCoast);
             m.setSmartCurrentLimit(240 / 4, 240 / 4);
         }
+        
         leftCanSparkMax.setInverted(false);
         rightCanSparkMax.setInverted(true);
-
+        leftFollowerCanSparkMax.setInverted(true);
+        rightFollowerCanSparkMax.setInverted(true);
         // configure followers
         leftFollowerCanSparkMax.follow(leftCanSparkMax);
         rightFollowerCanSparkMax.follow(rightCanSparkMax);
