@@ -24,6 +24,9 @@ public class RobotLauncher extends SubsystemBase {
     m_launchWheel.setSmartCurrentLimit(kLauncherCurrentLimit);
     m_feedWheel.setSmartCurrentLimit(kFeedCurrentLimit);
 
+    m_launchWheel.setInverted(false);
+    m_feedWheel.setInverted(false);
+
     m_launchWheel.clearFaults();
     m_launchWheel.setIdleMode(IdleMode.kCoast);
     m_feedWheel.clearFaults();
