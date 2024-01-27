@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.LauncherConstants.*;
+import static frc.robot.Constants.LauncherConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -18,19 +18,19 @@ public class RobotLauncher extends SubsystemBase {
 
   /** Creates a new Launcher. */
   public RobotLauncher() {
-    m_launchWheel = new CANSparkMax(kLauncherID, MotorType.kBrushless);
-    m_feedWheel = new CANSparkMax(kFeederID, MotorType.kBrushless);
+    m_launchWheel = new CANSparkMax(LauncherConstants.kLauncherID, MotorType.kBrushless);
+    m_feedWheel = new CANSparkMax(LauncherConstants.kFeederID, MotorType.kBrushless);
 
-    m_launchWheel.setSmartCurrentLimit(kLauncherCurrentLimit);
-    m_feedWheel.setSmartCurrentLimit(kFeedCurrentLimit);
+    m_launchWheel.setSmartCurrentLimit(LauncherConstants.kLauncherCurrentLimit);
+    m_feedWheel.setSmartCurrentLimit(LauncherConstants.kFeedCurrentLimit);
 
     m_launchWheel.setInverted(false);
     m_feedWheel.setInverted(false);
 
     m_launchWheel.clearFaults();
-    m_launchWheel.setIdleMode(IdleMode.kCoast);
+    m_launchWheel.setIdleMode(LauncherConstants.kLaunchBrakeMode);
     m_feedWheel.clearFaults();
-    m_feedWheel.setIdleMode(IdleMode.kCoast);
+    m_feedWheel.setIdleMode(LauncherConstants.kFeedBrakeMode);
 
   }
 
@@ -52,8 +52,8 @@ public class RobotLauncher extends SubsystemBase {
     return this.startEnd(
         // When the command is initialized, set the wheels to the intake speed values
         () -> {
-          setFeedWheel(kIntakeFeederSpeed);
-          setLaunchWheel(kIntakeLauncherSpeed);
+          setFeedWheel(LauncherConstants.kIntakeFeederSpeed);
+          setLaunchWheel(LauncherConstants.kIntakeLauncherSpeed);
         },
         // When the command stops, stop the wheels
         () -> {

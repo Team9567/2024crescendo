@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.LauncherConstants.*;
+import static frc.robot.Constants.LauncherConstants;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.RobotLauncher;
@@ -27,7 +27,7 @@ public class PrepareLaunch extends Command {
   @Override
   public void initialize() {
     // Set launch wheel to speed, keep feed wheel at 0 to let launch wheel spin up.
-    launcher.setLaunchWheel(kLauncherSpeed);
+    launcher.setLaunchWheel(LauncherConstants.kLauncherSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

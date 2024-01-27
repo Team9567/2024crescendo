@@ -26,6 +26,7 @@ public class RobotContainer {
 
   // JOYSTICK AND BUTTON ASSIGNMENTS
   public CommandJoystick driver = new CommandJoystick(OperatorConstants.kDriverControllerPort);
+  public CommandJoystick controller = new CommandJoystick(OperatorConstants.kOperatorControllerPort);
 
   // The container for the robot. Contains subsystems, OI devices, and commands
   public RobotContainer() {
@@ -47,8 +48,8 @@ public class RobotContainer {
      * (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command
      */
-    driver
-        .button(2)
+    controller
+        .button(OperatorConstants.kOperatorButtonLaunch)
         .whileTrue(
             new PrepareLaunch(launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
@@ -58,7 +59,7 @@ public class RobotContainer {
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
-    driver.button(3).whileTrue(launcher.getIntakeCommand());
+    controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
   }
 
   // public Command getAutonomousCommand() {
