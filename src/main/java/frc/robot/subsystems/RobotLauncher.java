@@ -4,9 +4,10 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.LauncherConstants.*;
+import static frc.robot.Constants.LauncherConstants;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,28 +18,42 @@ public class RobotLauncher extends SubsystemBase {
 
   /** Creates a new Launcher. */
   public RobotLauncher() {
-    m_launchWheel = new CANSparkMax(kLauncherID, MotorType.kBrushless);
-    m_feedWheel = new CANSparkMax(kFeederID, MotorType.kBrushless);
+    m_launchWheel = new CANSparkMax(LauncherConstants.kLauncherID, MotorType.kBrushless);
+    m_feedWheel = new CANSparkMax(LauncherConstants.kFeederID, MotorType.kBrushless);
 
-    m_launchWheel.setSmartCurrentLimit(kLauncherCurrentLimit);
-    m_feedWheel.setSmartCurrentLimit(kFeedCurrentLimit);
+    m_launchWheel.setSmartCurrentLimit(LauncherConstants.kLauncherCurrentLimit);
+    m_feedWheel.setSmartCurrentLimit(LauncherConstants.kFeedCurrentLimit);
+
+    m_launchWheel.setInverted(false);
+    m_feedWheel.setInverted(false);
+
+    m_launchWheel.clearFaults();
+    m_launchWheel.setIdleMode(LauncherConstants.kLaunchBrakeMode);
+    m_feedWheel.clearFaults();
+    m_feedWheel.setIdleMode(LauncherConstants.kFeedBrakeMode);
+
   }
 
   /**
-   * This method is an example of the 'subsystem factory' style of command creation. A method inside
-   * the subsytem is created to return an instance of a command. This works for commands that
-   * operate on only that subsystem, a similar approach can be done in RobotContainer for commands
-   * that need to span subsystems. The Subsystem class has helper methods, such as the startEnd
+   * This method is an example of the 'subsystem factory' style of command
+   * creation. A method inside
+   * the subsytem is created to return an instance of a command. This works for
+   * commands that
+   * operate on only that subsystem, a similar approach can be done in
+   * RobotContainer for commands
+   * that need to span subsystems. The Subsystem class has helper methods, such as
+   * the startEnd
    * method used here, to create these commands.
    */
   public Command getIntakeCommand() {
-    // The startEnd helper method takes a method to call when the command is initialized and one to
+    // The startEnd helper method takes a method to call when the command is
+    // initialized and one to
     // call when it ends
     return this.startEnd(
         // When the command is initialized, set the wheels to the intake speed values
         () -> {
-          setFeedWheel(kIntakeFeederSpeed);
-          setLaunchWheel(kIntakeLauncherSpeed);
+          setFeedWheel(LauncherConstants.kIntakeFeederSpeed);
+          setLaunchWheel(LauncherConstants.kIntakeLauncherSpeed);
         },
         // When the command stops, stop the wheels
         () -> {
@@ -46,17 +61,20 @@ public class RobotLauncher extends SubsystemBase {
         });
   }
 
-  // An accessor method to set the speed (technically the output percentage) of the launch wheel
+  // An accessor method to set the speed (technically the output percentage) of
+  // the launch wheel
   public void setLaunchWheel(double speed) {
     m_launchWheel.set(speed);
   }
 
-  // An accessor method to set the speed (technically the output percentage) of the feed wheel
+  // An accessor method to set the speed (technically the output percentage) of
+  // the feed wheel
   public void setFeedWheel(double speed) {
     m_feedWheel.set(speed);
   }
 
-  // A helper method to stop both wheels. You could skip having a method like this and call the
+  // A helper method to stop both wheels. You could skip having a method like this
+  // and call the
   // individual accessors with speed = 0 instead
   public void stop() {
     m_launchWheel.set(0);
