@@ -48,7 +48,7 @@ public class RobotContainer {
      * command for 1 seconds and then run the LaunchNote command
      */
     driver
-        .button(1)
+        .button(2)
         .whileTrue(
             new PrepareLaunch(launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
@@ -58,7 +58,7 @@ public class RobotContainer {
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
-    driver.button(2).whileTrue(launcher.getIntakeCommand());
+    driver.button(3).whileTrue(launcher.getIntakeCommand());
   }
 
   // public Command getAutonomousCommand() {
