@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.LauncherConstants.*;
+import static frc.robot.Constants.LauncherConstants;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.RobotLauncher;
@@ -32,8 +32,8 @@ public class LaunchNote extends Command {
   @Override
   public void initialize() {
     // Set the wheels to launching speed
-    launcher.setLaunchWheel(kLauncherSpeed);
-    launcher.setFeedWheel(kLaunchFeederSpeed);
+    launcher.setLaunchWheel(LauncherConstants.kLauncherSpeed);
+    launcher.setFeedWheel(LauncherConstants.kLaunchFeederSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
