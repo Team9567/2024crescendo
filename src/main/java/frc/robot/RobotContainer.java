@@ -8,7 +8,6 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -19,6 +18,8 @@ import frc.robot.commands.LaunchNote;
 import frc.robot.commands.PrepareLaunch;
 import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotLauncher;
+import frc.robot.subsystems.Vision;
+
 
 public class RobotContainer {
 
@@ -33,6 +34,8 @@ public class RobotContainer {
 
   public RobotChassis chassis = new RobotChassis(navxGyro, poseEstimator);
   public RobotLauncher launcher = new RobotLauncher();
+  public Vision vision = new Vision(poseEstimator);
+
   // ROBOT COMMAND DEFINITIONS
   
 

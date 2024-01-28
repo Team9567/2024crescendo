@@ -1,25 +1,33 @@
 package frc.robot.subsystems;
 
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 
 public class Vision extends SubsystemBase {
-    
+
+
+    public DifferentialDrivePoseEstimator poseEstimator;
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
+    NetworkTableEntry botPoseEntry = table.getEntry("botpose");
+    double[] defaultBotPose = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
     
-    public Vision (){
+    public Vision (DifferentialDrivePoseEstimator poseEstimator){
+        this.poseEstimator = poseEstimator;
+
         table.getEntry("pipeline").setNumber(0);
 
     }
@@ -35,6 +43,19 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("LimelightY", y);
         SmartDashboard.putNumber("LimelightArea", area);
 
+        double hasTarget = table.getEntry("tv").getDouble(0);
+
+        if (hasTarget == 0) {
+            return;
+        }
+
+        double[] botPoseArray = botPoseEntry.getDoubleArray(defaultBotPose);
+
+        Rotation2d botRotation = new Rotation2d(botPoseArray[5]);
+
+        Pose2d botPose = new Pose2d(botPoseArray[0], botPoseArray[1] ,botRotation);
+
+        poseEstimator.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
 
     }
 }

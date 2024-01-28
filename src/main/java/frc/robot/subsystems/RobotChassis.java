@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +27,7 @@ public class RobotChassis extends SubsystemBase {
     public RelativeEncoder rightEncoder = rightCanSparkMax.getEncoder();
     public AHRS navxGyro;
     public DifferentialDrivePoseEstimator poseEstimator;
+    public PIDController thetaController = new PIDController(1/180, 0, 0);
     
 
     public RobotChassis(AHRS navxGyro, DifferentialDrivePoseEstimator poseEstimator) {
@@ -53,7 +55,7 @@ public class RobotChassis extends SubsystemBase {
         leftEncoder.setPositionConversionFactor(RobotChassisConstants.kWheelCircumfrance/RobotChassisConstants.kMotorReduction);
         rightEncoder.setPositionConversionFactor(RobotChassisConstants.kWheelCircumfrance/RobotChassisConstants.kMotorReduction);
 
-
+        thetaController.enableContinuousInput(-180, 180);
 
     }
 
@@ -65,6 +67,9 @@ public class RobotChassis extends SubsystemBase {
 
     public void periodic() {
         updateSpeed();
+
+        poseEstimator.update(navxGyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+        
     }
 
     public void updateSpeed() {
@@ -87,5 +92,17 @@ public class RobotChassis extends SubsystemBase {
         }
         drivetrain.arcadeDrive(currentSpeed, currentTurn);
     }
+
+    public void chassisToBearing(double targetRotation){
+
+
+        double initalBearing = navxGyro.getRotation2d().getDegrees();
+        double output = thetaController.calculate(initalBearing, targetRotation);
+
+        arcadeDrive(0, output); // if turns as fast as possible invert output
+
+    }
+
+
 
 }
