@@ -75,5 +75,9 @@ public final class Constants {
     public static final int kLeftFollowerCanId = 2;
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
+
+    public static final double kMotorReduction = 1.0; // change later
+    public static final double kWheelDiameter = 1.0; // change later
+    public static final double kWheelCircumfrance = kWheelDiameter * Math.PI;
   }
 }

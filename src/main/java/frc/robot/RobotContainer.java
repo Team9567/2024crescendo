@@ -4,25 +4,37 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.PrepareLaunch;
-import frc.robot.commands.LaunchNote;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.subsystems.RobotChassis;
-import frc.robot.subsystems.RobotLauncher;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.LaunchNote;
+import frc.robot.commands.PrepareLaunch;
+import frc.robot.subsystems.RobotChassis;
+import frc.robot.subsystems.RobotLauncher;
 
 public class RobotContainer {
+
+  public AHRS navxGyro = new AHRS(Port.kMXP); // import might be wrong
+
+  public DifferentialDriveKinematics differentialDriveKinematics = new DifferentialDriveKinematics(1); // change later
+
+  public DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(differentialDriveKinematics, navxGyro.getRotation2d(), 0, 0, new Pose2d());
+  //rotation2d not always 0
+
   // SUBSYSTEMS
 
-  public RobotChassis chassis = new RobotChassis();
+  public RobotChassis chassis = new RobotChassis(navxGyro, poseEstimator);
   public RobotLauncher launcher = new RobotLauncher();
   // ROBOT COMMAND DEFINITIONS
+  
 
   // JOYSTICK AND BUTTON ASSIGNMENTS
   public CommandJoystick driver = new CommandJoystick(OperatorConstants.kDriverControllerPort);

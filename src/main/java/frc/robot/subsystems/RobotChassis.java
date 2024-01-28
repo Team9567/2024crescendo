@@ -1,16 +1,18 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkBase.IdleMode;
+
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants.RobotChassisConstants;
 
 public class RobotChassis extends SubsystemBase {
+
     public CANSparkMax leftCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftCanId, MotorType.kBrushless);
     public CANSparkMax rightCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightCanId, MotorType.kBrushless);
     public CANSparkMax leftFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftFollowerCanId, MotorType.kBrushless);
@@ -20,8 +22,16 @@ public class RobotChassis extends SubsystemBase {
     public double targetTurn = 0;
     public double currentSpeed = 0;
     public double currentTurn = 0;
+    public RelativeEncoder leftEncoder = leftCanSparkMax.getEncoder();
+    public RelativeEncoder rightEncoder = rightCanSparkMax.getEncoder();
+    public AHRS navxGyro;
+    public DifferentialDrivePoseEstimator poseEstimator;
+    
 
-    public RobotChassis() {
+    public RobotChassis(AHRS navxGyro, DifferentialDrivePoseEstimator poseEstimator) {
+
+        this.navxGyro = navxGyro;
+        this.poseEstimator = poseEstimator;
 
         for (CANSparkMax m : new CANSparkMax[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,
                 rightFollowerCanSparkMax }) {
@@ -37,6 +47,14 @@ public class RobotChassis extends SubsystemBase {
         // configure followers
         leftFollowerCanSparkMax.follow(leftCanSparkMax);
         rightFollowerCanSparkMax.follow(rightCanSparkMax);
+
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
+        leftEncoder.setPositionConversionFactor(RobotChassisConstants.kWheelCircumfrance/RobotChassisConstants.kMotorReduction);
+        rightEncoder.setPositionConversionFactor(RobotChassisConstants.kWheelCircumfrance/RobotChassisConstants.kMotorReduction);
+
+
+
     }
 
     public void arcadeDrive(double power, double turn) {
