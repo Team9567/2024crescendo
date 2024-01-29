@@ -10,6 +10,7 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
@@ -23,6 +24,8 @@ import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
 
+  public Field2d field = new Field2d();
+
   public AHRS navxGyro = new AHRS(Port.kMXP); // import might be wrong
 
   public DifferentialDriveKinematics differentialDriveKinematics = new DifferentialDriveKinematics(1); // change later
@@ -32,9 +35,9 @@ public class RobotContainer {
 
   // SUBSYSTEMS
 
-  public RobotChassis chassis = new RobotChassis(navxGyro, poseEstimator);
+  public RobotChassis chassis = new RobotChassis(navxGyro, poseEstimator, field);
   public RobotLauncher launcher = new RobotLauncher();
-  public Vision vision = new Vision(poseEstimator);
+  public Vision vision = new Vision(poseEstimator, field);
 
   // ROBOT COMMAND DEFINITIONS
   

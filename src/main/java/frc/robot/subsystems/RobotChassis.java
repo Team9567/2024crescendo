@@ -8,6 +8,8 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants.RobotChassisConstants;
@@ -28,12 +30,14 @@ public class RobotChassis extends SubsystemBase {
     public AHRS navxGyro;
     public DifferentialDrivePoseEstimator poseEstimator;
     public PIDController thetaController = new PIDController(1/180, 0, 0);
+    public Field2d field;
     
 
-    public RobotChassis(AHRS navxGyro, DifferentialDrivePoseEstimator poseEstimator) {
+    public RobotChassis(AHRS navxGyro, DifferentialDrivePoseEstimator poseEstimator, Field2d field) {
 
         this.navxGyro = navxGyro;
         this.poseEstimator = poseEstimator;
+        this.field = field;
 
         for (CANSparkMax m : new CANSparkMax[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,
                 rightFollowerCanSparkMax }) {
@@ -69,7 +73,10 @@ public class RobotChassis extends SubsystemBase {
         updateSpeed();
 
         poseEstimator.update(navxGyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
-        
+        field.setRobotPose(poseEstimator.getEstimatedPosition());
+
+        SmartDashboard.putData("field", field);
+
     }
 
     public void updateSpeed() {
