@@ -13,9 +13,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.Constants.LauncherConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LaunchNote;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.PrepareLaunch;
 import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotLauncher;
@@ -77,7 +75,7 @@ public class RobotContainer {
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
-    controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
+    driver.button(2).whileTrue(launcher.getIntakeCommand());
   }
 
   // public Command getAutonomousCommand() {

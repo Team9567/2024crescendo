@@ -97,7 +97,13 @@ public class RobotChassis extends SubsystemBase {
         } else {
             currentTurn = targetTurn;
         }
-        drivetrain.arcadeDrive(currentSpeed, currentTurn);
+        /* 
+        if(lowGear = true){
+            drivetrain.arcadeDrive(currentSpeed/4, currentTurn/4);
+        } else {
+            drivetrain.arcadeDrive(currentSpeed, currentTurn);
+        }
+        */
     }
 
     public void chassisToBearing(double targetRotation){
