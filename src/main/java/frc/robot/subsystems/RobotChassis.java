@@ -71,6 +71,14 @@ public class RobotChassis extends SubsystemBase {
 
     }
 
+    public void setLowGear() {
+        lowGear = true;
+    }
+
+    public void setHighGear() {
+        lowGear = false;
+    }
+
     public void arcadeDrive(double power, double turn) {
         if (lowGear == true) {
             targetSpeed = power / 2.5;
@@ -85,7 +93,10 @@ public class RobotChassis extends SubsystemBase {
     }
 
     public void periodic() {
-        updateSpeed();
+        poseEstimator.update(navxGyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+        field.setRobotPose(poseEstimator.getEstimatedPosition());
+
+        SmartDashboard.putData("field", field);
     }
 
     public void updateSpeed() {
