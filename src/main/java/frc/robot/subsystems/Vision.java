@@ -23,8 +23,10 @@ public class Vision extends SubsystemBase {
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
+    NetworkTableEntry tv = table.getEntry("tv");
     NetworkTableEntry botPoseEntry = table.getEntry("botpose");
     double[] defaultBotPose = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
 
     
     public Vision (DifferentialDrivePoseEstimator poseEstimator, Field2d field){
@@ -53,6 +55,10 @@ public class Vision extends SubsystemBase {
         }
 
         double[] botPoseArray = botPoseEntry.getDoubleArray(defaultBotPose);
+        
+        if (botPoseArray.length < 6){
+            return;
+        }
 
         Rotation2d botRotation = new Rotation2d(botPoseArray[5]);
 

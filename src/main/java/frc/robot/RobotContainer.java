@@ -26,7 +26,7 @@ public class RobotContainer {
 
   public Field2d field = new Field2d();
 
-  public AHRS navxGyro = new AHRS(Port.kMXP); // import might be wrong
+  public AHRS navxGyro = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kMXP); // port might be wrong
 
   public DifferentialDriveKinematics differentialDriveKinematics = new DifferentialDriveKinematics(1); // change later
 
