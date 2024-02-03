@@ -78,6 +78,9 @@ public final class Constants {
     public static final int kLeftFollowerCanId = 2;
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
+    public static final double speedCheck1 = .5;
+    //The Ramp Rate
+    public static final double rampRate = .25;
 
     //public static final double kMotorReduction = 1.0/8.46;
     public static final double kMotorReduction = 8.46/1.0;

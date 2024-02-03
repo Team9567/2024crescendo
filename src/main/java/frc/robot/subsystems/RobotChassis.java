@@ -7,10 +7,14 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 //import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants.RobotChassisConstants;
 
@@ -18,13 +22,16 @@ public class RobotChassis extends SubsystemBase {
 
     public CANSparkMax leftCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftCanId, MotorType.kBrushless);
     public CANSparkMax rightCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightCanId, MotorType.kBrushless);
-    public CANSparkMax leftFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftFollowerCanId, MotorType.kBrushless);
-    public CANSparkMax rightFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightFollowerCanId, MotorType.kBrushless);
+    public CANSparkMax leftFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftFollowerCanId,
+            MotorType.kBrushless);
+    public CANSparkMax rightFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightFollowerCanId,
+            MotorType.kBrushless);
     public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkMax, rightCanSparkMax);
     public double targetSpeed = 0;
     public double targetTurn = 0;
     public double currentSpeed = 0;
     public double currentTurn = 0;
+    public boolean lowGear = false;
     public RelativeEncoder leftEncoder = leftCanSparkMax.getEncoder();
     public RelativeEncoder rightEncoder = rightCanSparkMax.getEncoder();
     public AHRS navxGyro;
@@ -44,6 +51,7 @@ public class RobotChassis extends SubsystemBase {
             m.clearFaults();
             m.setIdleMode(RobotChassisConstants.kMotorBrakeMode);
             m.setSmartCurrentLimit(RobotChassisConstants.kCurrentLimit, RobotChassisConstants.kCurrentLimit);
+            m.setOpenLoopRampRate(RobotChassisConstants.rampRate);
         }
 
         leftCanSparkMax.setInverted(false);
@@ -63,20 +71,32 @@ public class RobotChassis extends SubsystemBase {
 
     }
 
+    public void setLowGear() {
+        lowGear = true;
+    }
+
+    public void setHighGear() {
+        lowGear = false;
+    }
+
     public void arcadeDrive(double power, double turn) {
-        targetSpeed = power;
-        targetTurn = turn * -1;
-        updateSpeed();
+        if (lowGear == true) {
+            targetSpeed = power / 2.5;
+            targetTurn = turn / -2.5;
+        } else {
+            targetSpeed = power;
+            targetTurn = turn * -1;
+        }
+        drivetrain.arcadeDrive(targetSpeed, targetTurn);
+        SmartDashboard.putNumber("Target speed", targetSpeed);
+        SmartDashboard.putNumber("Target turn", targetTurn);
     }
 
     public void periodic() {
-        updateSpeed();
-
         poseEstimator.update(navxGyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
         field.setRobotPose(poseEstimator.getEstimatedPosition());
 
         SmartDashboard.putData("field", field);
-
     }
 
     public void updateSpeed() {
@@ -97,7 +117,13 @@ public class RobotChassis extends SubsystemBase {
         } else {
             currentTurn = targetTurn;
         }
-        drivetrain.arcadeDrive(currentSpeed, currentTurn);
+        /* 
+        if(lowGear = true){
+            drivetrain.arcadeDrive(currentSpeed/4, currentTurn/4);
+        } else {
+            drivetrain.arcadeDrive(currentSpeed, currentTurn);
+        }
+        */
     }
 
     public void chassisToBearing(double targetRotation){

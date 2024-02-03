@@ -15,8 +15,13 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LaunchNote;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.PrepareLaunch;
+import frc.robot.commands.LaunchNote;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotLauncher;
 import frc.robot.subsystems.Vision;
@@ -74,13 +79,16 @@ public class RobotContainer {
                 .andThen(new LaunchNote(launcher))
                 .handleInterrupt(() -> launcher.stop()));
 
+    //Set up for the binding for the soft low gear
+    driver.button(3).onTrue(new InstantCommand(()->{chassis.setLowGear();}));
+    driver.button(3).onFalse(new InstantCommand(()->{chassis.setHighGear();}));
+    
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
-  }
 
   // public Command getAutonomousCommand() {
   // return new DriveDistanceCommand(chassis);
-  // }
+  }
 }
