@@ -54,7 +54,7 @@ public class RobotLauncher extends SubsystemBase {
         () -> {
           setFeedWheel(LauncherConstants.kIntakeFeederSpeed);
           setLaunchWheel(LauncherConstants.kIntakeLauncherSpeed);
-        },
+        },        
         // When the command stops, stop the wheels
         () -> {
           stop();

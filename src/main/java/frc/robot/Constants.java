@@ -1,6 +1,9 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.math.util.Units;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -75,5 +78,10 @@ public final class Constants {
     public static final int kLeftFollowerCanId = 2;
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
+
+    //public static final double kMotorReduction = 1.0/8.46;
+    public static final double kMotorReduction = 8.46/1.0;
+    public static final double kWheelDiameter = Units.inchesToMeters(6.0); // change later
+    public static final double kWheelCircumfrance = kWheelDiameter * Math.PI;
   }
 }
