@@ -24,7 +24,7 @@ public class Vision extends SubsystemBase {
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
     NetworkTableEntry tv = table.getEntry("tv");
-    NetworkTableEntry botPoseEntry = table.getEntry("botpose");
+    NetworkTableEntry botPoseEntry = table.getEntry("botpose_wpiblue"); //TODO if red use red
     double[] defaultBotPose = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 
@@ -44,21 +44,18 @@ public class Vision extends SubsystemBase {
         double area = ta.getDouble(0.0);
 
         //post to smart dashboard periodically
-        SmartDashboard.putNumber("LimelightX", x);
-        SmartDashboard.putNumber("LimelightY", y);
-        SmartDashboard.putNumber("LimelightArea", area);
+        SmartDashboard.putNumber("Limelight/X", x);
+        SmartDashboard.putNumber("Limelight/Y", y);
+        SmartDashboard.putNumber("Limelight/Area", area);
 
         double hasTarget = table.getEntry("tv").getDouble(0);
+        SmartDashboard.putNumber("Limelight/target", tv.getDouble(0.0));
 
         if (hasTarget == 0) {
             return;
         }
 
         double[] botPoseArray = botPoseEntry.getDoubleArray(defaultBotPose);
-        
-        if (botPoseArray.length < 6){
-            return;
-        }
 
         Rotation2d botRotation = new Rotation2d(botPoseArray[5]);
 
