@@ -1,10 +1,8 @@
 package frc.robot;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.math.util.Units;
 
-import com.revrobotics.CANSparkMax;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
@@ -31,6 +29,8 @@ public final class Constants {
     //Keybindings
     public static final int kOperatorButtonLaunch = 2; //Button B
     public static final int kOperatorButtonIntake = 3; //Button X
+
+    public static final int kDriverButtonGear = 3; //button x driver controller
   }
 
   public static class DrivetrainConstants {
@@ -78,9 +78,10 @@ public final class Constants {
     public static final int kLeftFollowerCanId = 2;
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
-    public static final double speedCheck1 = .5;
+    public static final double kTrackWidth = 1; //TODO change later
     //The Ramp Rate
     public static final double rampRate = .25;
+    public static final double kLowGearSpeedDivider = 2.5;
 
     //public static final double kMotorReduction = 1.0/8.46;
     public static final double kMotorReduction = 8.46/1.0;

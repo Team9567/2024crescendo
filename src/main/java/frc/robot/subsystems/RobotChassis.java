@@ -27,18 +27,13 @@ public class RobotChassis extends SubsystemBase {
     public CANSparkMax rightFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightFollowerCanId,
             MotorType.kBrushless);
     public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkMax, rightCanSparkMax);
-    public double targetSpeed = 0;
-    public double targetTurn = 0;
-    public double currentSpeed = 0;
-    public double currentTurn = 0;
     public boolean lowGear = false;
     public RelativeEncoder leftEncoder = leftCanSparkMax.getEncoder();
     public RelativeEncoder rightEncoder = rightCanSparkMax.getEncoder();
     public AHRS navxGyro;
     public DifferentialDrivePoseEstimator poseEstimator;
-    public PIDController thetaController = new PIDController(1/180, 0, 0);
+    public PIDController thetaController = new PIDController(1 / 180, 0, 0);
     public Field2d field;
-    
 
     public RobotChassis(AHRS navxGyro, DifferentialDrivePoseEstimator poseEstimator, Field2d field) {
 
@@ -64,8 +59,10 @@ public class RobotChassis extends SubsystemBase {
 
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
-        leftEncoder.setPositionConversionFactor(RobotChassisConstants.kWheelCircumfrance/RobotChassisConstants.kMotorReduction);
-        rightEncoder.setPositionConversionFactor(RobotChassisConstants.kWheelCircumfrance/RobotChassisConstants.kMotorReduction);
+        leftEncoder.setPositionConversionFactor(
+                RobotChassisConstants.kWheelCircumfrance / RobotChassisConstants.kMotorReduction);
+        rightEncoder.setPositionConversionFactor(
+                RobotChassisConstants.kWheelCircumfrance / RobotChassisConstants.kMotorReduction);
 
         thetaController.enableContinuousInput(-180, 180);
 
@@ -80,12 +77,14 @@ public class RobotChassis extends SubsystemBase {
     }
 
     public void arcadeDrive(double power, double turn) {
+        double targetSpeed = 0.0;
+        double targetTurn = 0.0;
         if (lowGear == true) {
-            targetSpeed = power / 2.5;
-            targetTurn = turn / -2.5;
+            targetSpeed = power / RobotChassisConstants.kLowGearSpeedDivider;
+            targetTurn = -1 * turn / RobotChassisConstants.kLowGearSpeedDivider;
         } else {
             targetSpeed = power;
-            targetTurn = turn * -1;
+            targetTurn = -1 * turn;
         }
         drivetrain.arcadeDrive(targetSpeed, targetTurn);
         SmartDashboard.putNumber("Target speed", targetSpeed);
@@ -99,35 +98,7 @@ public class RobotChassis extends SubsystemBase {
         SmartDashboard.putData("field", field);
     }
 
-    public void updateSpeed() {
-        var speedDiffrence = targetSpeed - currentSpeed;
-        var turnDiffrence = targetTurn - currentTurn;
-        if (speedDiffrence > .5) {
-            currentSpeed += .15;
-        } else if (speedDiffrence > .15) {
-            currentSpeed += .1;
-        } else {
-            currentSpeed = targetSpeed;
-        }
-
-        if (turnDiffrence > 0.5) {
-            currentTurn += .15;
-        } else if (speedDiffrence > .15) {
-            currentTurn += .1;
-        } else {
-            currentTurn = targetTurn;
-        }
-        /* 
-        if(lowGear = true){
-            drivetrain.arcadeDrive(currentSpeed/4, currentTurn/4);
-        } else {
-            drivetrain.arcadeDrive(currentSpeed, currentTurn);
-        }
-        */
-    }
-
-    public void chassisToBearing(double targetRotation){
-
+    public void chassisToBearing(double targetRotation) {
 
         double initalBearing = navxGyro.getRotation2d().getDegrees();
         double output = thetaController.calculate(initalBearing, targetRotation);
@@ -135,7 +106,5 @@ public class RobotChassis extends SubsystemBase {
         arcadeDrive(0, output); // if turns as fast as possible invert output
 
     }
-
-
 
 }
