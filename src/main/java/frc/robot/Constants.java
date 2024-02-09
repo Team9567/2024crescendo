@@ -28,12 +28,17 @@ public final class Constants {
 
     //Keybindings
     public static final int kOperatorButtonLaunch = 2; //Button B
+<<<<<<< HEAD
     public static final int kOperatorButtonLauncherIntake = 3; //Button X
     public static final int kStoreNote = 4; //TODO Maybe Y button
 
     public static final int kOperatorAxisLeftClimb = 1; //Left Analog Vertical axis
     public static final int kOperatorAxisRightClimb = 5; //Right Analog Vertical axis
 
+=======
+    public static final int kOperatorButtonIntake = 3; //Button X
+    
+>>>>>>> ff38cc8 (Sudo code for the ground intake)
     public static final int kDriverButtonGear = 3; //button x driver controller
 
     public static final double klauncherRunTimeConstant = 3.0; //TODO change later
