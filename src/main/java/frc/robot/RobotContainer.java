@@ -93,3 +93,35 @@ public class RobotContainer {
     //}
   }
 }
+
+//COntroller
+//Change the button for shooting to press
+//Shoot B - current
+
+//Source intake, X - current
+
+//Floor intake, press button hold down, pick up ring, when picked up, retract, button A, let her have the option to retrack mannually store position
+//Intake button, move down, hold to move motors on the intake motors to move
+
+
+//One button for ready position A stays within frame perameter ready for amp out of frame perimeter then back to Amp
+//Store low, no note button A
+//Store high, stores high Button A
+
+
+//place in AMP, button Y, intake takeover with button push. From the High position
+
+//Leave climber in the open, left and right trigger. Maybe front two bumpers.
+
+//Left, right, middle climb button.
+//Joysticks for manually moving climber arms
+//Up down on both acuators move bolth independetly on climber
+
+//Driver
+//Orient button - A, chose an area with the nav x, position a direction, EX: Push a button turn to the left, towards the other allience, look towards the opposite side
+
+//Lime light button - Y, Orients and points at an april tag.
+
+//Switch the back and the front High end front
+
+//180 on AMP april tag?
