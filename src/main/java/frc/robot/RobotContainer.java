@@ -89,7 +89,12 @@ public class RobotContainer {
     // holding the
     // left Bumper
 
-    controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
+    controller.button(OperatorConstants.kOperatorButtonLauncherIntake).whileTrue(launcher.getIntakeCommand());
+
+    //set up controller.button with button A to be able to be pressed and call the  Store note command
+    //controller.button(OperatorConstants.kStoreNote).whileTrue(GroundIntake.());
+
+    // set up controller.button with button Y to be able to be pressed and call the Score in Amp command
 
     controller
     
