@@ -107,8 +107,16 @@ public final class Constants {
   public static class GroundIntakeConstants {
     public static final int kDistanceWhenNoteIsIn = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> d229469 (pseudo code for the ground intake this code builds)
 =======
+=======
+    public static final int kHeightPositionLeftDeviceID = 4;  //TODO check can IDs
+    public static final int kHeightPositionRightDeviceID = 5; //TODO check can IDs
+    public static final int kPivotPositionMotorDeviceID = 6; //TODO check can IDs
+    public static final int kLeftIntakeRPMMotorDeviceID = 7; //TODO check can IDs
+    public static final int kRightIntakeRPMMotor_Follower = 8; //TODO check can IDs
+>>>>>>> 7ae070c (Motors and constants defined)
     public enum GroundIntakeStateMachine{
       S0_Unknown,
       S1_GroundIntake,

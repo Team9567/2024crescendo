@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.GroundIntakeConstants;
 //import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants.RobotChassisConstants;
 //Subystem class
@@ -32,17 +33,23 @@ public class GroundIntake extends SubsystemBase {
     //Constants
     //Enum Height refering to state -- Constant for Home
     //Enum Pivot angle refering to State -- Angles for StorageLow, StorageHigh, Ground, Unknown, Inside perimeter storage low -- DECLRES THE ANGLES FOR THE STATE
-    //Bool, when note is in
     //Enum intakeSpeed
     //Enum state machine -- DECLARES THE STATES
     //Distance when note is in
 
-    public CANSparkMax leftCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftCanId, MotorType.kBrushless);
-    public CANSparkMax rightCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightCanId, MotorType.kBrushless);
-    public CANSparkMax leftFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftFollowerCanId,
-            MotorType.kBrushless);
-    public CANSparkMax rightFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightFollowerCanId,
-            MotorType.kBrushless);
+    //Motors
+
+    //Linear Motors -- Height
+    public CANSparkMax heightPositionLeftMotor = new CANSparkMax(GroundIntakeConstants.kHeightPositionLeftDeviceID, MotorType.kBrushless); //TODO Motor typeCheck later
+    public CANSparkMax heightPositionRightMotor_Follower = new CANSparkMax(GroundIntakeConstants.kHeightPositionRightDeviceID, MotorType.kBrushless); //TODO Motor typeCheck later
+
+    //Rotational Motors -- Pivot
+    public CANSparkMax pivotPositionMotor = new CANSparkMax(GroundIntakeConstants.kPivotPositionMotorDeviceID, MotorType.kBrushless); //TODO Motor typeCheck later
+
+    //RPM motors -- Intake
+    public CANSparkMax leftIntakeRPMMotor = new CANSparkMax(GroundIntakeConstants.kLeftIntakeRPMMotorDeviceID , MotorType.kBrushless); //TODO Motor typeCheck later
+    public CANSparkMax rightIntakeRPMMotor_Follower = new CANSparkMax(GroundIntakeConstants.kRightIntakeRPMMotor_Follower, MotorType.kBrushless); //TODO Motor typeCheck later
+
     public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkMax, rightCanSparkMax);
     public boolean lowGear = false;
     public RelativeEncoder leftEncoder = leftCanSparkMax.getEncoder();
