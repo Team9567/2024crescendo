@@ -33,8 +33,7 @@ public class GroundIntake extends SubsystemBase {
     //Enum Height refering to state -- Constant for Home
     //Enum Pivot angle refering to State -- Angles for StorageLow, StorageHigh, Ground, Unknown, Inside perimeter storage low -- DECLRES THE ANGLES FOR THE STATE
     //Bool, when note is in
-    //intakeSpeed variable
-    //Angles for the specific states
+    //Enum intakeSpeed
     //Enum state machine -- DECLARES THE STATES
     //Distance when note is in
 
@@ -83,12 +82,17 @@ public class GroundIntake extends SubsystemBase {
         rightFollowerCanSparkMax.follow(rightCanSparkMax);
 
         //Declare encoders
+        //Height left and right
+        heightPositionLeft.setPosition(0);
+        heightPositionRight.setPosition(0);
         //PIVOT ANGLE
-
+        pivotAngle.setPosition(0);
+        //Ground intake left and right
+        leftGroundIntakeEncoder.setPosition(0);
+        rightGrondIntakeEncoder.setPosition(0);  
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
-        //heightPositionLeft.setPosition(0);
-        //heightPositionRight.setPosition(0);
+       
         leftEncoder.setPositionConversionFactor(
                 RobotChassisConstants.kWheelCircumfrance / RobotChassisConstants.kMotorReduction);
         rightEncoder.setPositionConversionFactor(

@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.util.Units;
 
-
+import com.fasterxml.jackson.databind.introspect.AnnotationCollector.TwoAnnotations;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
@@ -106,6 +106,37 @@ public final class Constants {
 =======
   public static class GroundIntakeConstants {
     public static final int kDistanceWhenNoteIsIn = 0;
+<<<<<<< HEAD
 >>>>>>> d229469 (pseudo code for the ground intake this code builds)
+=======
+    public enum GroundIntakeStateMachine{
+      S0_Unknown,
+      S1_GroundIntake,
+      S2_PositionLow,
+      S3_PositionHigh,
+      S4_PositionDunk; 
+    }
+    public enum GroundIntakeStatePivotAngle {
+      S0_PivotAngleUnknown,
+      S1_PivotAngleGroundIntake,
+      S2_PivotAnglePositionLow,
+      S3_PivotAnglePositionHigh,
+      S4_PivotAnglePositionDunk; 
+    }
+    public enum GroundIntakeStateHeight {
+      S0_HeightUnknown,
+      S1_HeightGroundIntake,
+      S2_HeightPositionLow,
+      S3_HeightPositionHigh,
+      S4_HeightPositionDunk; 
+    }
+    public enum GroundIntakeMotorSpeed{
+    S0_MotorSpeedUnknown,
+    S1_MotorSpeedGroundIntake,
+    S2_MotorSpeedPositionLow,
+    S3_MotorSpeedPositionHigh,
+    S4_MotorSpeedPositionDunk; 
+    }
+>>>>>>> fea1db9 (Enums for the Dround Intake)
   }
 }
