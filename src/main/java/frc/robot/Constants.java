@@ -31,6 +31,8 @@ public final class Constants {
     public static final int kOperatorButtonIntake = 3; //Button X
 
     public static final int kDriverButtonGear = 3; //button x driver controller
+
+    public static final double klauncherRunTimeConstant = 3.0; //TODO change later
   }
 
   public static class DrivetrainConstants {
@@ -78,7 +80,8 @@ public final class Constants {
     public static final int kLeftFollowerCanId = 2;
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
-    public static final double kTrackWidth = 1; //TODO change later
+    public static final double kTrackWidth = 1.0; //TODO change later
+
     //The Ramp Rate
     public static final double rampRate = .25;
     public static final double kLowGearSpeedDivider = 2.5;
