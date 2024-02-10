@@ -1,25 +1,21 @@
 package frc.robot.subsystems;
 //imports
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-
+import au.grapplerobotics.LaserCan;  //Distance sensor, grappleHook, time of flight(TOF)
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.GroundIntakeConstants;
-//import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants.RobotChassisConstants;
+
 //Subystem class
 public class GroundIntake extends SubsystemBase {
+    
     
     //Variables
     //Current groundIntakePivotAngle
@@ -36,116 +32,57 @@ public class GroundIntake extends SubsystemBase {
     //Enum intakeSpeed
     //Enum state machine -- DECLARES THE STATES
     //Distance when note is in
-
+ 
     //Motors
+    //M8 and M9, linear acuators for height.
+    //M10, Motor for pivot
+    //M11 and M12, Intaking notes.
+    //Make one of the arm motors follow the other arm
 
     //Linear Motors -- Height
     public CANSparkMax heightPositionLeftMotor = new CANSparkMax(GroundIntakeConstants.kHeightPositionLeftDeviceID, MotorType.kBrushless); //TODO Motor typeCheck later
-    public CANSparkMax heightPositionRightMotor_Follower = new CANSparkMax(GroundIntakeConstants.kHeightPositionRightDeviceID, MotorType.kBrushless); //TODO Motor typeCheck later
+    public CANSparkMax heightPositionRightMotor = new CANSparkMax(GroundIntakeConstants.kHeightPositionRightDeviceID, MotorType.kBrushless); //TODO Motor typeCheck later
 
     //Rotational Motors -- Pivot
     public CANSparkMax pivotPositionMotor = new CANSparkMax(GroundIntakeConstants.kPivotPositionMotorDeviceID, MotorType.kBrushless); //TODO Motor typeCheck later
 
     //RPM motors -- Intake
     public CANSparkMax leftIntakeRPMMotor = new CANSparkMax(GroundIntakeConstants.kLeftIntakeRPMMotorDeviceID , MotorType.kBrushless); //TODO Motor typeCheck later
-    public CANSparkMax rightIntakeRPMMotor_Follower = new CANSparkMax(GroundIntakeConstants.kRightIntakeRPMMotor_Follower, MotorType.kBrushless); //TODO Motor typeCheck later
+    public CANSparkMax rightIntakeRPMMotor = new CANSparkMax(GroundIntakeConstants.kRightIntakeRPMMotor_Follower, MotorType.kBrushless); //TODO Motor typeCheck later
 
-    public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkMax, rightCanSparkMax);
-    public boolean lowGear = false;
-    public RelativeEncoder leftEncoder = leftCanSparkMax.getEncoder();
-    public RelativeEncoder rightEncoder = rightCanSparkMax.getEncoder();
-    public AHRS navxGyro;
-    public DifferentialDrivePoseEstimator poseEstimator;
-    public PIDController thetaController = new PIDController(1 / 180, 0, 0);
-    public Field2d field;
+    //Encoders -- For the height
+    public RelativeEncoder heightPositionLeftEncoder = heightPositionLeftMotor.getEncoder();
+    public RelativeEncoder heightPositionRightEncoder = rightIntakeRPMMotor.getEncoder();
 
-    public GroundIntake(AHRS navxGyro, DifferentialDrivePoseEstimator poseEstimator, Field2d field) {
-        
+    //Encoders -- For Pivot
+    public RelativeEncoder pivotAngleEncoder = pivotPositionMotor.getEncoder();
+
+    //Encoders -- For RPM motors
+    public RelativeEncoder leftGroundIntakeEncoder = leftIntakeRPMMotor.getEncoder();
+    public RelativeEncoder rightGroundIntakeEncoder = rightIntakeRPMMotor.getEncoder();
+
+    public GroundIntake() {
+  
         //Declare NoteSensor
 
-        this.navxGyro = navxGyro;
-        this.poseEstimator = poseEstimator;
-        this.field = field;
 
-        for (CANSparkMax m : new CANSparkMax[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,
-                rightFollowerCanSparkMax }) {
+        for (CANSparkMax m : new CANSparkMax[] { heightPositionLeftMotor, heightPositionRightMotor, pivotPositionMotor, leftIntakeRPMMotor, rightIntakeRPMMotor}) {
             m.clearFaults();
             m.setIdleMode(RobotChassisConstants.kMotorBrakeMode);
             m.setSmartCurrentLimit(RobotChassisConstants.kCurrentLimit, RobotChassisConstants.kCurrentLimit);
             m.setOpenLoopRampRate(RobotChassisConstants.rampRate);
         }
-        
-        //Motors
-        //M8 and M9, linear acuators for height.
-        //M10, Motor for pivot
-        //M11 and M12, Intaking notes.
-        leftCanSparkMax.setInverted(false);
-        rightCanSparkMax.setInverted(true);
-        leftFollowerCanSparkMax.setInverted(true);
-        rightFollowerCanSparkMax.setInverted(true);
-
-        //Make one of the arm motors follow the other arm
-        leftFollowerCanSparkMax.follow(leftCanSparkMax);
-        rightFollowerCanSparkMax.follow(rightCanSparkMax);
-
         //Declare encoders
         //Height left and right
-        heightPositionLeft.setPosition(0);
-        heightPositionRight.setPosition(0);
-        //PIVOT ANGLE
-        pivotAngle.setPosition(0);
+        heightPositionLeftEncoder.setPosition(0);
+        heightPositionRightEncoder.setPosition(0);
+
+        //PIVOT ANGLE, Absolute incoder
+        pivotAngleEncoder.setPosition(0);
+
         //Ground intake left and right
         leftGroundIntakeEncoder.setPosition(0);
-        rightGrondIntakeEncoder.setPosition(0);  
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
-       
-        leftEncoder.setPositionConversionFactor(
-                RobotChassisConstants.kWheelCircumfrance / RobotChassisConstants.kMotorReduction);
-        rightEncoder.setPositionConversionFactor(
-                RobotChassisConstants.kWheelCircumfrance / RobotChassisConstants.kMotorReduction);
-
-        thetaController.enableContinuousInput(-180, 180);
-
-    }
-
-    public void setLowGear() {
-        lowGear = true;
-    }
-
-    public void setHighGear() {
-        lowGear = false;
-    }
-
-    public void arcadeDrive(double power, double turn) {
-        double targetSpeed = 0.0;
-        double targetTurn = 0.0;
-        if (lowGear == true) {
-            targetSpeed = power / RobotChassisConstants.kLowGearSpeedDivider;
-            targetTurn = -1 * turn / RobotChassisConstants.kLowGearSpeedDivider;
-        } else {
-            targetSpeed = power;
-            targetTurn = -1 * turn;
-        }
-        drivetrain.arcadeDrive(targetSpeed, targetTurn);
-        SmartDashboard.putNumber("Target speed", targetSpeed);
-        SmartDashboard.putNumber("Target turn", targetTurn);
-    }
-
-    public void periodic() {
-        poseEstimator.update(navxGyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
-        field.setRobotPose(poseEstimator.getEstimatedPosition());
-
-        SmartDashboard.putData("field", field);
-    }
-
-    public void chassisToBearing(double targetRotation) {
-
-        double initalBearing = navxGyro.getRotation2d().getDegrees();
-        double output = thetaController.calculate(initalBearing, targetRotation);
-
-        arcadeDrive(0, output); // if turns as fast as possible invert output
-
+        rightGroundIntakeEncoder.setPosition(0);  
     }
 
 }
