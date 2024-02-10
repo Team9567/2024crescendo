@@ -15,7 +15,7 @@ public class AutoMode {
         this.m_Chassis = chassis;
 
 
-        addRequirements(launcher, chassis);
+        //addRequirements(launcher, chassis);
     }
 
 
