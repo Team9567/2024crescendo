@@ -96,27 +96,21 @@ public final class Constants {
     public static final double kWheelCircumfrance = kWheelDiameter * Math.PI;
   }
 
-<<<<<<< HEAD
   public static class RobotClimberConstants {
     public static final int kClimberRightID = 13;
     public static final int kClimberLeftID = 12;
 
     public static final boolean kClimberRightInversion = false;
     public static final boolean kClimberLeftInversion = false;
-=======
+  }
   public static class GroundIntakeConstants {
     public static final int kDistanceWhenNoteIsIn = 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> d229469 (pseudo code for the ground intake this code builds)
-=======
-=======
+    public static final int kLaserCanId = 1;
     public static final int kHeightPositionLeftDeviceID = 4;  //TODO check can IDs
     public static final int kHeightPositionRightDeviceID = 5; //TODO check can IDs
     public static final int kPivotPositionMotorDeviceID = 6; //TODO check can IDs
     public static final int kLeftIntakeRPMMotorDeviceID = 7; //TODO check can IDs
     public static final int kRightIntakeRPMMotor_Follower = 8; //TODO check can IDs
->>>>>>> 7ae070c (Motors and constants defined)
     public enum GroundIntakeStateMachine{
       S0_Unknown,
       S1_GroundIntake,
@@ -145,6 +139,5 @@ public final class Constants {
     S3_MotorSpeedPositionHigh,
     S4_MotorSpeedPositionDunk; 
     }
->>>>>>> fea1db9 (Enums for the Dround Intake)
   }
 }
