@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants.GroundIntakeConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class StoreNote extends Command {
@@ -7,7 +8,7 @@ public class StoreNote extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        /* */
+        
     }
   
     // Called every time the scheduler runs while the command is scheduled.

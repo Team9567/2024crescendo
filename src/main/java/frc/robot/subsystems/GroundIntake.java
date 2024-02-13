@@ -42,9 +42,9 @@ public class GroundIntake extends SubsystemBase {
 
     // Linear Motors -- Height
     public CANSparkMax heightPositionLeftMotor = new CANSparkMax(GroundIntakeConstants.kHeightPositionLeftDeviceID,
-            MotorType.kBrushless); // TODO Motor typeCheck later
+            MotorType.kBrushless);
     public CANSparkMax heightPositionRightMotor = new CANSparkMax(GroundIntakeConstants.kHeightPositionRightDeviceID,
-            MotorType.kBrushless); // TODO Motor typeCheck later
+            MotorType.kBrushless);
 
     // Rotational Motors -- Pivot
     public CANSparkMax pivotPositionMotor = new CANSparkMax(GroundIntakeConstants.kPivotPositionMotorDeviceID,
@@ -53,19 +53,19 @@ public class GroundIntake extends SubsystemBase {
     // RPM motors -- Intake
     public CANSparkMax leftIntakeRPMMotor = new CANSparkMax(GroundIntakeConstants.kLeftIntakeRPMMotorDeviceID,
             MotorType.kBrushless); // TODO Motor typeCheck later
-    public CANSparkMax rightIntakeRPMMotor = new CANSparkMax(GroundIntakeConstants.kRightIntakeRPMMotor_Follower,
+    public CANSparkMax rightIntakeRPMMotorFollower = new CANSparkMax(GroundIntakeConstants.kRightIntakeRPMMotor_Follower,
             MotorType.kBrushless); // TODO Motor typeCheck later
 
     // Encoders -- For the height
     public RelativeEncoder heightPositionLeftEncoder = heightPositionLeftMotor.getEncoder();
-    public RelativeEncoder heightPositionRightEncoder = rightIntakeRPMMotor.getEncoder();
+    public RelativeEncoder heightPositionRightEncoder = rightIntakeRPMMotorFollower.getEncoder();
 
     // Encoders -- For Pivot
     public RelativeEncoder pivotAngleEncoder = pivotPositionMotor.getEncoder();
 
     // Encoders -- For RPM motors
     public RelativeEncoder leftGroundIntakeEncoder = leftIntakeRPMMotor.getEncoder();
-    public RelativeEncoder rightGroundIntakeEncoder = rightIntakeRPMMotor.getEncoder();
+    public RelativeEncoder rightGroundIntakeEncoder = rightIntakeRPMMotorFollower.getEncoder();
 
     // Declare NoteSensor
     LaserCan noteSensor = new LaserCan(GroundIntakeConstants.kLaserCanId);
@@ -75,7 +75,7 @@ public class GroundIntake extends SubsystemBase {
         //LaserCan.Measurement measurement = noteSensor.getMeasurement();
 
         for (CANSparkMax m : new CANSparkMax[] { heightPositionLeftMotor, heightPositionRightMotor, pivotPositionMotor,
-                leftIntakeRPMMotor, rightIntakeRPMMotor }) {
+                leftIntakeRPMMotor, rightIntakeRPMMotorFollower }) {
             m.clearFaults();
             m.setIdleMode(RobotChassisConstants.kMotorBrakeMode);
             m.setSmartCurrentLimit(RobotChassisConstants.kCurrentLimit, RobotChassisConstants.kCurrentLimit);
@@ -92,6 +92,9 @@ public class GroundIntake extends SubsystemBase {
         // Ground intake left and right
         leftGroundIntakeEncoder.setPosition(0);
         rightGroundIntakeEncoder.setPosition(0);
+
+        //Declaring the right ground intake motor a follower
+        rightIntakeRPMMotorFollower.follow(leftIntakeRPMMotor);
     }
 
 }
