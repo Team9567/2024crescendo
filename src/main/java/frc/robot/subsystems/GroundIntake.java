@@ -104,8 +104,8 @@ public class GroundIntake extends SubsystemBase {
         rightIntakeRPMMotorFollower.follow(leftIntakeRPMMotor);
     }
     public void periodic(){
-        rightElevatorHomer.softStopTest(heightPositionRightMotor);
-        leftElevatorHomer.softStopTest(heightPositionLeftMotor);
+       // rightElevatorHomer.softStopTest(heightPositionRightMotor);
+        // leftElevatorHomer.softStopTest(heightPositionLeftMotor);
         rightElevatorHomer.homeStep(heightPositionRightMotor);
         leftElevatorHomer.homeStep(heightPositionLeftMotor);
     } 

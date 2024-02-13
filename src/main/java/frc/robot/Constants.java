@@ -113,9 +113,9 @@ public final class Constants {
     public static final int kLeftIntakeRPMMotorDeviceID = 7; //TODO check can IDs
     public static final int kRightIntakeRPMMotor_Follower = 8; //TODO check can IDs
     
-    public static final double kLeftElevatorLimit = 0.0;//TODO values need to be changed
+    public static final float kLeftElevatorLimit = 0;//TODO values need to be changed
     public static final double kLeftElevatorHomingSpeed = 0.0;//TODO values need to be changed
-    public static final double kRightElevatorLimit = 0.0;//TODO values need to be changed
+    public static final float kRightElevatorLimit = 0;//TODO values need to be changed
     public static final double kRightElevatorHomingSpeed = 0.0;//TODO values need to be changed
 
     public enum GroundIntakeStateMachine{
