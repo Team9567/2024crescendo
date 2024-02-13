@@ -106,11 +106,18 @@ public final class Constants {
   public static class GroundIntakeConstants {
     public static final int kDistanceWhenNoteIsIn = 0;
     public static final int kLaserCanId = 1;
+
     public static final int kHeightPositionLeftDeviceID = 4;  //TODO check can IDs
     public static final int kHeightPositionRightDeviceID = 5; //TODO check can IDs
     public static final int kPivotPositionMotorDeviceID = 6; //TODO check can IDs
     public static final int kLeftIntakeRPMMotorDeviceID = 7; //TODO check can IDs
     public static final int kRightIntakeRPMMotor_Follower = 8; //TODO check can IDs
+    
+    public static final double kLeftElevatorLimit = 0.0;//TODO values need to be changed
+    public static final double kLeftElevatorHomingSpeed = 0.0;//TODO values need to be changed
+    public static final double kRightElevatorLimit = 0.0;//TODO values need to be changed
+    public static final double kRightElevatorHomingSpeed = 0.0;//TODO values need to be changed
+
     public enum GroundIntakeStateMachine{
       S0_Unknown,
       S1_GroundIntake,

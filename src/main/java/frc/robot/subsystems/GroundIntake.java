@@ -4,6 +4,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkLimitSwitch;
+
 import au.grapplerobotics.LaserCan; //Distance sensor, grappleHook, time of flight(TOF)
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -13,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GroundIntakeConstants;
 import frc.robot.Constants.RobotChassisConstants;
+import frc.robot.subsystems.LinearActuatorHomer;
 
 //Subystem class
 public class GroundIntake extends SubsystemBase {
@@ -70,6 +73,10 @@ public class GroundIntake extends SubsystemBase {
     // Declare NoteSensor
     LaserCan noteSensor = new LaserCan(GroundIntakeConstants.kLaserCanId);
 
+    //Make the homing switches
+        LinearActuatorHomer leftElevatorHomer = new LinearActuatorHomer(GroundIntakeConstants.kLeftElevatorLimit, GroundIntakeConstants.kLeftElevatorHomingSpeed, heightPositionLeftMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed));
+        LinearActuatorHomer rightElevatorHomer = new LinearActuatorHomer(GroundIntakeConstants.kRightElevatorLimit, GroundIntakeConstants.kRightElevatorHomingSpeed, heightPositionRightMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed));
+
     public GroundIntake() {
         //Code for getting a measurement from a laser can
         //LaserCan.Measurement measurement = noteSensor.getMeasurement();
@@ -96,5 +103,11 @@ public class GroundIntake extends SubsystemBase {
         //Declaring the right ground intake motor a follower
         rightIntakeRPMMotorFollower.follow(leftIntakeRPMMotor);
     }
+    public void periodic(){
+        rightElevatorHomer.softStopTest(heightPositionRightMotor);
+        leftElevatorHomer.softStopTest(heightPositionLeftMotor);
+        rightElevatorHomer.homeStep(heightPositionRightMotor);
+        leftElevatorHomer.homeStep(heightPositionLeftMotor);
+    } 
 
 }
