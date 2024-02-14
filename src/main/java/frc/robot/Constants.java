@@ -39,6 +39,7 @@ public final class Constants {
     public static final int kDriverButtonGear = 3; //button x driver controller
 
     public static final double klauncherRunTimeConstant = 3.0; //TODO change later
+    public static final int kDriveOrientApriltag = 4; // ??????
   }
 
   public static class DrivetrainConstants {

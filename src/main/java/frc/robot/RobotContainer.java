@@ -108,6 +108,11 @@ public class RobotContainer {
                 .withTimeout(LauncherConstants.kLauncherDelay)
                 .andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
 
+    driver
+        .button(OperatorConstants.kDriveOrientApriltag).whileTrue(
+          vision.getOrientAprilTag(chassis)
+        );
+
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
