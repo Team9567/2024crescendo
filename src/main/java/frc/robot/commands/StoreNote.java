@@ -3,12 +3,23 @@ package frc.robot.commands;
 import frc.robot.Constants.GroundIntakeConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 
+
+
 public class StoreNote extends Command {
+  //Declare variables  
+  int position = GroundIntakeConstants.GroundIntakeStatePivotAngle;
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        
+     /* Detect the position
+     When the command is initally scheduled, detect the current position.
+     If the position is unknown, go to position 1
+     If the position is ground, go to position 1
+     If the position is one, go to position 2 or go to position ground depending on button pressed
+     If the position is two, go to position 1 or dunk based on the button pressed.
+     If the position is dunk, go to position two based on button pressed, or if you just scored a ring?
+      */
     }
   
     // Called every time the scheduler runs while the command is scheduled.
