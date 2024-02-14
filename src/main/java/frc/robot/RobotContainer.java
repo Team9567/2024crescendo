@@ -149,7 +149,7 @@ public class RobotContainer {
     return new PrepareLaunch(launcher)
         .withTimeout(LauncherConstants.kLauncherDelay)
         .andThen(new LaunchNote(launcher))
-        .handleInterrupt(() -> launcher.stop())
+        .withTimeout(5) // TUNE SO NO TIME IS WASTED
         .andThen(new RunCommand(
             () -> {
               chassis.chassisToBearing(45);
