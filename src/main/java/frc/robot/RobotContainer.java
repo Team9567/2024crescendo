@@ -10,16 +10,16 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotChassisConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.PrepareLaunch;
 import frc.robot.commands.LaunchNote;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.PrepareLaunch;
 import frc.robot.subsystems.RobotChassis;
+import frc.robot.subsystems.RobotClimber;
 import frc.robot.subsystems.RobotLauncher;
 import frc.robot.subsystems.Vision;
 
@@ -29,7 +29,8 @@ public class RobotContainer {
 
   public AHRS navxGyro = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kMXP);
 
-  public DifferentialDriveKinematics differentialDriveKinematics = new DifferentialDriveKinematics(RobotChassisConstants.kTrackWidth);
+  public DifferentialDriveKinematics differentialDriveKinematics = new DifferentialDriveKinematics(
+      RobotChassisConstants.kTrackWidth);
 
   public DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(differentialDriveKinematics,
       navxGyro.getRotation2d(), 0, 0, new Pose2d());
@@ -40,6 +41,7 @@ public class RobotContainer {
   public RobotChassis chassis = new RobotChassis(navxGyro, poseEstimator, field);
   public RobotLauncher launcher = new RobotLauncher();
   public Vision vision = new Vision(poseEstimator, field);
+  public RobotClimber climber = new RobotClimber(navxGyro);
 
   // ROBOT COMMAND DEFINITIONS
 
@@ -62,6 +64,15 @@ public class RobotContainer {
     // attach drive distance to button A
     // m_Chooser.addOption("drive 5 feet", new
     // DriveDistanceCommand(RobotChassis.class));
+
+    // Set up for the binding for the soft low gear
+    driver.button(OperatorConstants.kDriverButtonGear).onTrue(new InstantCommand(() -> {
+      chassis.setLowGear();
+    }));
+    driver.button(OperatorConstants.kDriverButtonGear).onFalse(new InstantCommand(() -> {
+      chassis.setHighGear();
+    }));
+
     /*
      * Create an inline sequence to run when the operator presses and holds the A
      * (green) button. Run the PrepareLaunch
@@ -74,22 +85,39 @@ public class RobotContainer {
                 .withTimeout(LauncherConstants.kLauncherDelay)
                 .andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
 
-    // Set up for the binding for the soft low gear
-    driver.button(OperatorConstants.kDriverButtonGear).onTrue(new InstantCommand(() -> {
-      chassis.setLowGear();
-    }));
-    driver.button(OperatorConstants.kDriverButtonGear).onFalse(new InstantCommand(() -> {
-      chassis.setHighGear();
-    }));
-
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
+
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
+    controller
+    
+        .axisGreaterThan(OperatorConstants.kOperatorAxisLeftClimb, 0.05)
+        .or(controller.axisGreaterThan(OperatorConstants.kOperatorAxisRightClimb, 0.05))
+        .or(controller.axisLessThan(OperatorConstants.kOperatorAxisLeftClimb, -0.05))
+        .or(controller.axisLessThan(OperatorConstants.kOperatorAxisRightClimb, -0.05))
+        .whileTrue(
+          new RunCommand(
+            () -> {
+              climber.leftClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisLeftClimb));
+              climber.rightClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisRightClimb));
+            }, climber)
+            .finallyDo(
+            () -> {
+              climber.leftClimb(0);
+              climber.rightClimb(0);
+            }
+            ));
+  
+        
+
+    
+
+
     // public Command getAutonomousCommand() {
-    //  return new DriveDistanceCommand(chassis);
-    //}
+    // return new DriveDistanceCommand(chassis);
+    // }
   }
 }
 //Controller
