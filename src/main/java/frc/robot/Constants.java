@@ -30,6 +30,9 @@ public final class Constants {
     public static final int kOperatorButtonLaunch = 2; //Button B
     public static final int kOperatorButtonIntake = 3; //Button X
 
+    public static final int kOperatorAxisLeftClimb = 1; //Left Analog Vertical axis
+    public static final int kOperatorAxisRightClimb = 5; //Right Analog Vertical axis
+
     public static final int kDriverButtonGear = 3; //button x driver controller
 
     public static final double klauncherRunTimeConstant = 3.0; //TODO change later
@@ -88,7 +91,15 @@ public final class Constants {
 
     //public static final double kMotorReduction = 1.0/8.46;
     public static final double kMotorReduction = 8.46/1.0;
-    public static final double kWheelDiameter = Units.inchesToMeters(6.0); // change later
+    public static final double kWheelDiameter = Units.inchesToMeters(6.0); //TODO change later
     public static final double kWheelCircumfrance = kWheelDiameter * Math.PI;
+  }
+
+  public static class RobotClimberConstants {
+    public static final int kClimberRightID = 13;
+    public static final int kClimberLeftID = 12;
+
+    public static final boolean kClimberRightInversion = false;
+    public static final boolean kClimberLeftInversion = false;
   }
 }

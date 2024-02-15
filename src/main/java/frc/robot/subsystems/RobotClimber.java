@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RobotClimberConstants;
 
 public class RobotClimber extends SubsystemBase{
     CANSparkMax m_climberRight;
@@ -19,15 +20,15 @@ public class RobotClimber extends SubsystemBase{
 
         this.navxGyro = gyro;
 
-        m_climberRight = new CANSparkMax(8, MotorType.kBrushless);
-        m_climberLeft = new CANSparkMax(7, MotorType.kBrushless);
+        m_climberRight = new CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
+        m_climberLeft = new CANSparkMax(RobotClimberConstants.kClimberRightID, MotorType.kBrushless);
 
         m_climberRight.clearFaults();
         m_climberRight.setIdleMode(IdleMode.kBrake);
         m_climberLeft.clearFaults();
         m_climberLeft.setIdleMode(IdleMode.kBrake);
-
-
+        m_climberRight.setInverted(RobotClimberConstants.kClimberRightInversion);
+        m_climberLeft.setInverted(RobotClimberConstants.kClimberLeftInversion);
     }
 
 

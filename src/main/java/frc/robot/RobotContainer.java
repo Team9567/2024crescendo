@@ -92,13 +92,16 @@ public class RobotContainer {
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
     controller
-        .axisGreaterThan(1, 0.05)
-        .or(controller.axisGreaterThan(5, 0.05))
+    
+        .axisGreaterThan(OperatorConstants.kOperatorAxisLeftClimb, 0.05)
+        .or(controller.axisGreaterThan(OperatorConstants.kOperatorAxisRightClimb, 0.05))
+        .or(controller.axisLessThan(OperatorConstants.kOperatorAxisLeftClimb, -0.05))
+        .or(controller.axisLessThan(OperatorConstants.kOperatorAxisRightClimb, -0.05))
         .whileTrue(
           new RunCommand(
             () -> {
-              climber.leftClimb(controller.getRawAxis(1));
-              climber.rightClimb(controller.getRawAxis(5));
+              climber.leftClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisLeftClimb));
+              climber.rightClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisRightClimb));
             }, climber)
             .finallyDo(
             () -> {
