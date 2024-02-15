@@ -57,7 +57,7 @@ public class RobotContainer {
     chassis.setDefaultCommand(
         new RunCommand(
             () -> {
-              chassis.arcadeDrive(-driver.getRawAxis(1), driver.getRawAxis(0));
+              chassis.arcadeDrive(driver.getRawAxis(1), driver.getRawAxis(0));
             }, chassis));
     // attach drive distance to button A
     // m_Chooser.addOption("drive 5 feet", new
@@ -69,11 +69,10 @@ public class RobotContainer {
      */
     controller
         .button(OperatorConstants.kOperatorButtonLaunch)
-        .whileTrue(
+        .onTrue(
             new PrepareLaunch(launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
-                .andThen(new LaunchNote(launcher))
-                .handleInterrupt(() -> launcher.stop()));
+                .andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
 
     // Set up for the binding for the soft low gear
     driver.button(OperatorConstants.kDriverButtonGear).onTrue(new InstantCommand(() -> {
@@ -93,9 +92,7 @@ public class RobotContainer {
     //}
   }
 }
-
-//COntroller
-//Change the button for shooting to press
+//Controller
 //Shoot B - current
 
 //Source intake, X - current
@@ -121,7 +118,5 @@ public class RobotContainer {
 //Orient button - A, chose an area with the nav x, position a direction, EX: Push a button turn to the left, towards the other allience, look towards the opposite side
 
 //Lime light button - Y, Orients and points at an april tag.
-
-//Switch the back and the front High end front
 
 //180 on AMP april tag?
