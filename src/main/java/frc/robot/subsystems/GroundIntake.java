@@ -43,6 +43,8 @@ public class GroundIntake extends SubsystemBase {
     // M11 and M12, Intaking notes.
     // Make one of the arm motors follow the other arm
 
+    public GroundIntakeConstants.GroundIntakeStateMachine intakeState = GroundIntakeConstants.GroundIntakeStateMachine.S0_Unknown;
+
     // Linear Motors -- Height
     public CANSparkMax heightPositionLeftMotor = new CANSparkMax(GroundIntakeConstants.kHeightPositionLeftDeviceID,
             MotorType.kBrushless);
@@ -109,5 +111,22 @@ public class GroundIntake extends SubsystemBase {
         rightElevatorHomer.homeStep(heightPositionRightMotor);
         leftElevatorHomer.homeStep(heightPositionLeftMotor);
     } 
+
+    public void transitionState(GroundIntakeConstants.GroundIntakeStateMachine targetState){
+        if (intakeState == targetState) {
+                // nothing to do     
+        }
+
+        var nextState = getNextState(intakeState, targetState);
+        
+        if (intakeState == S0 && nextState == S1) {
+                // doS0ToS1()...
+        } else if (...) {
+                // doS1ToS2
+        }
+
+    }
+
+    // need a helper function that takes a "now" state and a "target" state, and returns the next step state
 
 }

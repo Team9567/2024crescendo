@@ -88,7 +88,6 @@ public class RobotContainer {
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
-<<<<<<< HEAD
 
     controller.button(OperatorConstants.kOperatorButtonLauncherIntake).whileTrue(launcher.getIntakeCommand());
 
@@ -96,9 +95,6 @@ public class RobotContainer {
     //controller.button(OperatorConstants.kStoreNote).whileTrue(GroundIntake.());
 
     // set up controller.button with button Y to be able to be pressed and call the Score in Amp command
-=======
-    controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
->>>>>>> ff38cc8 (Sudo code for the ground intake)
 
     controller
     
