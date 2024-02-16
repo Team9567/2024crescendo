@@ -123,7 +123,20 @@ public final class Constants {
       S1_GroundIntake,
       S2_PositionLow,
       S3_PositionHigh,
-      S4_PositionDunk; 
+      S4_PositionDunk;
+      
+      public GroundIntakeStateMachine nextStepTo(GroundIntakeStateMachine target){
+        int index = this.ordinal();
+        int direction = this.compareTo(target);
+        if (direction < 0){
+          return this.values()[index - 1];
+        }else if(direction > 0){
+          return this.values()[index + 1];
+        }else{
+          return this.values()[index];
+        }
+        
+      }
     }
     public enum GroundIntakeStatePivotAngle {
       S0_PivotAngleUnknown,
