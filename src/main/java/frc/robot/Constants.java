@@ -107,11 +107,11 @@ public final class Constants {
     public static final int kDistanceWhenNoteIsIn = 0;
     public static final int kLaserCanId = 1;
 
-    public static final int kHeightPositionLeftDeviceID = 4;  //TODO check can IDs
-    public static final int kHeightPositionRightDeviceID = 5; //TODO check can IDs
-    public static final int kPivotPositionMotorDeviceID = 6; //TODO check can IDs
-    public static final int kLeftIntakeRPMMotorDeviceID = 7; //TODO check can IDs
-    public static final int kRightIntakeRPMMotor_Follower = 8; //TODO check can IDs
+    public static final int kHeightPositionLeftDeviceID = 7;  //TODO check can IDs
+    public static final int kHeightPositionRightDeviceID = 8; //TODO check can IDs
+    public static final int kPivotPositionMotorDeviceID = 9; //TODO check can IDs
+    public static final int kLeftIntakeRPMMotorDeviceID = 10; //TODO check can IDs
+    public static final int kRightIntakeRPMMotor_Follower = 11; //TODO check can IDs
     
     public static final float kLeftElevatorLimit = 0;//TODO values need to be changed
     public static final double kLeftElevatorHomingSpeed = 0.0;//TODO values need to be changed
@@ -126,8 +126,11 @@ public final class Constants {
       S4_PositionDunk;
       
       public GroundIntakeStateMachine nextStepTo(GroundIntakeStateMachine target){
+        if (this == S0_Unknown){
+          return S2_PositionLow;
+        }
         int index = this.ordinal();
-        int direction = this.compareTo(target);
+        int direction = target.compareTo(this);
         if (direction < 0){
           return this.values()[index - 1];
         }else if(direction > 0){

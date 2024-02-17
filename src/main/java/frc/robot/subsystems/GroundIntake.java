@@ -50,7 +50,7 @@ public class GroundIntake extends SubsystemBase {
         // Make one of the arm motors follow the other arm
 
         public GroundIntakeStateMachine currentIntakeState = GroundIntakeStateMachine.S0_Unknown;
-        public GroundIntakeStateMachine targetState;
+        public GroundIntakeStateMachine targetState = GroundIntakeStateMachine.S2_PositionLow;
 
         // public GroundIntakeStateMachine.enum unknownState =
         // GroundIntakeStateMachine.S0_Unknown;
@@ -132,17 +132,23 @@ public class GroundIntake extends SubsystemBase {
                 transitionState();
         }
 
+        public void setTarget(GroundIntakeStateMachine target) {
+                targetState = target;
+        }
+
         public void transitionState() {
+                SmartDashboard.putString("Intake/Target", targetState.name());
+                SmartDashboard.putString("Intake/Current", currentIntakeState.name());
                 if (currentIntakeState == targetState) {
                         return;
                 }
-                SmartDashboard.putString("Target Intake state", targetState.name());
-                var nextState = currentIntakeState.nextStepTo(targetState);
 
+                var nextState = currentIntakeState.nextStepTo(targetState);
+                SmartDashboard.putString("Intake/Next", nextState.name());
                 // Takes the current state and advances next state forward
                 if (currentIntakeState == GroundIntakeStateMachine.S0_Unknown
-                                && nextState == GroundIntakeStateMachine.S1_GroundIntake) {
-                        S0ToS1();
+                                && nextState == GroundIntakeStateMachine.S2_PositionLow) {
+                        S0ToS2();
 
                 } else if (currentIntakeState == GroundIntakeStateMachine.S1_GroundIntake
                                 && nextState == GroundIntakeStateMachine.S2_PositionLow) {
@@ -171,39 +177,39 @@ public class GroundIntake extends SubsystemBase {
                 }
         }
 
-        public void S0ToS1() {
-                SmartDashboard.putString("Current Intake state", "S0");
-                SmartDashboard.putString("Next Intake state", "S1");
+        public void S0ToS2() {
+                SmartDashboard.putString("Intake/Action", "S0ToS2");
+                currentIntakeState = GroundIntakeStateMachine.S2_PositionLow;
         }
 
         public void S1ToS2() {
-                SmartDashboard.putString("Current Intake state", "S1");
-                SmartDashboard.putString("Next Intake state", "S2");
+                SmartDashboard.putString("Intake/Action", "S1ToS2");
+                currentIntakeState = GroundIntakeStateMachine.S2_PositionLow;
         }
 
         public void S2ToS3() {
-                SmartDashboard.putString("Current Intake state", "S2");
-                SmartDashboard.putString("Next Intake state", "S3");
+                SmartDashboard.putString("Intake/Action", "S2ToS3");
+                currentIntakeState = GroundIntakeStateMachine.S3_PositionHigh;
         }
 
         public void S3ToS4() {
-                SmartDashboard.putString("Current Intake state", "S3");
-                SmartDashboard.putString("Next Intake state", "S4");
+                SmartDashboard.putString("Intake/Action", "S3ToS4");
+                currentIntakeState = GroundIntakeStateMachine.S4_PositionDunk;
         }
 
         public void S2ToS1() {
-                SmartDashboard.putString("Current Intake state", "S2");
-                SmartDashboard.putString("Next Intake state", "S1");
+                SmartDashboard.putString("Intake/Action", "S2ToS1");
+                currentIntakeState = GroundIntakeStateMachine.S1_GroundIntake;
         }
 
         public void S3ToS2() {
-                SmartDashboard.putString("Current Intake state", "S3");
-                SmartDashboard.putString("Next Intake state", "S2");
+                SmartDashboard.putString("Intake/Action", "S3ToS2");
+                currentIntakeState = GroundIntakeStateMachine.S2_PositionLow;
         }
 
         public void S4ToS3() {
-                SmartDashboard.putString("Current Intake state", "S4");
-                SmartDashboard.putString("Next Intake state", "S3");
+                SmartDashboard.putString("Intake/Action", "S4ToS3");
+                currentIntakeState = GroundIntakeStateMachine.S3_PositionHigh;
         }
 
         // need a helper function that takes a "now" state and a "target" state, and

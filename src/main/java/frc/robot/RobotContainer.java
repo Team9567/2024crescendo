@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotChassisConstants;
+import frc.robot.Constants.GroundIntakeConstants.GroundIntakeStateMachine;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.PrepareLaunch;
+import frc.robot.subsystems.GroundIntake;
 import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotClimber;
 import frc.robot.subsystems.RobotLauncher;
@@ -42,6 +44,7 @@ public class RobotContainer {
   public RobotLauncher launcher = new RobotLauncher();
   public Vision vision = new Vision(poseEstimator, field);
   public RobotClimber climber = new RobotClimber(navxGyro);
+  public GroundIntake groundIntake = new GroundIntake();
 
   // ROBOT COMMAND DEFINITIONS
 
@@ -57,20 +60,20 @@ public class RobotContainer {
 
   public void configureBindings() {
     chassis.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              chassis.arcadeDrive(driver.getRawAxis(1), driver.getRawAxis(0));
-            }, chassis));
+    new RunCommand(
+    () -> {
+    chassis.arcadeDrive(driver.getRawAxis(1), driver.getRawAxis(0));
+    }, chassis));
     // attach drive distance to button A
     // m_Chooser.addOption("drive 5 feet", new
     // DriveDistanceCommand(RobotChassis.class));
 
     // Set up for the binding for the soft low gear
     driver.button(OperatorConstants.kDriverButtonGear).onTrue(new InstantCommand(() -> {
-      chassis.setLowGear();
+    chassis.setLowGear();
     }));
     driver.button(OperatorConstants.kDriverButtonGear).onFalse(new InstantCommand(() -> {
-      chassis.setHighGear();
+    chassis.setHighGear();
     }));
 
     /*
@@ -91,28 +94,30 @@ public class RobotContainer {
 
     controller.button(OperatorConstants.kOperatorButtonLauncherIntake).whileTrue(launcher.getIntakeCommand());
 
-    //set up controller.button with button A to be able to be pressed and call the  Store note command
-    //controller.button(OperatorConstants.kStoreNote).whileTrue(GroundIntake.());
+    // set up controller.button with button A to be able to be pressed and call the
+    // Store note command
+    // controller.button(OperatorConstants.kStoreNote).whileTrue(GroundIntake.());
 
-    // set up controller.button with button Y to be able to be pressed and call the Score in Amp command
+    // set up controller.button with button Y to be able to be pressed and call the
+    // Score in Amp command
 
     controller
-    
+
         .axisGreaterThan(OperatorConstants.kOperatorAxisLeftClimb, 0.05)
         .or(controller.axisGreaterThan(OperatorConstants.kOperatorAxisRightClimb, 0.05))
         .or(controller.axisLessThan(OperatorConstants.kOperatorAxisLeftClimb, -0.05))
         .or(controller.axisLessThan(OperatorConstants.kOperatorAxisRightClimb, -0.05))
         .whileTrue(
-          new RunCommand(
-            () -> {
-              climber.leftClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisLeftClimb));
-              climber.rightClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisRightClimb));
-            }, climber)
-            .finallyDo(
-            () -> {
-              climber.leftClimb(0);
-              climber.rightClimb(0);
-            }
+            new RunCommand(
+                () -> {
+                  climber.leftClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisLeftClimb));
+                  climber.rightClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisRightClimb));
+                }, climber)
+                .finallyDo(
+                    () -> {
+                      climber.leftClimb(0);
+                      climber.rightClimb(0);
+                    }
             ));
   
         
@@ -125,31 +130,34 @@ public class RobotContainer {
     // }
   }
 }
-//Controller
-//Shoot B - current
+// Controller
+// Shoot B - current
 
-//Source intake, X - current
+// Source intake, X - current
 
-//Floor intake, press button hold down, pick up ring, when picked up, retract, button A, let her have the option to retrack mannually store position
-//Intake button, move down, hold to move motors on the intake motors to move
+// Floor intake, press button hold down, pick up ring, when picked up, retract,
+// button A, let her have the option to retrack mannually store position
+// Intake button, move down, hold to move motors on the intake motors to move
 
+// One button for ready position A stays within frame perameter ready for amp
+// out of frame perimeter then back to Amp
+// Store low, no note button A
+// Store high, stores high Button A
 
-//One button for ready position A stays within frame perameter ready for amp out of frame perimeter then back to Amp
-//Store low, no note button A
-//Store high, stores high Button A
+// place in AMP, button Y, intake takeover with button push. From the High
+// position
 
+// Leave climber in the open, left and right trigger. Maybe front two bumpers.
 
-//place in AMP, button Y, intake takeover with button push. From the High position
+// Left, right, middle climb button.
+// Joysticks for manually moving climber arms
+// Up down on both acuators move bolth independetly on climber
 
-//Leave climber in the open, left and right trigger. Maybe front two bumpers.
+// Driver
+// Orient button - A, chose an area with the nav x, position a direction, EX:
+// Push a button turn to the left, towards the other allience, look towards the
+// opposite side
 
-//Left, right, middle climb button.
-//Joysticks for manually moving climber arms
-//Up down on both acuators move bolth independetly on climber
+// Lime light button - Y, Orients and points at an april tag.
 
-//Driver
-//Orient button - A, chose an area with the nav x, position a direction, EX: Push a button turn to the left, towards the other allience, look towards the opposite side
-
-//Lime light button - Y, Orients and points at an april tag.
-
-//180 on AMP april tag?
+// 180 on AMP april tag?
