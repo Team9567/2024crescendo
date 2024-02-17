@@ -52,13 +52,8 @@ public class GroundIntake extends SubsystemBase {
         public GroundIntakeStateMachine currentIntakeState = GroundIntakeStateMachine.S0_Unknown;
         public GroundIntakeStateMachine targetState;
 
-
-        //public GroundIntakeStateMachine.enum unknownState = GroundIntakeStateMachine.S0_Unknown;
-
-
-
-
-
+        // public GroundIntakeStateMachine.enum unknownState =
+        // GroundIntakeStateMachine.S0_Unknown;
 
         // Linear Motors -- Height
         public CANSparkMax heightPositionLeftMotor = new CANSparkMax(GroundIntakeConstants.kHeightPositionLeftDeviceID,
@@ -135,20 +130,16 @@ public class GroundIntake extends SubsystemBase {
                 rightElevatorHomer.homeStep(heightPositionRightMotor);
                 leftElevatorHomer.homeStep(heightPositionLeftMotor);
                 transitionState();
-        } 
-
-        pub
+        }
 
         public void transitionState() {
                 if (currentIntakeState == targetState) {
                         return;
                 }
-
+                SmartDashboard.putString("Target Intake state", targetState.name());
                 var nextState = currentIntakeState.nextStepTo(targetState);
 
-                //var previousState = getIntakeState(currentIntakeState, targetState);
-
-                //Takes the current state and advances next state forward
+                // Takes the current state and advances next state forward
                 if (currentIntakeState == GroundIntakeStateMachine.S0_Unknown
                                 && nextState == GroundIntakeStateMachine.S1_GroundIntake) {
                         S0ToS1();
@@ -165,7 +156,7 @@ public class GroundIntake extends SubsystemBase {
                                 && nextState == GroundIntakeStateMachine.S4_PositionDunk) {
                         S3ToS4();
 
-                //Takes the current state and advances nest state backward
+                        // Takes the current state and advances next state backward
                 } else if (currentIntakeState == GroundIntakeStateMachine.S2_PositionLow
                                 && nextState == GroundIntakeStateMachine.S1_GroundIntake) {
                         S2ToS1();
@@ -175,32 +166,46 @@ public class GroundIntake extends SubsystemBase {
                         S3ToS2();
 
                 } else if (currentIntakeState == GroundIntakeStateMachine.S4_PositionDunk
-                                && nextState == GroundIntakeStateMachine.S3_PositionHigh){
+                                && nextState == GroundIntakeStateMachine.S3_PositionHigh) {
                         S4ToS3();
-                } 
-        }
-
-        public  GroundIntakeStateMachine advanceCurrentState(GroundIntakeStateMachine targetState){
-                
-                /*
-                if(currentIntakeState == GroundIntakeStateMachine.S0_Unknown){
-                        return GroundIntakeStateMachine.S1_GroundIntake;
-
-                } else if (currentIntakeState == GroundIntakeStateMachine.S1_GroundIntake) {
-                         return GroundIntakeStateMachine.S2_PositionLow;
-
-                } else if (currentIntakeState == GroundIntakeStateMachine.S2_PositionLow) {
-                         return GroundIntakeStateMachine.S3_PositionHigh;
-
-                } else if (currentIntakeState == GroundIntakeStateMachine.S3_PositionHigh) {
-                         return GroundIntakeStateMachine.S4_PositionDunk;
-                } else if (currentIntakeState == GroundIntakeStateMachine.S4_PositionDunk) {
-                         return GroundIntakeStateMachine.S2_PositionLow;
                 }
         }
-        */
 
-        
+        public void S0ToS1() {
+                SmartDashboard.putString("Current Intake state", "S0");
+                SmartDashboard.putString("Next Intake state", "S1");
+        }
+
+        public void S1ToS2() {
+                SmartDashboard.putString("Current Intake state", "S1");
+                SmartDashboard.putString("Next Intake state", "S2");
+        }
+
+        public void S2ToS3() {
+                SmartDashboard.putString("Current Intake state", "S2");
+                SmartDashboard.putString("Next Intake state", "S3");
+        }
+
+        public void S3ToS4() {
+                SmartDashboard.putString("Current Intake state", "S3");
+                SmartDashboard.putString("Next Intake state", "S4");
+        }
+
+        public void S2ToS1() {
+                SmartDashboard.putString("Current Intake state", "S2");
+                SmartDashboard.putString("Next Intake state", "S1");
+        }
+
+        public void S3ToS2() {
+                SmartDashboard.putString("Current Intake state", "S3");
+                SmartDashboard.putString("Next Intake state", "S2");
+        }
+
+        public void S4ToS3() {
+                SmartDashboard.putString("Current Intake state", "S4");
+                SmartDashboard.putString("Next Intake state", "S3");
+        }
+
         // need a helper function that takes a "now" state and a "target" state, and
         // returns the next step state
 
