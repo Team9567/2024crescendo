@@ -101,5 +101,15 @@ public final class Constants {
 
     public static final boolean kClimberRightInversion = false;
     public static final boolean kClimberLeftInversion = false;
+
+    // PID coefficients
+    public static final double kFF = 0.000015;//TODO Tune 
+    public static final double kP = 6e-5;//TODO TUNE 
+    public static final double kI = 0;
+    public static final double kD = 0; 
+    public static final double kIz = 0; 
+    public static final double kMaxOutput = 1; 
+    public static final double kMinOutput = -1;
+    public static final double maxRPM = 5700;//TODO turn down
   }
 }
