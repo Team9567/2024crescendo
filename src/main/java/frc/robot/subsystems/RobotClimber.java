@@ -79,7 +79,7 @@ public class RobotClimber extends SubsystemBase{
         leftClimb(power - output/2);
 
     }
-
+/* 
     public void periodic(){
         /*
         double p = SmartDashboard.getNumber("P", pidP);
@@ -93,7 +93,7 @@ public class RobotClimber extends SubsystemBase{
         */
     }
 
-
+*/
 
 }
 
