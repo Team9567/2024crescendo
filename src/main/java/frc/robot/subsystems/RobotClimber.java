@@ -4,13 +4,15 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotClimberConstants;
 
 public class RobotClimber extends SubsystemBase{
-    CANSparkMax m_climberRight;
+    public CANSparkMax m_climberRight = new CANSparkMax(RobotClimberConstants.kClimberRightID, MotorType.kBrushless);
+    public RelativeEncoder m_climberRightEncoder = m_climberRight.getEncoder();
     CANSparkMax m_climberLeft;
     //targeting at 15 degrees we get 0.16 power at 45 we get 0.5, we half it for each motor
     PIDController thetaController = new PIDController(1 / 45, 0, 0); // fix constants
@@ -20,8 +22,7 @@ public class RobotClimber extends SubsystemBase{
 
         this.navxGyro = gyro;
 
-        m_climberRight = new CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
-        m_climberLeft = new CANSparkMax(RobotClimberConstants.kClimberRightID, MotorType.kBrushless);
+        m_climberLeft = new CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
 
         m_climberRight.clearFaults();
         m_climberRight.setIdleMode(IdleMode.kBrake);

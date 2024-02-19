@@ -88,13 +88,14 @@ public class GroundIntake extends SubsystemBase {
         LaserCan noteSensor = new LaserCan(GroundIntakeConstants.kLaserCanId);
 
         // Make the homing switches
+        /*
         LinearActuatorHomer leftElevatorHomer = new LinearActuatorHomer(GroundIntakeConstants.kLeftElevatorLimit,
                         GroundIntakeConstants.kLeftElevatorHomingSpeed,
                         heightPositionLeftMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed));
         LinearActuatorHomer rightElevatorHomer = new LinearActuatorHomer(GroundIntakeConstants.kRightElevatorLimit,
                         GroundIntakeConstants.kRightElevatorHomingSpeed,
                         heightPositionRightMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed));
-
+         */
         public GroundIntake() {
                 // Code for getting a measurement from a laser can
                 // LaserCan.Measurement measurement = noteSensor.getMeasurement();
@@ -123,7 +124,7 @@ public class GroundIntake extends SubsystemBase {
                 // Declaring the right ground intake motor a follower
                 rightIntakeRPMMotorFollower.follow(leftIntakeRPMMotor);
         }
-
+        /*
         public void periodic() {
                 // rightElevatorHomer.softStopTest(heightPositionRightMotor);
                 // leftElevatorHomer.softStopTest(heightPositionLeftMotor);
@@ -131,7 +132,7 @@ public class GroundIntake extends SubsystemBase {
                 leftElevatorHomer.homeStep(heightPositionLeftMotor);
                 transitionState();
         }
-
+         */
         public void setTarget(GroundIntakeStateMachine target) {
                 targetState = target;
         }

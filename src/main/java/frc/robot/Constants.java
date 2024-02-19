@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.util.Units;
-
+//import edu.wpi.first.wpilibj2.command.Command;
 import com.fasterxml.jackson.databind.introspect.AnnotationCollector.TwoAnnotations;
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -18,6 +18,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public boolean DEBUG_BrainInTheBox = false; // toggle to TRUE to use brain in the box, if FALSE the CANIDs are for the robot
   public static class OperatorConstants {
     // Port numbers for driver and operator gamepads. These correspond with the
     // numbers on the USB
@@ -97,11 +98,16 @@ public final class Constants {
   }
 
   public static class RobotClimberConstants {
-    public static final int kClimberRightID = 13;
-    public static final int kClimberLeftID = 12;
-
+    public static final int kClimberRightID = 8;
+    public static final int kClimberLeftID = 7;
     public static final boolean kClimberRightInversion = false;
     public static final boolean kClimberLeftInversion = false;
+   //if (DEBUG_BrainInTheBox == FALSE){
+  
+   //}   
+      
+
+
   }
   public static class GroundIntakeConstants {
     public static final int kDistanceWhenNoteIsIn = 0;
@@ -117,6 +123,8 @@ public final class Constants {
     public static final double kLeftElevatorHomingSpeed = 0.0;//TODO values need to be changed
     public static final float kRightElevatorLimit = 0;//TODO values need to be changed
     public static final double kRightElevatorHomingSpeed = 0.0;//TODO values need to be changed
+
+
 
     public enum GroundIntakeStateMachine{
       S0_Unknown,

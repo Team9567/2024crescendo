@@ -4,6 +4,13 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
+import frc.robot.subsystems.LinearActuatorHomer;
+import frc.robot.subsystems.RobotClimber;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -32,7 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledExit() {}
 
-  @Override
+  @Override+
   public void autonomousInit() {
   //  m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -42,8 +49,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
-
+  public void autonomousPeriodic() {
+    DigitalInput climbingMotorDigitalInput = new DigitalInput(0);
+    LinearActuatorHomer.homeLinearActuator(RobotClimber.climbingMotorDigitalInput, RobotClimber.m_climberRight, RobotClimber.m_climberRightEncoder);
+  }
   @Override
   public void autonomousExit() {}
 
