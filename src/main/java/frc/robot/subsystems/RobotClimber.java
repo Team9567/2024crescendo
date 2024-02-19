@@ -13,8 +13,8 @@ import frc.robot.Constants.RobotClimberConstants;
 import com.revrobotics.SparkPIDController;
 
 public class RobotClimber extends SubsystemBase{
-    CANSparkMax m_climberRight;
-    CANSparkMax m_climberLeft;
+    public CANSparkMax m_climberRight;
+    public CANSparkMax m_climberLeft;
     //targeting at 15 degrees we get 0.16 power at 45 we get 0.5, we half it for each motor
     PIDController thetaController = new PIDController(1 / 45, 0, 0); // fix constants
     SparkPIDController m_rightPidController;
@@ -26,6 +26,7 @@ public class RobotClimber extends SubsystemBase{
 
         this.navxGyro = gyro;
 
+        //public final CANSparkMax m_climberRight = new CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
         m_climberRight = new CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
         m_climberLeft = new CANSparkMax(RobotClimberConstants.kClimberRightID, MotorType.kBrushless);
 

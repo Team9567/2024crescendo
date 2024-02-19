@@ -12,15 +12,17 @@ import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class LinearActuatorHomer {
-    public void homeLinearActuator(DigitalInput homerChannel, CANSparkMax homerMotor, RelativeEncoder encoderHomePosition) {
+    public void homeLinearActuator(int DIOPort, CANSparkMax homerMotor, RelativeEncoder encoderHomePosition) {
         // Limit Switch on DIO 2
-        //DigitalInput inputHomingLimit = new DigitalInput(homerChannel);
+        
+        DigitalInput homerChannel = new DigitalInput(DIOPort);
+
 
         homerChannel.get();
         //go up two inches
 
         // Runs the motors on half speed, unless the limit swith is pressed.
-        if (!homerChannel.get()) {
+        if (homerChannel.get()) {
             homerMotor.set(-.5);
         } else {
             homerMotor.set(0);
