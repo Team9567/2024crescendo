@@ -4,6 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +16,10 @@ import com.revrobotics.SparkPIDController;
 public class RobotClimber extends SubsystemBase{
     public CANSparkMax m_climberRight;
     public CANSparkMax m_climberLeft;
+
+    //Defineing encoders
+    public RelativeEncoder rightClimberEncoder = m_climberRight.getEncoder();
+    public RelativeEncoder leftClimberEncoder = m_climberLeft.getEncoder();
     //targeting at 15 degrees we get 0.16 power at 45 we get 0.5, we half it for each motor
     PIDController thetaController = new PIDController(1 / 45, 0, 0); // fix constants
     SparkPIDController m_rightPidController;

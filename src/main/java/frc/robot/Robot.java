@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
       //the digital input from the RoboDIO that the homer is connected to 
       //take in one of climber arms,
       //that climber arms encoder
-    LinearActuatorHomer.homeLinearActuator(0, m_robotContainer.climber.m_climberRight, m_robotContainer.climber.);
+    LinearActuatorHomer.homeLinearActuator(0, m_robotContainer.climber.m_climberRight, m_robotContainer.climber.rightClimberEncoder);
   
   }
 

@@ -12,7 +12,7 @@ import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class LinearActuatorHomer {
-    public void homeLinearActuator(int DIOPort, CANSparkMax homerMotor, RelativeEncoder encoderHomePosition) {
+    public static void homeLinearActuator(int DIOPort, CANSparkMax homerMotor, RelativeEncoder encoderHomePosition) {
         // Limit Switch on DIO 2
         
         DigitalInput homerChannel = new DigitalInput(DIOPort);
@@ -28,9 +28,9 @@ public class LinearActuatorHomer {
             homerMotor.set(0);
             //get encoder home position
             while(encoderHomePosition.getVelocity() != 0){}; // Wait Until stopped    
-            if(encoderHomePosition.getVelocity() == 0){ //if stopped
-                encoderHomePosition.setPosition(0); //Home the motor to position = 0
-            }
+                if(encoderHomePosition.getVelocity() == 0){ //if stopped
+                    encoderHomePosition.setPosition(0); //Home the motor to position = 0
+                }
         }
 
     }
