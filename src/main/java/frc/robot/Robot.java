@@ -41,6 +41,15 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+  //  m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+  //instance the homing routing here
+  //the digital input from the RoboDIO that the homer is connected to 
+  //take in one of climber arms,
+  //that climber arms encoder
+    LinearActuatorHomer.homeLinearActuator(0, m_robotContainer.climber.m_climberRight, m_robotContainer.climber.rightClimberEncoder);
+    LinearActuatorHomer.homeLinearActuator(1, m_robotContainer.climber.m_climberLeft, m_robotContainer.climber.leftClimberEncoder);
+    //LinearActuatorHomer.homeLinearActuator(2, m_robotContainer.climber.m_climberRight, m_robotContainer.climber.rightClimberEncoder); TODO change these for ground intake
+    //LinearActuatorHomer.homeLinearActuator(3, m_robotContainer.climber.m_climberLeft, m_robotContainer.climber.leftClimberEncoder); TODO change these for ground intake
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -50,12 +59,8 @@ public class Robot extends TimedRobot {
   //instance the homing 
   @Override
   public void autonomousPeriodic() {
-      //instance the homing routing here
-      //the digital input from the RoboDIO that the homer is connected to 
-      //take in one of climber arms,
-      //that climber arms encoder
-    LinearActuatorHomer.homeLinearActuator(0, m_robotContainer.climber.m_climberRight, m_robotContainer.climber.rightClimberEncoder);
-  
+      
+    
   }
 
   @Override
