@@ -150,16 +150,16 @@ public class RobotContainer {
         .withTimeout(LauncherConstants.kLauncherDelay)
         .andThen(new LaunchNote(launcher))
         .withTimeout(5) // TUNE SO NO TIME IS WASTED
-        .andThen(new RunCommand(
+        /* .andThen(new RunCommand(
             () -> {
               chassis.chassisToBearing(45);
             }, chassis))
-            .withTimeout(3)
+            .withTimeout(8)*/
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(-0.5, 0);
+              chassis.arcadeDrive(0.5, 0);
             }, chassis))
-        .withTimeout(3);
+        .withTimeout(8);
 
   }
 
