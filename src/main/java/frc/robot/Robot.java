@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.RobotConstants;
 import frc.robot.subsystems.LinearActuatorHomer;
 import frc.robot.subsystems.RobotClimber;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -46,10 +47,9 @@ public class Robot extends TimedRobot {
   //the digital input from the RoboDIO that the homer is connected to 
   //take in one of climber arms,
   //that climber arms encoder
-    LinearActuatorHomer.homeLinearActuator(0, m_robotContainer.climber.m_climberRight, m_robotContainer.climber.rightClimberEncoder);
-    LinearActuatorHomer.homeLinearActuator(1, m_robotContainer.climber.m_climberLeft, m_robotContainer.climber.leftClimberEncoder);
-    //LinearActuatorHomer.homeLinearActuator(2, m_robotContainer.climber.m_climberRight, m_robotContainer.climber.rightClimberEncoder); TODO change these for ground intake
-    //LinearActuatorHomer.homeLinearActuator(3, m_robotContainer.climber.m_climberLeft, m_robotContainer.climber.leftClimberEncoder); TODO change these for ground intake
+    
+    //LinearActuatorHomer.homeLinearActuator(2, RobotConstants.groundIntakeRightClimberDIO, m_robotContainer.climber.rightClimberEncoder); TODO change these for ground intake
+    //LinearActuatorHomer.homeLinearActuator(3, m_robotContainer.climber.groundIntakeLeftClimberDIO, m_robotContainer.climber.leftClimberEncoder); TODO change these for ground intake
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

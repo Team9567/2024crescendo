@@ -12,25 +12,42 @@ import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class LinearActuatorHomer {
-    public static void homeLinearActuator(int DIOPort, CANSparkMax homerMotor, RelativeEncoder encoderHomePosition) {
-        // Limit Switch on DIO 2
-        
-        DigitalInput homerChannel = new DigitalInput(DIOPort);
+    DigitalInput homerChannel;
+    float m_limit;
+    CANSparkMax homingMotor;
+
+    public LinearActuatorHomer(int DIOPort, CANSparkMax homerMotor, float limit) {
+
+        homingMotor = homerMotor;
+        m_limit = limit;
+        homerChannel = new DigitalInput(DIOPort);
+        homerMotor.set(-.1);
 
 
-        homerChannel.get();
-        //go up two inches
+
+    }
+
+    public void periodic() {
 
         // Runs the motors on half speed, unless the limit swith is pressed.
         if (homerChannel.get()) {
-            homerMotor.set(-.5);
-        } else {
-            homerMotor.set(0);
-            //get encoder home position
-            while(encoderHomePosition.getVelocity() != 0){}; // Wait Until stopped    
-                if(encoderHomePosition.getVelocity() == 0){ //if stopped
-                    encoderHomePosition.setPosition(0); //Home the motor to position = 0
-                }
+            if (homingMotor.get() < 0) {
+                homingMotor.set(0);
+                homingMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+                homingMotor.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, m_limit);
+                homingMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+                homingMotor.setSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, 3);
+            }
+            if (homingMotor.getEncoder().getVelocity() == 0) { // if stopped
+                    homingMotor.getEncoder().setPosition(0); // Home the motor to position = 0
+            }
+            
+            // get encoder home position
+            /*
+             * while (encoderHomePosition.getVelocity() != 0) {
+             * }
+             * ;
+             */// Wait Until stopped
         }
 
     }

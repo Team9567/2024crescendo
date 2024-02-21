@@ -26,6 +26,9 @@ public class RobotClimber extends SubsystemBase{
     SparkPIDController m_leftPidController;
     double pidP = RobotClimberConstants.kP;     //The local variable in our code
     AHRS navxGyro;
+
+    LinearActuatorHomer leftHomer;
+    LinearActuatorHomer rightHomer;
     
     public RobotClimber(AHRS gyro) {
 
@@ -61,6 +64,9 @@ public class RobotClimber extends SubsystemBase{
         m_rightPidController.setOutputRange(RobotClimberConstants.kMinOutput, RobotClimberConstants.kMaxOutput);
         m_leftPidController.setOutputRange(RobotClimberConstants.kMinOutput, RobotClimberConstants.kMaxOutput);
         SmartDashboard.putNumber("P Gain", pidP);
+
+        LinearActuatorHomer leftHomer = new LinearActuatorHomer(0, m_climberLeft, 400);//TODO find real limit
+        LinearActuatorHomer rightHomer = new LinearActuatorHomer(1, m_climberRight, 400);//TODO fin real limit
     }
 
 
@@ -85,7 +91,7 @@ public class RobotClimber extends SubsystemBase{
         leftClimb(power - output/2);
 
     }
-/* 
+ 
     public void periodic(){
         /*
         double p = SmartDashboard.getNumber("P", pidP);
@@ -97,9 +103,11 @@ public class RobotClimber extends SubsystemBase{
         m_rightPidController.setOutputRange(min, max);
         m_leftPidController.setOutputRange(min, max);
         */
+        leftHomer.periodic();
+        rightHomer.periodic();
     }
 
-*/
+
 
 }
 
