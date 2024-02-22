@@ -81,6 +81,7 @@ public class RobotClimber extends SubsystemBase{
     }
 
     public void periodic(){
+        /*
         double p = SmartDashboard.getNumber("P", pidP);
         // if PID coefficients on SmartDashboard have changed, write new values to controller
         if((pidP != RobotClimberConstants.kP)) { 
@@ -89,6 +90,7 @@ public class RobotClimber extends SubsystemBase{
         }
         m_rightPidController.setOutputRange(min, max);
         m_leftPidController.setOutputRange(min, max);
+        */
     }
 
 

@@ -10,6 +10,8 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -49,10 +51,15 @@ public class RobotContainer {
   public CommandJoystick driver = new CommandJoystick(OperatorConstants.kDriverControllerPort);
   public CommandJoystick controller = new CommandJoystick(OperatorConstants.kOperatorControllerPort);
 
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
+
   // The container for the robot. Contains subsystems, OI devices, and commands
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
+
   }
 
   public void configureBindings() {
@@ -129,6 +136,30 @@ public class RobotContainer {
     // return new DriveDistanceCommand(chassis);
     // }
   }
+
+  public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
+  }
+
+  public Command shootAndReatreat() {
+
+    return new PrepareLaunch(launcher)
+        .withTimeout(LauncherConstants.kLauncherDelay)
+        .andThen(new LaunchNote(launcher))
+        .withTimeout(5) // TUNE SO NO TIME IS WASTED
+        /* .andThen(new RunCommand(
+            () -> {
+              chassis.chassisToBearing(45);
+            }, chassis))
+            .withTimeout(8)*/
+        .andThen(new RunCommand(
+            () -> {
+              chassis.arcadeDrive(0.5, 0);
+            }, chassis))
+        .withTimeout(8);
+
+  }
+
 }
 //Controller
 //Shoot B - current
