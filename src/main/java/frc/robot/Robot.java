@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
   //take in one of climber arms,
   //that climber arms encoder
     
-    //LinearActuatorHomer.homeLinearActuator(2, RobotConstants.groundIntakeRightClimberDIO, m_robotContainer.climber.rightClimberEncoder); TODO change these for ground intake
+    //LinearActuatorHomer.homeLinearActuator(2, RobotConstants.groundIntakeRightClimberDIO, m_robotContainer.climber.rightClimberEncoder); //TODO change these for ground intake
     //LinearActuatorHomer.homeLinearActuator(3, m_robotContainer.climber.groundIntakeLeftClimberDIO, m_robotContainer.climber.leftClimberEncoder); TODO change these for ground intake
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
