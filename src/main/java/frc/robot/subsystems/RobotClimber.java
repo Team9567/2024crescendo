@@ -5,23 +5,20 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotClimberConstants;
-
 import com.revrobotics.SparkPIDController;
 
 public class RobotClimber extends SubsystemBase{
     public CANSparkMax m_climberRight;
     public CANSparkMax m_climberLeft;
 
-
-
     //Defineing encoders
     public RelativeEncoder rightClimberEncoder;
     public RelativeEncoder leftClimberEncoder;
+
     //targeting at 15 degrees we get 0.16 power at 45 we get 0.5, we half it for each motor
     PIDController thetaController = new PIDController(1 / 45, 0, 0); // fix constants
     SparkPIDController m_rightPidController;
@@ -29,8 +26,9 @@ public class RobotClimber extends SubsystemBase{
     double pidP = RobotClimberConstants.kP;     //The local variable in our code
     AHRS navxGyro;
 
-    //LinearActuatorHomer leftHomer;
+    //LinearActuatorHomer
     LinearActuatorHomer rightHomer;
+    LinearActuatorHomer leftHomer;
     
     public RobotClimber(AHRS gyro) {
 
@@ -52,6 +50,7 @@ public class RobotClimber extends SubsystemBase{
 
         m_rightPidController = m_climberRight.getPIDController();
         m_leftPidController = m_climberLeft.getPIDController();
+
         //encoders
         rightClimberEncoder = m_climberRight.getEncoder();
         leftClimberEncoder = m_climberLeft.getEncoder();
@@ -70,9 +69,10 @@ public class RobotClimber extends SubsystemBase{
         m_rightPidController.setOutputRange(RobotClimberConstants.kMinOutput, RobotClimberConstants.kMaxOutput);
         m_leftPidController.setOutputRange(RobotClimberConstants.kMinOutput, RobotClimberConstants.kMaxOutput);
         SmartDashboard.putNumber("P Gain", pidP);
+
         //linear Motors
-        // leftHomer = new LinearActuatorHomer(0, m_climberLeft, 400);//TODO find real limit
-        rightHomer = new LinearActuatorHomer(1, m_climberRight, 400);//TODO fin real limit
+        leftHomer = new LinearActuatorHomer(0, m_climberLeft, 400);//TODO find real limit
+        rightHomer = new LinearActuatorHomer(1, m_climberRight, 400);//TODO find real limit
     }
 
 
@@ -94,7 +94,7 @@ public class RobotClimber extends SubsystemBase{
         double output = thetaController.calculate(initalBearing, 0);
 
         rightClimb(power + output/2);
-        leftClimb(power - output/2);
+        leftClimb(power - output/2); // Todo minus sign here might be why it doesnt go up 
 
     }
     
@@ -111,6 +111,7 @@ public class RobotClimber extends SubsystemBase{
         */
         leftHomer.periodic();
         //leftHomer.periodic();
+        leftHomer.periodic();
         rightHomer.periodic();
     }
 
