@@ -118,28 +118,20 @@ public class RobotContainer {
 
         .axisGreaterThan(OperatorConstants.kOperatorAxisLeftClimb, 0.05)
         .or(controller.axisLessThan(OperatorConstants.kOperatorAxisLeftClimb, -0.05))
-        .whileTrue(
-            new RunCommand(
-                () -> {
-                  climber.leftClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisLeftClimb));
-                }, climber)
-                .finallyDo(
-                    () -> {
-                      climber.leftClimb(0);
-
-                    }));
-    controller
-
-        .axisGreaterThan(OperatorConstants.kOperatorAxisRightClimb, 0.05)
+        .or(controller.axisGreaterThan(OperatorConstants.kOperatorAxisRightClimb, 0.05))
         .or(controller.axisLessThan(OperatorConstants.kOperatorAxisRightClimb, -0.05))
         .whileTrue(
             new RunCommand(
                 () -> {
+                  climber.leftClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisLeftClimb));
                   climber.rightClimb(controller.getRawAxis(OperatorConstants.kOperatorAxisRightClimb));
                 }, climber)
+
                 .finallyDo(
                     () -> {
+                      climber.leftClimb(0);
                       climber.rightClimb(0);
+
                     }));
 
     // public Command getAutonomousCommand() {

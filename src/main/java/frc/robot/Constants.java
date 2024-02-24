@@ -75,6 +75,13 @@ public final class Constants {
     public static final IdleMode kFeedBrakeMode = IdleMode.kBrake;
   }
 
+  public static class RobotConstants {
+    public static final int rightClimberDIO = 0;
+    public static final int leftClimberDIO = 1;
+    public static final int groundIntakeRightClimberDIO = 2;
+    public static final int groundIntakeLeftClimberDIO = 3;
+  }
+
   public static class autonomousCommand {
     public static final double kPosATurn1 = 0;
     public static final double kPosCTurn1 = 0;
@@ -96,7 +103,7 @@ public final class Constants {
   }
 
   public static class RobotChassisConstants {
-    public static final int kCurrentLimit = 240 / 4;
+    public static final int kCurrentLimit = 60;  // rev robotics recommendations 40-60
     public static final int kLeftCanId = 1;
     public static final int kRightCanId = 3;
     public static final int kLeftFollowerCanId = 2;

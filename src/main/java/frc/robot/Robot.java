@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.Constants.RobotConstants;
+import frc.robot.subsystems.LinearActuatorHomer;
+import frc.robot.subsystems.RobotClimber;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -39,14 +42,25 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+  //  m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+  //instance the homing routing here
+  //the digital input from the RoboDIO that the homer is connected to 
+  //take in one of climber arms,
+  //that climber arms encoder
+    
+    //LinearActuatorHomer.homeLinearActuator(2, RobotConstants.groundIntakeRightClimberDIO, m_robotContainer.climber.rightClimberEncoder); //TODO change these for ground intake
+    //LinearActuatorHomer.homeLinearActuator(3, m_robotContainer.climber.groundIntakeLeftClimberDIO, m_robotContainer.climber.leftClimberEncoder); TODO change these for ground intake
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
 
   }
 
+  //instance the homing 
   @Override
   public void autonomousPeriodic() {
+      
+    
   }
 
   @Override
