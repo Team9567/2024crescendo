@@ -96,12 +96,6 @@ public class RobotContainer {
     driver.button(OperatorConstants.kDriverButtonGear).onFalse(new InstantCommand(() -> {
       chassis.setHighGear();
     }));
-
-    driver.button(4).whileTrue(
-        new RunCommand(
-            () -> {
-              chassis.chassisToBearing(90.0);
-            }, chassis));
     /*
      * Create an inline sequence to run when the operator presses and holds the A
      * (green) button. Run the PrepareLaunch
