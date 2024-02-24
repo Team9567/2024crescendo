@@ -76,6 +76,22 @@ public final class Constants {
   }
 
   public static class autonomousCommand {
+    public static final double kPosATurn1 = 0;
+    public static final double kPosCTurn1 = 0;
+    public static final double kPosBTurn1 = 2;
+
+    public static final double kPosABack1 = 2;
+    public static final double kPosCBack1 = 1.15;
+    public static final double kPosBBack1 = 5;
+
+    public static final double kPosATurn2 = 1.8;
+    public static final double kPosCTurn2 = 0.24;
+    public static final double kPosBTurn2 = 0.24;
+
+  
+    public static final double kPosABack2 = 2.8;
+    public static final double kPosCBack2 = 3;
+    public static final double kPosBBack2 = 2.8;
 
   }
 

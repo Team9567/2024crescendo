@@ -32,8 +32,9 @@ public class RobotChassis extends SubsystemBase {
     public RelativeEncoder rightEncoder = rightCanSparkMax.getEncoder();
     public AHRS navxGyro;
     public DifferentialDrivePoseEstimator poseEstimator;
-    public PIDController thetaController = new PIDController(1 / 180, 0, 0);
+    public PIDController thetaController = new PIDController(1.0/90.0, 0, 0);
     public Field2d field;
+
 
     public RobotChassis(AHRS navxGyro, DifferentialDrivePoseEstimator poseEstimator, Field2d field) {
 
@@ -102,8 +103,11 @@ public class RobotChassis extends SubsystemBase {
 
         double initalBearing = navxGyro.getRotation2d().getDegrees();
         double output = thetaController.calculate(initalBearing, targetRotation);
+        SmartDashboard.putNumber("Target", targetRotation);
+        SmartDashboard.putNumber("Initial", initalBearing);
+        SmartDashboard.putNumber("output", output); 
 
-        arcadeDrive(0, output); // if turns as fast as possible invert output
+        drivetrain.arcadeDrive(0, output * 0.5); // if turns as fast as possible invert output
 
     }
 
