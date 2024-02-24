@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotClimberConstants;
@@ -74,26 +75,29 @@ public class RobotClimber extends SubsystemBase {
         SmartDashboard.putNumber("P Gain", pidP);
 
         // linear Motors
-        leftHomer = new LinearActuatorHomer(0, m_climberLeft, 400);// TODO find real limit
-        rightHomer = new LinearActuatorHomer(1, m_climberRight, 400);// TODO find real limit
+        leftHomer = new LinearActuatorHomer(0, m_climberLeft, -323);
+        rightHomer = new LinearActuatorHomer(1, m_climberRight, -267);
     }
 
-    public void leftClimb(double power) {
-        if (leftHomer.limitTripped() && power < 0) { // if the limit switch is tripped
+    public void leftClimb(double power) { // Negative is arm extention, positive is arm retraction
+        if (leftHomer.limitTripped() && power > 0) { // if the limit switch is tripped
             m_climberLeft.set(0);
         } else {
             m_climberLeft.set(power);
-            
         }
+        SmartDashboard.putNumber("Left CLiber Power", power);
+        SmartDashboard.putBoolean("Left Homer", leftHomer.limitTripped());
 
     }
 
-    public void rightClimb(double power) {
-        if (rightHomer.limitTripped() && power < 0) { // if the limit switch is tripped
+    public void rightClimb(double power) { // Negative is arm extention, positive is arm retraction
+        if (rightHomer.limitTripped() && power > 0) { // if the limit switch is tripped
             m_climberRight.set(0);
         } else {
             m_climberRight.set(power);
         }
+        SmartDashboard.putNumber("Right CLiber Power", power);
+        SmartDashboard.putBoolean("Right Homer", rightHomer.limitTripped());
     }
 
     public void autoClimb(double power) {
@@ -119,6 +123,8 @@ public class RobotClimber extends SubsystemBase {
         */
 
         leftHomer.periodic();
+        SmartDashboard.putNumber("Left Encoder", leftClimberEncoder.getPosition());
         rightHomer.periodic();
+        SmartDashboard.putNumber("Right Encoder", rightClimberEncoder.getPosition());
     }
 }
