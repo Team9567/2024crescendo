@@ -10,35 +10,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotClimberConstants;
 import com.revrobotics.SparkPIDController;
+import frc.robot.subsystems.LinearActuatorHomer;
 
-public class RobotClimber extends SubsystemBase{
+public class RobotClimber extends SubsystemBase {
     public CANSparkMax m_climberRight;
     public CANSparkMax m_climberLeft;
 
-    //Defineing encoders
+    // Defineing encoders
     public RelativeEncoder rightClimberEncoder;
     public RelativeEncoder leftClimberEncoder;
 
-    //targeting at 15 degrees we get 0.16 power at 45 we get 0.5, we half it for each motor
+    // targeting at 15 degrees we get 0.16 power at 45 we get 0.5, we half it for
+    // each motor
     PIDController thetaController = new PIDController(1 / 45, 0, 0); // fix constants
     SparkPIDController m_rightPidController;
     SparkPIDController m_leftPidController;
-    double pidP = RobotClimberConstants.kP;     //The local variable in our code
+    double pidP = RobotClimberConstants.kP; // The local variable in our code
     AHRS navxGyro;
 
-    //LinearActuatorHomer
+    // LinearActuatorHomer
     LinearActuatorHomer rightHomer;
     LinearActuatorHomer leftHomer;
-    
+
     public RobotClimber(AHRS gyro) {
 
         this.navxGyro = gyro;
 
-        //public final CANSparkMax m_climberRight = new CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
-        //Motors
+        // public final CANSparkMax m_climberRight = new
+        // CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
+        // Motors
         m_climberRight = new CANSparkMax(RobotClimberConstants.kClimberLeftID, MotorType.kBrushless);
         m_climberLeft = new CANSparkMax(RobotClimberConstants.kClimberRightID, MotorType.kBrushless);
-        
+
         m_climberRight.restoreFactoryDefaults();
         m_climberLeft.restoreFactoryDefaults();
         m_climberRight.clearFaults();
@@ -51,7 +54,7 @@ public class RobotClimber extends SubsystemBase{
         m_rightPidController = m_climberRight.getPIDController();
         m_leftPidController = m_climberLeft.getPIDController();
 
-        //encoders
+        // encoders
         rightClimberEncoder = m_climberRight.getEncoder();
         leftClimberEncoder = m_climberLeft.getEncoder();
 
@@ -70,22 +73,27 @@ public class RobotClimber extends SubsystemBase{
         m_leftPidController.setOutputRange(RobotClimberConstants.kMinOutput, RobotClimberConstants.kMaxOutput);
         SmartDashboard.putNumber("P Gain", pidP);
 
-        //linear Motors
-        leftHomer = new LinearActuatorHomer(0, m_climberLeft, 400);//TODO find real limit
-        rightHomer = new LinearActuatorHomer(1, m_climberRight, 400);//TODO find real limit
+        // linear Motors
+        leftHomer = new LinearActuatorHomer(0, m_climberLeft, 400);// TODO find real limit
+        rightHomer = new LinearActuatorHomer(1, m_climberRight, 400);// TODO find real limit
     }
 
-
-    public void leftClimb(double power){
-
-        m_climberLeft.set(power);
+    public void leftClimb(double power) {
+        if (leftHomer.limitTripped() && power < 0) { // if the limit switch is tripped
+            m_climberLeft.set(0);
+        } else {
+            m_climberLeft.set(power);
+            
+        }
 
     }
 
-    public void rightClimb(double power){
-
-        m_climberRight.set(power);
-
+    public void rightClimb(double power) {
+        if (rightHomer.limitTripped() && power < 0) { // if the limit switch is tripped
+            m_climberRight.set(0);
+        } else {
+            m_climberRight.set(power);
+        }
     }
 
     public void autoClimb(double power) {
@@ -93,8 +101,8 @@ public class RobotClimber extends SubsystemBase{
         double initalBearing = navxGyro.getRoll();
         double output = thetaController.calculate(initalBearing, 0);
 
-        rightClimb(power + output/2);
-        leftClimb(power - output/2); // Todo minus sign here might be why it doesnt go up 
+        rightClimb(power + output / 2);
+        leftClimb(power - output / 2);
 
     }
     
@@ -109,13 +117,8 @@ public class RobotClimber extends SubsystemBase{
         m_rightPidController.setOutputRange(min, max);
         m_leftPidController.setOutputRange(min, max);
         */
-        leftHomer.periodic();
-        //leftHomer.periodic();
+
         leftHomer.periodic();
         rightHomer.periodic();
     }
-
-
-
 }
-

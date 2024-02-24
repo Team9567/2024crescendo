@@ -103,7 +103,7 @@ public final class Constants {
   }
 
   public static class RobotChassisConstants {
-    public static final int kCurrentLimit = 240 / 4;
+    public static final int kCurrentLimit = 60;  // rev robotics recommendations 40-60
     public static final int kLeftCanId = 1;
     public static final int kRightCanId = 3;
     public static final int kLeftFollowerCanId = 2;
