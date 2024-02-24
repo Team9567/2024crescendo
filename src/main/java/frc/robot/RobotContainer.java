@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import java.util.Optional;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -54,6 +58,7 @@ public class RobotContainer {
   public CommandJoystick controller = new CommandJoystick(OperatorConstants.kOperatorControllerPort);
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
+  public double sleepTimeout = 0.0;
 
   // The container for the robot. Contains subsystems, OI devices, and commands
   public RobotContainer() {
@@ -69,6 +74,8 @@ public class RobotContainer {
         autonomousCommand.kPosCTurn2, autonomousCommand.kPosCBack2));
 
     SmartDashboard.putData(autoChooser);
+
+    SmartDashboard.putNumber("AutoWaitTime", sleepTimeout);
 
   }
 
@@ -152,28 +159,45 @@ public class RobotContainer {
 
   public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2) {
 
-    return new PrepareLaunch(launcher)
+    double sleepTimer = SmartDashboard.getNumber("AutoWaitTime", sleepTimeout);
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    double allianceTurnDirection = 1;
 
+    if (ally.get() == Alliance.Red) {
+      allianceTurnDirection = -1;
+    } else if (ally.get() == Alliance.Blue) {
+      allianceTurnDirection = 1;
+    }
+
+    final double turn = allianceTurnDirection;
+
+    return new PrepareLaunch(launcher)
+        // launches for delay + 2.5 seconds
         .withTimeout(LauncherConstants.kLauncherDelay)
-        .andThen(new LaunchNote(launcher))
-        .withTimeout(3) // TUNE SO NO TIME IS WASTED
+        .andThen(new LaunchNote(launcher)
+            .withTimeout(2.5))
+        //wait in place for sleepTimer
+        .andThen(new RunCommand(
+            () -> {}).withTimeout(sleepTimer))
+        // turn if necessary
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0, 0.5);
+              chassis.arcadeDrive(0, 0.5 * turn);
             }, chassis)
             .withTimeout(rotate1))
-
+        //retreat towards wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0.5, 0);
             }, chassis)
             .withTimeout(retreat1))
-
+        //turn parallel to wall
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0, 0.5);
+              chassis.arcadeDrive(0, 0.5 * turn);
             }, chassis)
             .withTimeout(rotate2))
+        //drive parallel to wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0.5, 0);
