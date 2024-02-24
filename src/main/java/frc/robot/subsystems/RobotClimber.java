@@ -75,8 +75,8 @@ public class RobotClimber extends SubsystemBase {
         SmartDashboard.putNumber("P Gain", pidP);
 
         // linear Motors
-        leftHomer = new LinearActuatorHomer(0, m_climberLeft, -323);
-        rightHomer = new LinearActuatorHomer(1, m_climberRight, -267);
+        leftHomer = new LinearActuatorHomer(0, m_climberLeft, -260);
+        rightHomer = new LinearActuatorHomer(1, m_climberRight, -260);
     }
 
     public void leftClimb(double power) { // Negative is arm extention, positive is arm retraction
