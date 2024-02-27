@@ -73,7 +73,7 @@ public class RobotContainer {
     autoChooser.addOption("posC", shootAndReatreat(autonomousCommand.kPosCTurn1, autonomousCommand.kPosCBack1,
         autonomousCommand.kPosCTurn2, autonomousCommand.kPosCBack2));
 
-    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("AutoPosition", autoChooser);
 
     SmartDashboard.putNumber("AutoWaitTime", sleepTimeout);
 
@@ -148,11 +148,12 @@ public class RobotContainer {
     double sleepTimer = SmartDashboard.getNumber("AutoWaitTime", sleepTimeout);
     Optional<Alliance> ally = DriverStation.getAlliance();
     double allianceTurnDirection = 1;
-
-    if (ally.get() == Alliance.Red) {
-      allianceTurnDirection = -1;
-    } else if (ally.get() == Alliance.Blue) {
-      allianceTurnDirection = 1;
+    if (ally.isPresent()) {
+      if (ally.get() == Alliance.Red) {
+        allianceTurnDirection = -1;
+      } else if (ally.get() == Alliance.Blue) {
+        allianceTurnDirection = 1;
+      }
     }
 
     final double turn = allianceTurnDirection;
@@ -162,28 +163,29 @@ public class RobotContainer {
         .withTimeout(LauncherConstants.kLauncherDelay)
         .andThen(new LaunchNote(launcher)
             .withTimeout(2.5))
-        //wait in place for sleepTimer
+        // wait in place for sleepTimer
         .andThen(new RunCommand(
-            () -> {}).withTimeout(sleepTimer))
+            () -> {
+            }).withTimeout(sleepTimer))
         // turn if necessary
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0, 0.5 * turn);
             }, chassis)
             .withTimeout(rotate1))
-        //retreat towards wall
+        // retreat towards wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0.5, 0);
             }, chassis)
             .withTimeout(retreat1))
-        //turn parallel to wall
+        // turn parallel to wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0, 0.5 * turn);
             }, chassis)
             .withTimeout(rotate2))
-        //drive parallel to wall
+        // drive parallel to wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0.5, 0);
