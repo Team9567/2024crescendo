@@ -10,33 +10,37 @@ public class LinearActuatorHomer {
     DigitalInput homerChannel;
     float m_limit;
     CANSparkMax homingMotor;
+    boolean isHomed = false ;
 
     public LinearActuatorHomer(int DIOPort, CANSparkMax homerMotor, float limit) {
 
         homingMotor = homerMotor;
         m_limit = limit;
         homerChannel = new DigitalInput(DIOPort);
-        homerMotor.set(.15);
+        homerMotor.set(.4);
     }
 
     public boolean limitTripped(){
         return !homerChannel.get();
     }
 
+    public boolean isHomed(){
+        return isHomed;
+    }    
+
     public void periodic() {
+
         //set the soft limits
         if (limitTripped()) { //looks to see if the limit switch is tripped
             if (homingMotor.get() > 0) { //if the acuator is heading towards the limit switch 
                 homingMotor.set(0); 
-                homingMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
-                homingMotor.setSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, m_limit);
-                homingMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
-                homingMotor.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, -10); //Three encoder ticks above the limit switch
+                // homingMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true); upper -304 limmit left
+                // homingMotor.setSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, m_limit); upp -380 limmit right
+                // homingMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+                // homingMotor.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, -10); //Three encoder ticks above the limit switch
+                homingMotor.getEncoder().setPosition(0); // Home the motor to position = 0
+                isHomed = true;
             }
-
-            if (homingMotor.getEncoder().getVelocity() == 0) { // if stopped 
-                    homingMotor.getEncoder().setPosition(0); // Home the motor to position = 0
-            }  
         }
     }
 }

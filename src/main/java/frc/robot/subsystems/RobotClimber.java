@@ -75,11 +75,14 @@ public class RobotClimber extends SubsystemBase {
         SmartDashboard.putNumber("P Gain", pidP);
 
         // linear Motors
-        leftHomer = new LinearActuatorHomer(0, m_climberLeft, -260);
-        rightHomer = new LinearActuatorHomer(1, m_climberRight, -260);
+        leftHomer = new LinearActuatorHomer(0, m_climberLeft, -304);
+        rightHomer = new LinearActuatorHomer(1, m_climberRight, -380);
     }
 
     public void leftClimb(double power) { // Negative is arm extention, positive is arm retraction
+        if(!leftHomer.isHomed()){
+            return;
+        }
         if (leftHomer.limitTripped() && power > 0) { // if the limit switch is tripped
             m_climberLeft.set(0);
         } else {
@@ -91,6 +94,9 @@ public class RobotClimber extends SubsystemBase {
     }
 
     public void rightClimb(double power) { // Negative is arm extention, positive is arm retraction
+        if(!rightHomer.isHomed()){
+            return;
+        }
         if (rightHomer.limitTripped() && power > 0) { // if the limit switch is tripped
             m_climberRight.set(0);
         } else {
