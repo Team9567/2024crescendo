@@ -66,6 +66,8 @@ public class RobotContainer {
     configureBindings();
 
     // autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
+    Position positionA = Position.getPositionA();
+
     autoChooser.addOption("posA", shootAndReatreat(autonomousCommand.kPosATurn1, autonomousCommand.kPosABack1,
         autonomousCommand.kPosATurn2, autonomousCommand.kPosABack2));
     autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
@@ -143,7 +145,7 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
-  public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2) {
+  public Command shootAndReatreat(Position pos) {
 
     double sleepTimer = SmartDashboard.getNumber("AutoWaitTime", sleepTimeout);
     Optional<Alliance> ally = DriverStation.getAlliance();
@@ -172,26 +174,42 @@ public class RobotContainer {
             () -> {
               chassis.arcadeDrive(0, 0.5 * turn);
             }, chassis)
-            .withTimeout(rotate1))
+            .withTimeout(pos.turn1))
         // retreat towards wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0.5, 0);
             }, chassis)
-            .withTimeout(retreat1))
+            .withTimeout(pos.drive1))
         // turn parallel to wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0, 0.5 * turn);
             }, chassis)
-            .withTimeout(rotate2))
+            .withTimeout(pos.turn2))
         // drive parallel to wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0.5, 0);
             }, chassis)
-            .withTimeout(retreat2));
+            .withTimeout(pos.drive2));
 
+  }
+
+  public class Position {
+    public double turn1 = 0;
+    public double drive1 = 0;
+    public double turn2 = 0;
+    public double drive2 = 0;
+
+    public static Position getPositionA() {
+      Position pos = new Position();
+      pos.turn1 = autonomousCommand.kPosATurn1;
+      pos.drive1 = autonomousCommand.kPosABack1;
+      pos.turn2 = autonomousCommand.kPosATurn2;
+      pos.drive2 = autonomousCommand.kPosABack2;
+      return pos;
+    }
   }
 
 }
