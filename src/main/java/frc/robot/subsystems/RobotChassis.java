@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -20,16 +22,16 @@ import frc.robot.Constants.RobotChassisConstants;
 
 public class RobotChassis extends SubsystemBase {
 
-    public CANSparkMax leftCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftCanId, MotorType.kBrushless);
-    public CANSparkMax rightCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightCanId, MotorType.kBrushless);
-    public CANSparkMax leftFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftFollowerCanId,
+    public CANSparkFlex leftCanSparkFlex = new CANSparkFlex(RobotChassisConstants.kLeftCanId, MotorType.kBrushless);
+    public CANSparkFlex rightCanSparkFlex = new CANSparkFlex(RobotChassisConstants.kRightCanId, MotorType.kBrushless);
+    public CANSparkFlex leftFollowerCanSparkFlex = new CANSparkFlex(RobotChassisConstants.kLeftFollowerCanId,
             MotorType.kBrushless);
-    public CANSparkMax rightFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightFollowerCanId,
+    public CANSparkFlex rightFollowerCanSparkFlex = new CANSparkFlex(RobotChassisConstants.kRightFollowerCanId,
             MotorType.kBrushless);
-    public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkMax, rightCanSparkMax);
+    public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkFlex, rightCanSparkFlex);
     public boolean lowGear = false;
-    public RelativeEncoder leftEncoder = leftCanSparkMax.getEncoder();
-    public RelativeEncoder rightEncoder = rightCanSparkMax.getEncoder();
+    public RelativeEncoder leftEncoder = leftCanSparkFlex.getEncoder();
+    public RelativeEncoder rightEncoder = rightCanSparkFlex.getEncoder();
     public AHRS navxGyro;
     public DifferentialDrivePoseEstimator poseEstimator;
     public PIDController thetaController = new PIDController(1.0/90.0, 0, 0);
@@ -42,21 +44,33 @@ public class RobotChassis extends SubsystemBase {
         this.poseEstimator = poseEstimator;
         this.field = field;
 
-        for (CANSparkMax m : new CANSparkMax[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,
-                rightFollowerCanSparkMax }) {
+        for (CANSparkFlex m : new CANSparkFlex[] { leftCanSparkFlex, rightCanSparkFlex, leftFollowerCanSparkFlex,
+                rightFollowerCanSparkFlex }) {
             m.clearFaults();
             m.setIdleMode(RobotChassisConstants.kMotorBrakeMode);
             m.setSmartCurrentLimit(RobotChassisConstants.kCurrentLimit, RobotChassisConstants.kCurrentLimit);
             m.setOpenLoopRampRate(RobotChassisConstants.rampRate);
         }
 
-        leftCanSparkMax.setInverted(false);
-        rightCanSparkMax.setInverted(true);
-        leftFollowerCanSparkMax.setInverted(true);
-        rightFollowerCanSparkMax.setInverted(true);
+        leftCanSparkFlex.setInverted(false);
+        rightCanSparkFlex.setInverted(true);
+        leftFollowerCanSparkFlex.setInverted(true);
+        rightFollowerCanSparkFlex.setInverted(true);
         // configure followers
-        leftFollowerCanSparkMax.follow(leftCanSparkMax);
-        rightFollowerCanSparkMax.follow(rightCanSparkMax);
+        leftFollowerCanSparkFlex.follow(leftCanSparkFlex);
+        rightFollowerCanSparkFlex.follow(rightCanSparkFlex);
+        //Lower can reporting rate for motor telemetry - 20ms -> 500ms
+        leftCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500); 
+        leftCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
+        rightCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500);
+        rightCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
+        //Lower can reporting rate for follower motor telemtry - 10ms -> 100ms / 20ms -> 500ms
+        leftFollowerCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+        leftFollowerCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500);
+        leftFollowerCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
+        rightFollowerCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+        rightFollowerCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500);
+        rightFollowerCanSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
 
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);

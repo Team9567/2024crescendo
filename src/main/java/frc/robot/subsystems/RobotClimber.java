@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
@@ -77,6 +78,14 @@ public class RobotClimber extends SubsystemBase {
         // linear Motors
         leftHomer = new LinearActuatorHomer(0, m_climberLeft, -260);
         rightHomer = new LinearActuatorHomer(1, m_climberRight, -260);
+
+        m_climberLeft.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+        m_climberLeft.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500);
+        m_climberLeft.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
+
+        m_climberRight.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+        m_climberRight.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500);
+        m_climberRight.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
     }
 
     public void leftClimb(double power) { // Negative is arm extention, positive is arm retraction

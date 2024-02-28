@@ -66,8 +66,8 @@ public class RobotContainer {
     configureBindings();
 
     // autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
-    Position positionA = Position.getPositionA();
-
+    //Position positionA = Position.getPositionA();
+    /*
     autoChooser.addOption("posA", shootAndReatreat(autonomousCommand.kPosATurn1, autonomousCommand.kPosABack1,
         autonomousCommand.kPosATurn2, autonomousCommand.kPosABack2));
     autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
@@ -78,6 +78,7 @@ public class RobotContainer {
     SmartDashboard.putData("AutoPosition", autoChooser);
 
     SmartDashboard.putNumber("AutoWaitTime", sleepTimeout);
+     */
 
   }
 
@@ -202,16 +203,20 @@ public class RobotContainer {
     public double turn2 = 0;
     public double drive2 = 0;
 
+    /*
     public static Position getPositionA() {
+      
       Position pos = new Position();
       pos.turn1 = autonomousCommand.kPosATurn1;
       pos.drive1 = autonomousCommand.kPosABack1;
       pos.turn2 = autonomousCommand.kPosATurn2;
       pos.drive2 = autonomousCommand.kPosABack2;
       return pos;
+       
     }
+  
+   */
   }
-
 }
 // Controller
 // Shoot B - current

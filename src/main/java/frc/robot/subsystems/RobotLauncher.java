@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,6 +32,13 @@ public class RobotLauncher extends SubsystemBase {
     m_feedWheel.clearFaults();
     m_feedWheel.setIdleMode(LauncherConstants.kFeedBrakeMode);
 
+    //Lower can reporting rate for follower motor telemtry - 10ms -> 100ms / 20ms -> 500ms
+    m_launchWheel.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+    m_launchWheel.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500);
+    m_launchWheel.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
+    m_feedWheel.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+    m_feedWheel.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 500);
+    m_feedWheel.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500);
   }
 
   /**
