@@ -38,6 +38,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void periodic(){
+        /*
         //read values periodically
         double x = tx.getDouble(0.0);
         double y = ty.getDouble(0.0);
@@ -62,6 +63,6 @@ public class Vision extends SubsystemBase {
         Pose2d botPose = new Pose2d(botPoseArray[0], botPoseArray[1] ,botRotation);
 
         poseEstimator.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
-
+        */ 
     }
 }
