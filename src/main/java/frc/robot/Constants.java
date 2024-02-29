@@ -88,11 +88,11 @@ public final class Constants {
     public static final double kPosBTurn1 = 2;
 
     public static final double kPosABack1 = 2;
-    public static final double kPosCBack1 = 1.15;
+    public static final double kPosCBack1 = 0.5;
     public static final double kPosBBack1 = 5;
 
-    public static final double kPosATurn2 = 1.8;
-    public static final double kPosCTurn2 = 0.24;
+    public static final double kPosATurn2 = 1.65;
+    public static final double kPosCTurn2 = 0.26;
     public static final double kPosBTurn2 = 0.24;
 
   
