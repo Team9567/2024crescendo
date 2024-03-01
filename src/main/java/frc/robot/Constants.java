@@ -95,16 +95,16 @@ public final class Constants {
     // public static final double kPosBTurn1 = 2;
 
     public static final double kBlueShortBack1 = 2;
-    public static final double kBlueLongBack1 = 0.5;
+    public static final double kBlueLongBack1 = 3; //0.5
     // public static final double kPosBBack1 = 5;
 
     public static final double kBlueShortTurn2 = 1.65;
-    public static final double kBlueLongTurn2 = 0.26;
+    public static final double kBlueLongTurn2 = 0.875;//0.26
     // public static final double kPosBTurn2 = 0.24;
 
   
     public static final double kBlueShortBack2 = 2.8;
-    public static final double kBlueLongBack2 = 3;
+    public static final double kBlueLongBack2 = 3; //3
     // public static final double kPosBBack2 = 2.8;
 
     //red starting
@@ -113,11 +113,11 @@ public final class Constants {
     // public static final double kPosBTurn1 = 2;
 
     public static final double kRedShortBack1 = 2;
-    public static final double kRedLongBack1 = 0.5;
+    public static final double kRedLongBack1 = 4;
     // public static final double kPosBBack1 = 5;
 
     public static final double kRedShortTurn2 = 1.65;
-    public static final double kRedLongTurn2 = 0.26;
+    public static final double kRedLongTurn2 = 1;
     // public static final double kPosBTurn2 = 0.24;
 
   
