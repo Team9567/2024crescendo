@@ -33,6 +33,8 @@ public final class Constants {
     public static final int kOperatorButtonLaunch = 2; //Button B
     public static final int kOperatorButtonIntake = 3; //Button X
 
+    public static final int kOperatorButtonAmp = 4; // Button Y
+
     public static final int kOperatorAxisLeftClimb = 1; //Left Analog Vertical axis
     public static final int kOperatorAxisRightClimb = 5; //Right Analog Vertical axis
 
@@ -69,6 +71,8 @@ public final class Constants {
     public static final double kIntakeLauncherSpeed = -1;
     public static final double kIntakeFeederSpeed = -.2;
 
+    public static final double kAmpLaunchSpeed = 0.1;
+
     public static final double kLauncherDelay = 1;
 
     public static final IdleMode kLaunchBrakeMode = IdleMode.kBrake;
@@ -83,23 +87,46 @@ public final class Constants {
   }
 
   public static class autonomousCommand {
-    public static final double kPosATurn1 = 0;
-    public static final double kPosCTurn1 = 0;
-    public static final double kPosBTurn1 = 2;
 
-    public static final double kPosABack1 = 2;
-    public static final double kPosCBack1 = 0.5;
-    public static final double kPosBBack1 = 5;
 
-    public static final double kPosATurn2 = 1.65;
-    public static final double kPosCTurn2 = 0.26;
-    public static final double kPosBTurn2 = 0.24;
+    //blue Starting
+    public static final double kBlueShortTurn1 = 0;
+    public static final double kBlueLongTurn1 = 0;
+    // public static final double kPosBTurn1 = 2;
+
+    public static final double kBlueShortBack1 = 2;
+    public static final double kBlueLongBack1 = 0.5;
+    // public static final double kPosBBack1 = 5;
+
+    public static final double kBlueShortTurn2 = 1.65;
+    public static final double kBlueLongTurn2 = 0.26;
+    // public static final double kPosBTurn2 = 0.24;
 
   
-    public static final double kPosABack2 = 2.8;
-    public static final double kPosCBack2 = 3;
-    public static final double kPosBBack2 = 2.8;
+    public static final double kBlueShortBack2 = 2.8;
+    public static final double kBlueLongBack2 = 3;
+    // public static final double kPosBBack2 = 2.8;
 
+    //red starting
+    public static final double kRedShortTurn1 = 0;
+    public static final double kRedLongTurn1 = 0;
+    // public static final double kPosBTurn1 = 2;
+
+    public static final double kRedShortBack1 = 2;
+    public static final double kRedLongBack1 = 0.5;
+    // public static final double kPosBBack1 = 5;
+
+    public static final double kRedShortTurn2 = 1.65;
+    public static final double kRedLongTurn2 = 0.26;
+    // public static final double kPosBTurn2 = 0.24;
+
+  
+    public static final double kRedShortBack2 = 2.8;
+    public static final double kRedLongBack2 = 3;
+
+    public static final int kClockWise = 1;
+    public static final int KCounterClockWise = -1;
+    
   }
 
   public static class RobotChassisConstants {

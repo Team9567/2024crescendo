@@ -4,15 +4,11 @@
 
 package frc.robot;
 
-import java.util.Optional;
-
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,6 +54,7 @@ public class RobotContainer {
   public CommandJoystick controller = new CommandJoystick(OperatorConstants.kOperatorControllerPort);
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
+  SendableChooser<Command> colorChooser = new SendableChooser<>();
   public double sleepTimeout = 0.0;
 
   // The container for the robot. Contains subsystems, OI devices, and commands
@@ -66,12 +63,19 @@ public class RobotContainer {
     configureBindings();
 
     // autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
-    autoChooser.addOption("posA", shootAndReatreat(autonomousCommand.kPosATurn1, autonomousCommand.kPosABack1,
-        autonomousCommand.kPosATurn2, autonomousCommand.kPosABack2));
-    autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
-        autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));
-    autoChooser.addOption("posC", shootAndReatreat(autonomousCommand.kPosCTurn1, autonomousCommand.kPosCBack1,
-        autonomousCommand.kPosCTurn2, autonomousCommand.kPosCBack2));
+    autoChooser.addOption("BlueShort", shootAndReatreat(autonomousCommand.kBlueShortTurn1, autonomousCommand.kBlueShortBack1,
+        autonomousCommand.kBlueShortTurn2, autonomousCommand.kBlueShortBack2, autonomousCommand.KCounterClockWise));
+    /*autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
+        autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));*/
+    autoChooser.addOption("BlueLong", shootAndReatreat(autonomousCommand.kBlueLongTurn1, autonomousCommand.kBlueLongBack1,
+        autonomousCommand.kBlueLongTurn2, autonomousCommand.kBlueLongBack2, autonomousCommand.kClockWise));
+    autoChooser.addOption("RedShort", shootAndReatreat(autonomousCommand.kRedShortTurn1, autonomousCommand.kRedShortBack1,
+        autonomousCommand.kRedShortTurn2, autonomousCommand.kRedShortBack2, autonomousCommand.kClockWise));
+    /*autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
+        autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));*/
+    autoChooser.addOption("RedLong", shootAndReatreat(autonomousCommand.kRedLongTurn1, autonomousCommand.kRedLongBack1,
+        autonomousCommand.kRedLongBack2, autonomousCommand.kRedLongBack2, autonomousCommand.KCounterClockWise));
+
 
     SmartDashboard.putData("AutoPosition", autoChooser);
 
@@ -85,7 +89,7 @@ public class RobotContainer {
             () -> {
               chassis.arcadeDrive(driver.getRawAxis(1), driver.getRawAxis(0));
             }, chassis));
-    // attach drive distance to button A
+    // attach drive distance to button A11
     // m_Chooser.addOption("drive 5 feet", new
     // DriveDistanceCommand(RobotChassis.class));
 
@@ -112,7 +116,10 @@ public class RobotContainer {
     // holding the
     // left Bumper
 
+
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
+
+    controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.ampLauncher());
 
     controller
 
@@ -143,10 +150,10 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
-  public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2) {
+  public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2, int turnDirection) {
 
     double sleepTimer = SmartDashboard.getNumber("AutoWaitTime", sleepTimeout);
-    Optional<Alliance> ally = DriverStation.getAlliance();
+    /*Optional<Alliance> ally = DriverStation.getAlliance();
     double allianceTurnDirection = 1;
     if (ally.isPresent()) {
       if (ally.get() == Alliance.Red) {
@@ -156,7 +163,7 @@ public class RobotContainer {
       }
     }
 
-    final double turn = allianceTurnDirection;
+    final double turn = allianceTurnDirection;*/
 
     return new PrepareLaunch(launcher)
         // launches for delay + 2.5 seconds
@@ -170,7 +177,7 @@ public class RobotContainer {
         // turn if necessary
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0, 0.5 * turn);
+              chassis.arcadeDrive(0, 0.5 * turnDirection);
             }, chassis)
             .withTimeout(rotate1))
         // retreat towards wall
@@ -182,7 +189,7 @@ public class RobotContainer {
         // turn parallel to wall
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0, 0.5 * turn);
+              chassis.arcadeDrive(0, 0.5 * turnDirection);
             }, chassis)
             .withTimeout(rotate2))
         // drive parallel to wall
