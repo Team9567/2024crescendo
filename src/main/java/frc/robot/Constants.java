@@ -114,7 +114,7 @@ public final class Constants {
     public static final double kRedLongTurn1 = 0;
     // public static final double kPosBTurn1 = 2;
 
-    public static final double kRedShortBack1 = 0;//2
+    public static final double kRedShortBack1 = 1;//2
     public static final double kRedLongBack1 = 4;
     // public static final double kPosBBack1 = 5;
 
@@ -125,7 +125,7 @@ public final class Constants {
     public static final double kRedLongTurnDistance2 = 135.0; //front is back
 
   
-    public static final double kRedShortBack2 = 0; //2
+    public static final double kRedShortBack2 = 3; //2
     public static final double kRedLongBack2 = 3;
 
     public static final int kClockWise = 1;
