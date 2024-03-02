@@ -64,17 +64,17 @@ public class RobotContainer {
 
     // autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
     autoChooser.addOption("BlueShort", shootAndReatreat(autonomousCommand.kBlueShortTurn1, autonomousCommand.kBlueShortBack1,
-        autonomousCommand.kBlueShortTurn2, autonomousCommand.kBlueShortBack2, autonomousCommand.KCounterClockWise));
+        autonomousCommand.kBlueShortTurnDistance2, autonomousCommand.kBlueShortBack2, autonomousCommand.KCounterClockWise));
     /*autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
         autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));*/
     autoChooser.addOption("BlueLong", shootAndReatreat(autonomousCommand.kBlueLongTurn1, autonomousCommand.kBlueLongBack1,
-        autonomousCommand.kBlueLongTurn2, autonomousCommand.kBlueLongBack2, autonomousCommand.kClockWise));
+        autonomousCommand.kBlueLongTurnDistance2, autonomousCommand.kBlueLongBack2, autonomousCommand.kClockWise));
     autoChooser.addOption("RedShort", shootAndReatreat(autonomousCommand.kRedShortTurn1, autonomousCommand.kRedShortBack1,
-        autonomousCommand.kRedShortTurn2, autonomousCommand.kRedShortBack2, autonomousCommand.kClockWise));
+        autonomousCommand.kRedShortTurnDistance2, autonomousCommand.kRedShortBack2, autonomousCommand.kClockWise));
     /*autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
         autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));*/
     autoChooser.addOption("RedLong", shootAndReatreat(autonomousCommand.kRedLongTurn1, autonomousCommand.kRedLongBack1,
-        autonomousCommand.kRedLongBack2, autonomousCommand.kRedLongBack2, autonomousCommand.KCounterClockWise));
+        autonomousCommand.kRedLongTurnDistance2, autonomousCommand.kRedLongBack2, autonomousCommand.KCounterClockWise));
 
 
     SmartDashboard.putData("AutoPosition", autoChooser);
@@ -152,18 +152,11 @@ public class RobotContainer {
 
   public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2, int turnDirection) {
 
-    double sleepTimer = SmartDashboard.getNumber("AutoWaitTime", sleepTimeout);
-    /*Optional<Alliance> ally = DriverStation.getAlliance();
-    double allianceTurnDirection = 1;
-    if (ally.isPresent()) {
-      if (ally.get() == Alliance.Red) {
-        allianceTurnDirection = -1;
-      } else if (ally.get() == Alliance.Blue) {
-        allianceTurnDirection = 1;
-      }
-    }
+    navxGyro.reset();
 
-    final double turn = allianceTurnDirection;*/
+
+    double sleepTimer = SmartDashboard.getNumber("AutoWaitTime", sleepTimeout);
+
 
     return new PrepareLaunch(launcher)
         // launches for delay + 2.5 seconds
@@ -189,9 +182,9 @@ public class RobotContainer {
         // turn parallel to wall
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0, 0.5 * turnDirection);
+              chassis.chassisToBearing(rotate2);
             }, chassis)
-            .withTimeout(rotate2))
+            .withTimeout(3))
         // drive parallel to wall
         .andThen(new RunCommand(
             () -> {
