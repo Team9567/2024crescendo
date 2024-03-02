@@ -107,7 +107,7 @@ public final class Constants {
     public static final double kBlueLongTurnDistance2 = -125.0;  //front is back
 
   
-    public static final double kBlueShortBack2 = 2.8;
+    public static final double kBlueShortBack2 = 3;
     public static final double kBlueLongBack2 = 3; //3
     // public static final double kPosBBack2 = 2.8;
 
@@ -118,7 +118,7 @@ public final class Constants {
     public static final double kRedLongTurn1 = 0;
     // public static final double kPosBTurn1 = 2;
 
-    public static final double kRedShortBack1 = 1;//2
+    public static final double kRedShortBack1 = 0.5;//2
     public static final double kRedLongBack1 = 4;
     // public static final double kPosBBack1 = 5;
 
