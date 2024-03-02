@@ -132,8 +132,8 @@ public final class Constants {
     public static final double kRedShortBack2 = 3; //2
     public static final double kRedLongBack2 = 3;
 
-    public static final int kClockWise = 1;
-    public static final int KCounterClockWise = -1;
+    public static final int kClockWise = 1; // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
+    public static final int KCounterClockWise = -1; // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
     
   }
 

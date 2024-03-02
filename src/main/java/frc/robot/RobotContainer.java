@@ -150,7 +150,7 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
-  public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2, int turnDirection) {
+  public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2, int turnDirection) {  // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
 
     navxGyro.reset();
 
