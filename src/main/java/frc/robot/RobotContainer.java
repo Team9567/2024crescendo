@@ -188,7 +188,7 @@ public class RobotContainer {
         // drive parallel to wall
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0.5 * -1, 0);
+              chassis.arcadeDrive(0.5 * -1, 0); // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
             }, chassis)
             .withTimeout(retreat2));
 
