@@ -188,7 +188,7 @@ public class RobotContainer {
         // drive parallel to wall
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0.5, 0);
+              chassis.arcadeDrive(0.5 * -1, 0);
             }, chassis)
             .withTimeout(retreat2));
 

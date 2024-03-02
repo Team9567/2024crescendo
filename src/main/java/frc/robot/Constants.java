@@ -89,7 +89,9 @@ public final class Constants {
   public static class autonomousCommand {
 
 
-    //blue Starting
+    //blue STARTING
+    /////// BLUE 15 SECOND AUTO VARIABLES /////
+    /////// BLUE 15 SECOND AUTO VARIABLES /////
     public static final double kBlueShortTurn1 = 0;
     public static final double kBlueLongTurn1 = 0;
     // public static final double kPosBTurn1 = 2;
@@ -101,15 +103,17 @@ public final class Constants {
     public static final double kBlueShortTurn2 = 1.65;
     public static final double kBlueLongTurn2 = 0.875;//0.26
     // public static final double kPosBTurn2 = 0.24;
-    public static final double kBlueShortTurnDistance2 = -110.0; //front is back
-    public static final double kBlueLongTurnDistance2 = 125.0;  //front is back
+    public static final double kBlueShortTurnDistance2 = 110.0; //front is back
+    public static final double kBlueLongTurnDistance2 = -125.0;  //front is back
 
   
     public static final double kBlueShortBack2 = 2.8;
     public static final double kBlueLongBack2 = 3; //3
     // public static final double kPosBBack2 = 2.8;
 
-    //red starting
+    // RED STARTING
+    /////// RED 15 SECOND AUTO VARIABLES /////
+    /////// RED 15 SECOND AUTO VARIABLES /////
     public static final double kRedShortTurn1 = 0;
     public static final double kRedLongTurn1 = 0;
     // public static final double kPosBTurn1 = 2;
@@ -121,8 +125,8 @@ public final class Constants {
     public static final double kRedShortTurn2 = 1.65;
     public static final double kRedLongTurn2 = 1;
     // public static final double kPosBTurn2 = 0.24;
-    public static final double kRedShortTurnDistance2 = 100.0; //front is back
-    public static final double kRedLongTurnDistance2 = -135.0; //front is back
+    public static final double kRedShortTurnDistance2 = -100.0; //front is back
+    public static final double kRedLongTurnDistance2 = 135.0; //front is back
 
   
     public static final double kRedShortBack2 = 3; //2
