@@ -145,6 +145,8 @@ public final class Constants {
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
     public static final double kTrackWidth = 1.0; //TODO change later
+    public static final double drivetrainTurnMultiplier = 0.75;
+    public static final double drivetrainScaleFactor = .75;
 
     //The Ramp Rate
     public static final double rampRate = .25;

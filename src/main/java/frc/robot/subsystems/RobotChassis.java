@@ -86,6 +86,8 @@ public class RobotChassis extends SubsystemBase {
         } else {
             targetSpeed = power;
             targetTurn = -1 * turn;
+            targetTurn = targetTurn * RobotChassisConstants.drivetrainTurnMultiplier;
+            targetSpeed = targetSpeed - (targetTurn* RobotChassisConstants.drivetrainScaleFactor);
         }
         drivetrain.arcadeDrive(targetSpeed, targetTurn);
         SmartDashboard.putNumber("Target speed", targetSpeed);
