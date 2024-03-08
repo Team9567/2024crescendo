@@ -63,19 +63,25 @@ public class RobotContainer {
     configureBindings();
 
     // autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
-    autoChooser.addOption("BlueShort", shootAndReatreat(autonomousCommand.kBlueShortTurn1, autonomousCommand.kBlueShortBack1,
-        autonomousCommand.kBlueShortTurnDistance2, autonomousCommand.kBlueShortBack2, autonomousCommand.KCounterClockWise));
-    /*autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
-        autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));*/
-    autoChooser.addOption("BlueLong", shootAndReatreat(autonomousCommand.kBlueLongTurn1, autonomousCommand.kBlueLongBack1,
+    autoChooser.addOption("BlueShort", shootAndReatreat(autonomousCommand.kBlueShortBack1,
+        autonomousCommand.kBlueShortTurnDistance2, autonomousCommand.kBlueShortBack2,
+        autonomousCommand.KCounterClockWise));
+    /*
+     * autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1,
+     * autonomousCommand.kPosBBack1,
+     * autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));
+     */
+    autoChooser.addOption("BlueLong", shootAndReatreat(autonomousCommand.kBlueLongBack1,
         autonomousCommand.kBlueLongTurnDistance2, autonomousCommand.kBlueLongBack2, autonomousCommand.kClockWise));
-    autoChooser.addOption("RedShort", shootAndReatreat(autonomousCommand.kRedShortTurn1, autonomousCommand.kRedShortBack1,
+    autoChooser.addOption("RedShort", shootAndReatreat(autonomousCommand.kRedShortBack1,
         autonomousCommand.kRedShortTurnDistance2, autonomousCommand.kRedShortBack2, autonomousCommand.kClockWise));
-    /*autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1, autonomousCommand.kPosBBack1,
-        autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));*/
-    autoChooser.addOption("RedLong", shootAndReatreat(autonomousCommand.kRedLongTurn1, autonomousCommand.kRedLongBack1,
+    /*
+     * autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1,
+     * autonomousCommand.kPosBBack1,
+     * autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));
+     */
+    autoChooser.addOption("RedLong", shootAndReatreat(autonomousCommand.kRedLongBack1,
         autonomousCommand.kRedLongTurnDistance2, autonomousCommand.kRedLongBack2, autonomousCommand.KCounterClockWise));
-
 
     SmartDashboard.putData("AutoPosition", autoChooser);
 
@@ -116,7 +122,6 @@ public class RobotContainer {
     // holding the
     // left Bumper
 
-
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
     controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.ampLauncher());
@@ -140,23 +145,19 @@ public class RobotContainer {
                       climber.rightClimb(0);
 
                     }));
-
-    // public Command getAutonomousCommand() {
-    // return new DriveDistanceCommand(chassis);
-    // }
   }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
 
-  public Command shootAndReatreat(double rotate1, double retreat1, double rotate2, double retreat2, int turnDirection) {  // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
+  public Command shootAndReatreat(double retreat1, double rotate2, double retreat2, int turnDirection) {
+    // do we want a negation here? is this too much complexity and confusing????
+    // NateO - 10:36AM 3/2/24
 
     navxGyro.reset();
 
-
     double sleepTimer = SmartDashboard.getNumber("AutoWaitTime", sleepTimeout);
-
 
     return new PrepareLaunch(launcher)
         // launches for delay + 2.5 seconds
@@ -167,12 +168,6 @@ public class RobotContainer {
         .andThen(new RunCommand(
             () -> {
             }).withTimeout(sleepTimer))
-        // turn if necessary
-        .andThen(new RunCommand(
-            () -> {
-              chassis.arcadeDrive(0, 0.5 * turnDirection);
-            }, chassis)
-            .withTimeout(rotate1))
         // retreat towards wall
         .andThen(new RunCommand(
             () -> {
@@ -188,7 +183,8 @@ public class RobotContainer {
         // drive parallel to wall
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0.5 * -1, 0); // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
+              chassis.arcadeDrive(0.5 * -1, 0); // do we want a negation here? is this too much complexity and
+                                                // confusing???? NateO - 10:36AM 3/2/24
             }, chassis)
             .withTimeout(retreat2));
 

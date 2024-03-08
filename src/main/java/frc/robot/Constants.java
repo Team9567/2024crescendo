@@ -27,20 +27,20 @@ public final class Constants {
 
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
-    //orient button 
+    // orient button
 
-    //Keybindings
-    public static final int kOperatorButtonLaunch = 2; //Button B
-    public static final int kOperatorButtonIntake = 3; //Button X
+    // Keybindings
+    public static final int kOperatorButtonLaunch = 2; // Button B
+    public static final int kOperatorButtonIntake = 3; // Button X
 
     public static final int kOperatorButtonAmp = 4; // Button Y
 
-    public static final int kOperatorAxisLeftClimb = 1; //Left Analog Vertical axis
-    public static final int kOperatorAxisRightClimb = 5; //Right Analog Vertical axis
+    public static final int kOperatorAxisLeftClimb = 1; // Left Analog Vertical axis
+    public static final int kOperatorAxisRightClimb = 5; // Right Analog Vertical axis
 
-    public static final int kDriverButtonGear = 3; //button x driver controller
+    public static final int kDriverButtonGear = 3; // button x driver controller
 
-    public static final double klauncherRunTimeConstant = 3.0; //TODO change later
+    public static final double klauncherRunTimeConstant = 3.0; // TODO change later
   }
 
   public static class DrivetrainConstants {
@@ -88,71 +88,62 @@ public final class Constants {
 
   public static class autonomousCommand {
 
-
-    //blue STARTING
+    // blue STARTING
     /////// BLUE 15 SECOND AUTO VARIABLES /////
     /////// BLUE 15 SECOND AUTO VARIABLES /////
-    public static final double kBlueShortTurn1 = 0;
-    public static final double kBlueLongTurn1 = 0;
-    // public static final double kPosBTurn1 = 2;
-
     public static final double kBlueShortBack1 = 0.5;
-    public static final double kBlueLongBack1 = 3; //0.5
+    public static final double kBlueLongBack1 = 3; // 0.5
     // public static final double kPosBBack1 = 5;
 
     public static final double kBlueShortTurn2 = 1.65;
-    public static final double kBlueLongTurn2 = 0.875;//0.26
+    public static final double kBlueLongTurn2 = 0.875;// 0.26
     // public static final double kPosBTurn2 = 0.24;
-    public static final double kBlueShortTurnDistance2 = 142.0; //front is back
-    public static final double kBlueLongTurnDistance2 = -125.0;  //front is back
+    public static final double kBlueShortTurnDistance2 = 142.0; // front is back
+    public static final double kBlueLongTurnDistance2 = -125.0; // front is back
 
-  
     public static final double kBlueShortBack2 = 3;
-    public static final double kBlueLongBack2 = 3; //3
+    public static final double kBlueLongBack2 = 3; // 3
     // public static final double kPosBBack2 = 2.8;
 
     // RED STARTING
     /////// RED 15 SECOND AUTO VARIABLES /////
     /////// RED 15 SECOND AUTO VARIABLES /////
-    public static final double kRedShortTurn1 = 0;
-    public static final double kRedLongTurn1 = 0;
-    // public static final double kPosBTurn1 = 2;
-
-    public static final double kRedShortBack1 = 0.5;//2
+    public static final double kRedShortBack1 = 0.5;// 2
     public static final double kRedLongBack1 = 4;
     // public static final double kPosBBack1 = 5;
 
     public static final double kRedShortTurn2 = 1.65;
     public static final double kRedLongTurn2 = 1;
     // public static final double kPosBTurn2 = 0.24;
-    public static final double kRedShortTurnDistance2 = 100.0; //front is back
-    public static final double kRedLongTurnDistance2 = 135.0; //front is back
+    public static final double kRedShortTurnDistance2 = 100.0; // front is back
+    public static final double kRedLongTurnDistance2 = 135.0; // front is back
 
-  
-    public static final double kRedShortBack2 = 3; //2
+    public static final double kRedShortBack2 = 3; // 2
     public static final double kRedLongBack2 = 3;
 
-    public static final int kClockWise = 1; // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
-    public static final int KCounterClockWise = -1; // do we want a negation here?  is this too much complexity and confusing????  NateO - 10:36AM 3/2/24
-    
+    public static final int kClockWise = 1; // do we want a negation here? is this too much complexity and confusing????
+                                            // NateO - 10:36AM 3/2/24
+    public static final int KCounterClockWise = -1; // do we want a negation here? is this too much complexity and
+                                                    // confusing???? NateO - 10:36AM 3/2/24
+
   }
 
   public static class RobotChassisConstants {
-    public static final int kCurrentLimit = 60;  // rev robotics recommendations 40-60
+    public static final int kCurrentLimit = 60; // rev robotics recommendations 40-60
     public static final int kLeftCanId = 1;
     public static final int kRightCanId = 3;
     public static final int kLeftFollowerCanId = 2;
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
-    public static final double kTrackWidth = 1.0; //TODO change later
+    public static final double kTrackWidth = 1.0; // TODO change later
 
-    //The Ramp Rate
+    // The Ramp Rate
     public static final double rampRate = .25;
     public static final double kLowGearSpeedDivider = 2.5;
 
-    //public static final double kMotorReduction = 1.0/8.46;
-    public static final double kMotorReduction = 8.46/1.0;
-    public static final double kWheelDiameter = Units.inchesToMeters(6.0); //TODO change later
+    // public static final double kMotorReduction = 1.0/8.46;
+    public static final double kMotorReduction = 8.46 / 1.0;
+    public static final double kWheelDiameter = Units.inchesToMeters(6.0); // TODO change later
     public static final double kWheelCircumfrance = kWheelDiameter * Math.PI;
   }
 
@@ -164,13 +155,13 @@ public final class Constants {
     public static final boolean kClimberLeftInversion = false;
 
     // PID coefficients
-    public static final double kFF = 0.000015;//TODO Tune 
-    public static final double kP = 6e-5;//TODO TUNE 
+    public static final double kFF = 0.000015;// TODO Tune
+    public static final double kP = 6e-5;// TODO TUNE
     public static final double kI = 0;
-    public static final double kD = 0; 
-    public static final double kIz = 0; 
-    public static final double kMaxOutput = 1; 
+    public static final double kD = 0;
+    public static final double kIz = 0;
+    public static final double kMaxOutput = 1;
     public static final double kMinOutput = -1;
-    public static final double maxRPM = 5700;//TODO turn down
+    public static final double maxRPM = 5700;// TODO turn down
   }
 }
