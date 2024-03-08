@@ -141,5 +141,6 @@ public final class Constants {
 
   public static final class UnderTheBumperConstants {
     public static final int kUnderTheBumperCanId = 1; //TODO replace this later
+    public static final double kUnderTheBumperMotorSpeed = .5; //TODO update later
   }
 }

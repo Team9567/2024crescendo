@@ -22,11 +22,11 @@ public class UnderTheBumperGroundIntake extends SubsystemBase{
     }
 
     public void runGroundIntake(){
-        underTheBumperMotor.set(.5);
+        underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed);
     }
 
     public void runGroundExtake(){
-        underTheBumperMotor.set(-.5);
+        underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed * -1);
     }
 
     public Command groundExtacking(){
