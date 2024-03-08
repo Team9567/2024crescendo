@@ -138,4 +138,8 @@ public final class Constants {
     public static final double kMinOutput = -1;
     public static final double maxRPM = 5700;//TODO turn down
   }
+
+  public static final class UnderTheBumperConstants {
+    public static final int kUnderTheBumperCanId = 1; //TODO replace this later
+  }
 }
