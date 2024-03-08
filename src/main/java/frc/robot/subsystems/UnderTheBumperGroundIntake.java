@@ -2,14 +2,16 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 
-import frc.robot.Constants;
-import frc.robot.Constants.RobotChassisConstants;
 import frc.robot.Constants.UnderTheBumperConstants;
 
-public class UnderTheBumperGroundIntake{
+public class UnderTheBumperGroundIntake extends SubsystemBase{
     public CANSparkMax underTheBumperMotor = new CANSparkMax(UnderTheBumperConstants.kUnderTheBumperCanId, MotorType.kBrushless);
 
     public void groundIntake(){
@@ -23,8 +25,32 @@ public class UnderTheBumperGroundIntake{
         underTheBumperMotor.set(.5);
     }
 
-    public void rejectNote(){
+    public void runGroundExtake(){
         underTheBumperMotor.set(-.5);
     }
+
+    public Command groundExtacking(){
+        return this.startEnd(
+        // When the command is initialized, set the wheels to the intake speed values
+        () -> {
+          runGroundExtake();
+        },        
+        // When the command stops, stop the wheels
+        () -> {
+           underTheBumperMotor.set(0);
+        });
+  }
+
+    public Command groundIntaking(){
+        return this.startEnd(
+        // When the command is initialized, set the wheels to the intake speed values
+        () -> {
+          runGroundIntake();
+        },        
+        // When the command stops, stop the wheels
+        () -> {
+           underTheBumperMotor.set(0);
+        });
+  }
 }
 

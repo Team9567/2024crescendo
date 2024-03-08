@@ -30,6 +30,7 @@ import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotClimber;
 import frc.robot.subsystems.RobotLauncher;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.UnderTheBumperGroundIntake;
 
 public class RobotContainer {
 
@@ -50,6 +51,7 @@ public class RobotContainer {
   public RobotLauncher launcher = new RobotLauncher();
   public Vision vision = new Vision(poseEstimator, field);
   public RobotClimber climber = new RobotClimber(navxGyro);
+  public UnderTheBumperGroundIntake intakeMotor = new UnderTheBumperGroundIntake();
 
   // ROBOT COMMAND DEFINITIONS
 
@@ -97,7 +99,7 @@ public class RobotContainer {
       chassis.setHighGear();
     }));
     /*
-     * Create an inline sequence to run when the operator presses and holds the A
+     * Create an inline sequence to run when the operator presses the A
      * (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command
      */
@@ -113,6 +115,10 @@ public class RobotContainer {
     // left Bumper
 
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
+
+    //Buttons for operating the ground intake
+    controller.button(6).whileTrue(intakeMotor.groundIntaking());
+    controller.button(7).whileTrue(intakeMotor.groundExtacking());
 
     controller
 
