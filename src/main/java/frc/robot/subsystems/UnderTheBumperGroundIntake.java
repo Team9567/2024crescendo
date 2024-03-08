@@ -13,12 +13,22 @@ import frc.robot.Constants.UnderTheBumperConstants;
 
 public class UnderTheBumperGroundIntake extends SubsystemBase{
     public CANSparkMax underTheBumperMotor = new CANSparkMax(UnderTheBumperConstants.kUnderTheBumperCanId, MotorType.kBrushless);
+    public CANSparkMax underTheBumperFollower = new CANSparkMax(UnderTheBumperConstants.kUnderTheBumperFollowerID, MotorType.kBrushless);
 
     public void groundIntake(){
+        //sets the defaults onn the motor
         underTheBumperMotor.clearFaults();
         underTheBumperMotor.restoreFactoryDefaults();
         underTheBumperMotor.setIdleMode(IdleMode.kBrake);
         underTheBumperMotor.setSmartCurrentLimit(60);
+        underTheBumperFollower.clearFaults();
+        underTheBumperFollower.restoreFactoryDefaults();
+        underTheBumperFollower.setIdleMode(IdleMode.kBrake);
+        underTheBumperFollower.setSmartCurrentLimit(60);
+
+        //Sets follower
+        underTheBumperFollower.follow(underTheBumperMotor);
+        underTheBumperFollower.setInverted(true);
     }
 
     public void runGroundIntake(){
