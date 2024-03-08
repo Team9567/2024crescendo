@@ -72,6 +72,7 @@ public class Vision extends SubsystemBase {
                 () -> {
                     
                     if(tv.getDouble(0.0) > 0.9){
+                        chassis.navxGyro.reset(); //instead maybe add current with target
                         double[] rotationToTarget = targetpose_robotspace.getDoubleArray(defaultBotPose);
                         double yaw = rotationToTarget[5];
                         chassis.chassisToBearing(yaw);
