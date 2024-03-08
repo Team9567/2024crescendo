@@ -39,8 +39,9 @@ public final class Constants {
     public static final int kOperatorAxisRightClimb = 5; // Right Analog Vertical axis
 
     public static final int kDriverButtonGear = 3; // button x driver controller
+    public static final double klauncherRunTimeConstant = 3.0; //TODO change later
+    public static final int kDriveOrientApriltag = 4; // ??????
 
-    public static final double klauncherRunTimeConstant = 3.0; // TODO change later
   }
 
   public static class DrivetrainConstants {
