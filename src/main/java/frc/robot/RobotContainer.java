@@ -108,6 +108,7 @@ public class RobotContainer {
         .onTrue(
             new PrepareLaunch(launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
+                .alongWith(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant), intakeMotor.runGroundForShoot())
                 .andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
 
     // Set up a binding to run the intake command while the operator is pressing and

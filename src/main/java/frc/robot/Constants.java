@@ -143,5 +143,6 @@ public final class Constants {
     public static final int kUnderTheBumperCanId = 1; //TODO replace this later
     public static final int kUnderTheBumperFollowerID = 1; //TODO replace this later
     public static final double kUnderTheBumperMotorSpeed = .5; //TODO update later
+    public static final int kRingDistanceMM = 10; //TODO change later
   }
 }
