@@ -93,7 +93,11 @@ public class RobotContainer {
     chassis.setDefaultCommand(
         new RunCommand(
             () -> {
-              chassis.arcadeDrive(driver.getRawAxis(1), driver.getRawAxis(0));
+              if(driver.button(OperatorConstants.kDriveOrientApriltag).getAsBoolean()){
+                  chassis.arcadeDrive(driver.getRawAxis(1), vision.getAprilTagTurn());
+              } else {
+                chassis.arcadeDrive(driver.getRawAxis(1), driver.getRawAxis(0));
+              }
             }, chassis));
     // attach drive distance to button A11
     // m_Chooser.addOption("drive 5 feet", new
