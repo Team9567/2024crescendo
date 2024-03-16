@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
@@ -29,8 +30,8 @@ import frc.robot.commands.PrepareLaunch;
 import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotClimber;
 import frc.robot.subsystems.RobotLauncher;
-import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.UnderTheBumperGroundIntake;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
 
@@ -103,13 +104,20 @@ public class RobotContainer {
      * (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command
      */
+    ParallelCommandGroup intakeAndLaunchGroup = new ParallelCommandGroup();
+    intakeAndLaunchGroup.beforeStarting(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay));
+    intakeAndLaunchGroup.addCommands(new LaunchNote(launcher), intakeMotor.runGroundForShoot());
     controller
         .button(OperatorConstants.kOperatorButtonLaunch)
         .onTrue(
+          intakeAndLaunchGroup
+        );
+          /*
             new PrepareLaunch(launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
-                .alongWith(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant), intakeMotor.runGroundForShoot())
-                .andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
+                .alongWith(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant), intakeMotor.runGroundForShoot()));
+                //.andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
+                */
 
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
