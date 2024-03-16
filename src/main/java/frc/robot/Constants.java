@@ -32,6 +32,7 @@ public final class Constants {
     //Keybindings
     public static final int kOperatorButtonLaunch = 2; //Button B
     public static final int kOperatorButtonIntake = 3; //Button X
+    public static final int kOperatorButtonAmp = 1; //Button A? TODO CHECK THIS
 
     public static final int kOperatorAxisLeftClimb = 1; //Left Analog Vertical axis
     public static final int kOperatorAxisRightClimb = 5; //Right Analog Vertical axis
