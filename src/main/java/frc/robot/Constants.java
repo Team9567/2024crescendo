@@ -73,6 +73,9 @@ public final class Constants {
 
     public static final IdleMode kLaunchBrakeMode = IdleMode.kBrake;
     public static final IdleMode kFeedBrakeMode = IdleMode.kBrake;
+    //AMP CONSTS
+    public static final double ampAutoScoreFDistance = 1;
+    public static final double ampAutoScoreBDistance = 1;
   }
 
   public static class RobotConstants {
