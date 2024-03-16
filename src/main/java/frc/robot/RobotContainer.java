@@ -120,16 +120,14 @@ public class RobotContainer {
           chassis.arcadeDrive(-0.4, 0);
         }, () -> {//End Action
           chassis.arcadeDrive(0, 0);
-        },
-        chassis);
+        },chassis);
     StartEndCommand driveFWD = new StartEndCommand(
         () -> {//Start Action
           chassis.resetEncoders();
           chassis.arcadeDrive(-0.4, 0);
         }, () -> {//End Action
           chassis.arcadeDrive(0.4, 0);
-        },
-        chassis);
+        },chassis);
         ampNote.addCommands(driveBack.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreBDistance));
         ampNote.addCommands(launcher.pukeNote().withTimeout(2)); // puke here AKA dunk AKA shoot @ 10%
         ampNote.addCommands(driveFWD.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreFDistance));
