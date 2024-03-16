@@ -60,6 +60,19 @@ public class RobotLauncher extends SubsystemBase {
           stop();
         });
   }
+  public Command ampLauncher() {
+  
+    return this.startEnd(
+
+        () -> {
+          setFeedWheel(LauncherConstants.kAmpLaunchSpeed);
+          setLaunchWheel(LauncherConstants.kAmpLaunchSpeed);
+        },        
+
+        () -> {
+          stop();
+        });
+  }
 
   // An accessor method to set the speed (technically the output percentage) of
   // the launch wheel

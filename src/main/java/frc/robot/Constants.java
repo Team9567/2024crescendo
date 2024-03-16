@@ -54,6 +54,8 @@ public final class Constants {
   }
 
   public static class LauncherConstants {
+    public static final double kAmpLaunchSpeed = 5;
+  
     // PWM ports/CAN IDs for motor controllers
     public static final int kFeederID = 5;
     public static final int kLauncherID = 6;

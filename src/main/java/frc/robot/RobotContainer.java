@@ -115,7 +115,7 @@ public class RobotContainer {
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
     //AMP NOTE SCORE 10 percent power puke
-    //controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.ampLauncher());
+    controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.ampLauncher());
 
     controller
 
