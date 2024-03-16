@@ -18,7 +18,7 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
       MotorType.kBrushless);
   public CANSparkMax underTheBumperFollower = new CANSparkMax(UnderTheBumperConstants.kUnderTheBumperFollowerID,
       MotorType.kBrushless);
-  public LaserCan laserCan = new LaserCan(0);
+  public LaserCan laserCan = new LaserCan(9);
   // laserC
 
   public void groundIntake() {
@@ -33,16 +33,22 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
     underTheBumperFollower.setSmartCurrentLimit(60);
 
     // Sets follower
-    underTheBumperFollower.follow(underTheBumperMotor);
+    //underTheBumperFollower.follow(underTheBumperMotor);
+
+    // SEts inversion
+    underTheBumperMotor.setInverted(false);
     underTheBumperFollower.setInverted(true);
   }
 
   public void runGroundIntake() {
-    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed);
+    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed * -1);
+    underTheBumperFollower.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed * -1);
   }
 
   public void runGroundExtake() {
-    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed * -1);
+    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed);
+    underTheBumperFollower.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed);
+    
   }
 
   public Command groundExtacking() {
@@ -54,6 +60,7 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
         // When the command stops, stop the wheels
         () -> {
           underTheBumperMotor.set(0);
+          underTheBumperFollower.set(0);
         });
   }
 
@@ -66,11 +73,13 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
           int distanceMeasuremnt = measurement.distance_mm;
           if (distanceMeasuremnt < UnderTheBumperConstants.kRingDistanceMM){
             underTheBumperMotor.set(0);
+            underTheBumperFollower.set(0);
           }
         },        
         // When the command stops, stop the wheels
         () -> {
           underTheBumperMotor.set(0);
+          underTheBumperFollower.set(0);
         });
   }
 
@@ -82,6 +91,7 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
         // When the command stops, stop the wheels
         () -> {
            underTheBumperMotor.set(0);
+           underTheBumperFollower.set(0);
         });
   }
 }

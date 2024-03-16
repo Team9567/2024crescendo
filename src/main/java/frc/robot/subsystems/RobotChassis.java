@@ -1,30 +1,27 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 //import com.revrobotics.CANSparkMax.IdleMode;
 import frc.robot.Constants.RobotChassisConstants;
 
 public class RobotChassis extends SubsystemBase {
 
-    public CANSparkMax leftCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftCanId, MotorType.kBrushless);
-    public CANSparkMax rightCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightCanId, MotorType.kBrushless);
-    public CANSparkMax leftFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kLeftFollowerCanId,
+    public CANSparkFlex leftCanSparkMax = new CANSparkFlex(RobotChassisConstants.kLeftCanId, MotorType.kBrushless);
+    public CANSparkFlex rightCanSparkMax = new CANSparkFlex(RobotChassisConstants.kRightCanId, MotorType.kBrushless);
+    public CANSparkFlex leftFollowerCanSparkMax = new CANSparkFlex(RobotChassisConstants.kLeftFollowerCanId,
             MotorType.kBrushless);
-    public CANSparkMax rightFollowerCanSparkMax = new CANSparkMax(RobotChassisConstants.kRightFollowerCanId,
+    public CANSparkFlex rightFollowerCanSparkMax = new CANSparkFlex(RobotChassisConstants.kRightFollowerCanId,
             MotorType.kBrushless);
     public DifferentialDrive drivetrain = new DifferentialDrive(leftCanSparkMax, rightCanSparkMax);
     public boolean lowGear = false;
@@ -42,7 +39,7 @@ public class RobotChassis extends SubsystemBase {
         this.poseEstimator = poseEstimator;
         this.field = field;
 
-        for (CANSparkMax m : new CANSparkMax[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,
+        for (CANSparkFlex m : new CANSparkFlex[] { leftCanSparkMax, rightCanSparkMax, leftFollowerCanSparkMax,
                 rightFollowerCanSparkMax }) {
             m.clearFaults();
             m.setIdleMode(RobotChassisConstants.kMotorBrakeMode);

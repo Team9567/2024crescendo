@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
@@ -105,12 +106,13 @@ public class RobotContainer {
      * command for 1 seconds and then run the LaunchNote command
      */
     ParallelCommandGroup intakeAndLaunchGroup = new ParallelCommandGroup();
-    intakeAndLaunchGroup.beforeStarting(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay));
+    //intakeAndLaunchGroup.beforeStarting(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay));
     intakeAndLaunchGroup.addCommands(new LaunchNote(launcher), intakeMotor.runGroundForShoot());
+    SequentialCommandGroup launchNote = new SequentialCommandGroup(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay), intakeAndLaunchGroup);
     controller
         .button(OperatorConstants.kOperatorButtonLaunch)
         .onTrue(
-          intakeAndLaunchGroup
+          launchNote.withTimeout(5)
         );
           /*
             new PrepareLaunch(launcher)
@@ -128,7 +130,7 @@ public class RobotContainer {
     //Buttons for operating the ground intake
     controller.button(6).whileTrue(intakeMotor.groundIntaking());
     controller.button(7).whileTrue(intakeMotor.groundExtacking());
-
+    
     controller
 
         .axisGreaterThan(OperatorConstants.kOperatorAxisLeftClimb, 0.05)
@@ -149,7 +151,7 @@ public class RobotContainer {
 
                     }));
 
-    // public Command getAutonomousCommand() {
+                    // public Command getAutonomousCommand() {
     // return new DriveDistanceCommand(chassis);
     // }
   }
