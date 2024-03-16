@@ -60,7 +60,7 @@ public class RobotLauncher extends SubsystemBase {
           stop();
         });
   }
-  public Command ampLauncher() {
+  public Command pukeNote() {
   
     return this.startEnd(
 

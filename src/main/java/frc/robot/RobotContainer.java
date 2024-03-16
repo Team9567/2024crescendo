@@ -113,7 +113,7 @@ public class RobotContainer {
      * Create an inline sequence to run when the operator presses and holds the Y
      * (ylw?red?) button.
      */
-    SequentialCommandGroup pukeNote = new SequentialCommandGroup();
+    SequentialCommandGroup ampNote = new SequentialCommandGroup();
     StartEndCommand driveBack = new StartEndCommand(
         () -> {//Start Action
           chassis.resetEncoders();
@@ -130,9 +130,9 @@ public class RobotContainer {
           chassis.arcadeDrive(0.4, 0);
         },
         chassis);
-        pukeNote.addCommands(driveBack.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreBDistance));
-        pukeNote.addCommands(); // puke here AKA dunk AKA shoot @ 10%
-        pukeNote.addCommands(driveFWD.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreFDistance));
+        ampNote.addCommands(driveBack.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreBDistance));
+        ampNote.addCommands(launcher.pukeNote().withTimeout(2)); // puke here AKA dunk AKA shoot @ 10%
+        ampNote.addCommands(driveFWD.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreFDistance));
         
 
 
@@ -150,7 +150,7 @@ public class RobotContainer {
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
     //AMP NOTE SCORE 10 percent power puke
-    controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.ampLauncher());
+    controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.pukeNote());
 
     controller
 
