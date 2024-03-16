@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
@@ -101,6 +103,39 @@ public class RobotContainer {
      * (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command
      */
+    
+    /* PUKE A NOTE 4-STEP PROCESS:
+     * 1) Driver drives front bumper flush with AMP, then pushes Y button.
+     * 2) Automatically drive a known distance backwards from the front of the AMP.
+     * 3) Automatically PUKE the note out AKA 10% powered shooter code.
+     * 4) Automatically drive a known distance forwards to the front of the AMP to DUNK the note.
+     * 
+     * Create an inline sequence to run when the operator presses and holds the Y
+     * (ylw?red?) button.
+     */
+    SequentialCommandGroup pukeNote = new SequentialCommandGroup();
+    StartEndCommand driveBack = new StartEndCommand(
+        () -> {//Start Action
+          chassis.resetEncoders();
+          chassis.arcadeDrive(-0.4, 0);
+        }, () -> {//End Action
+          chassis.arcadeDrive(0, 0);
+        },
+        chassis);
+    StartEndCommand driveFWD = new StartEndCommand(
+        () -> {//Start Action
+          chassis.resetEncoders();
+          chassis.arcadeDrive(-0.4, 0);
+        }, () -> {//End Action
+          chassis.arcadeDrive(0.4, 0);
+        },
+        chassis);
+        pukeNote.addCommands(driveBack.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreBDistance));
+        pukeNote.addCommands(); // puke here AKA dunk AKA shoot @ 10%
+        pukeNote.addCommands(driveFWD.until(() -> chassis.getDriveEncoderAverageDist() > LauncherConstants.ampAutoScoreFDistance));
+        
+
+
     controller
         .button(OperatorConstants.kOperatorButtonLaunch)
         .onTrue(

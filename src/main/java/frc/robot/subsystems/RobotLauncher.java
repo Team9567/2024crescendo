@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LauncherConstants;
-import frc.robot.subsystems.RobotChassis;
+
 
 public class RobotLauncher extends SubsystemBase {
   CANSparkMax m_launchWheel;
@@ -65,6 +65,7 @@ public class RobotLauncher extends SubsystemBase {
     return this.startEnd(
 
         () -> {
+          
           setFeedWheel(LauncherConstants.kAmpLaunchSpeed);
           setLaunchWheel(LauncherConstants.kAmpLaunchSpeed);
         },        

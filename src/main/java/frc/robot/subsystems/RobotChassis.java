@@ -68,7 +68,14 @@ public class RobotChassis extends SubsystemBase {
         thetaController.enableContinuousInput(-180, 180);
 
     }
+    public void resetEncoders(){
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
+    }
+    public double getDriveEncoderAverageDist(){
+        return (double) ((leftEncoder.getPosition() + rightEncoder.getPosition() )/2 );
 
+    }
     public void setLowGear() {
         lowGear = true;
     }

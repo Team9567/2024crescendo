@@ -32,7 +32,7 @@ public final class Constants {
     //Keybindings
     public static final int kOperatorButtonLaunch = 2; //Button B
     public static final int kOperatorButtonIntake = 3; //Button X
-    public static final int kOperatorButtonAmp = 1; //Button A? TODO CHECK THIS
+    public static final int kOperatorButtonAmp = 4; // Button Y
 
     public static final int kOperatorAxisLeftClimb = 1; //Left Analog Vertical axis
     public static final int kOperatorAxisRightClimb = 5; //Right Analog Vertical axis
@@ -54,7 +54,7 @@ public final class Constants {
   }
 
   public static class LauncherConstants {
-    public static final double kAmpLaunchSpeed = 5;
+    public static final double kAmpLaunchSpeed = 0.1;
   
     // PWM ports/CAN IDs for motor controllers
     public static final int kFeederID = 5;
@@ -77,8 +77,8 @@ public final class Constants {
     public static final IdleMode kLaunchBrakeMode = IdleMode.kBrake;
     public static final IdleMode kFeedBrakeMode = IdleMode.kBrake;
     //AMP CONSTS
-    public static final double ampAutoScoreFDistance = 1;
-    public static final double ampAutoScoreBDistance = 1;
+    static public double ampAutoScoreFDistance = 1;
+    static public double ampAutoScoreBDistance = 1;
   }
 
   public static class RobotConstants {
