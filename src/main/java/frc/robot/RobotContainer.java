@@ -20,12 +20,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotChassisConstants;
 import frc.robot.Constants.autonomousCommand;
+import frc.robot.commands.IntakeNoteWithShooter;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.PrepareLaunch;
 import frc.robot.subsystems.RobotChassis;
@@ -105,15 +105,25 @@ public class RobotContainer {
      * (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command
      */
+     
     ParallelCommandGroup intakeAndLaunchGroup = new ParallelCommandGroup();
     //intakeAndLaunchGroup.beforeStarting(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay));
     intakeAndLaunchGroup.addCommands(new LaunchNote(launcher), intakeMotor.runGroundForShoot());
-    SequentialCommandGroup launchNote = new SequentialCommandGroup(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay), intakeAndLaunchGroup);
+    //SequentialCommandGroup launchNote = new SequentialCommandGroup(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay), intakeAndLaunchGroup);
+    controller
+        .button(OperatorConstants.kOperatorButtonLaunch)
+        .onTrue(
+          new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay)
+          .andThen(intakeAndLaunchGroup.withTimeout(3))
+        );
+    /*
     controller
         .button(OperatorConstants.kOperatorButtonLaunch)
         .onTrue(
           launchNote.withTimeout(5)
         );
+        */
+        
           /*
             new PrepareLaunch(launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
@@ -125,11 +135,15 @@ public class RobotContainer {
     // holding the
     // left Bumper
 
+
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
     //Buttons for operating the ground intake
-    controller.button(6).whileTrue(intakeMotor.groundIntaking());
-    controller.button(7).whileTrue(intakeMotor.groundExtacking());
+    //controller.button(6).whileTrue(intakeMotor.groundIntaking().until(()-> intakeMotor.intakeBlocked()));
+    ParallelCommandGroup intakeGroup = new ParallelCommandGroup();
+    intakeGroup.addCommands(intakeMotor.groundIntaking(), new IntakeNoteWithShooter(launcher));
+    controller.button(6).onTrue(intakeGroup.until(()-> intakeMotor.intakeBlocked()));
+    controller.button(7).onTrue(intakeMotor.groundExtacking().withTimeout(.5));
     
     controller
 

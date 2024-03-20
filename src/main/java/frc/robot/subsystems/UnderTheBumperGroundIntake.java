@@ -5,7 +5,9 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
+import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Distance sensor, grappleHook, time of flight(TOF)
 
@@ -19,7 +21,15 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
   public CANSparkMax underTheBumperFollower = new CANSparkMax(UnderTheBumperConstants.kUnderTheBumperFollowerID,
       MotorType.kBrushless);
   public LaserCan laserCan = new LaserCan(9);
+  public boolean noteStored = false;
   // laserC
+  public UnderTheBumperGroundIntake(){
+    try {
+    laserCan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_20MS);
+    } catch (ConfigurationFailedException e){
+      System.out.println("LaserCan error " + e);
+    }
+  }
 
   public void groundIntake() {
     // sets the defaults on the motor
@@ -33,7 +43,7 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
     underTheBumperFollower.setSmartCurrentLimit(60);
 
     // Sets follower
-    //underTheBumperFollower.follow(underTheBumperMotor);
+    // underTheBumperFollower.follow(underTheBumperMotor);
 
     // SEts inversion
     underTheBumperMotor.setInverted(false);
@@ -41,14 +51,14 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
   }
 
   public void runGroundIntake() {
-    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed * -1);
-    underTheBumperFollower.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed * -1);
+    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorIntakeSpeed * -1);
+    underTheBumperFollower.set(UnderTheBumperConstants.kUnderTheBumperMotorIntakeSpeed * -1);
   }
 
   public void runGroundExtake() {
-    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed);
-    underTheBumperFollower.set(UnderTheBumperConstants.kUnderTheBumperMotorSpeed);
-    
+    underTheBumperMotor.set(UnderTheBumperConstants.kUnderTheBumperMotorExtakeSpeed);
+    underTheBumperFollower.set(UnderTheBumperConstants.kUnderTheBumperMotorExtakeSpeed);
+
   }
 
   public Command groundExtacking() {
@@ -64,36 +74,52 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
         });
   }
 
+  public boolean intakeBlocked() {
+    if (noteStored){
+      return true;
+    }
+    LaserCan.Measurement measurement = laserCan.getMeasurement();
+    int distanceMeasuremnt = measurement.distance_mm;
+    SmartDashboard.putNumber("Laser Can", distanceMeasuremnt);
+    if (distanceMeasuremnt < UnderTheBumperConstants.kRingDistanceMM) {
+      noteStored = true;
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
   public Command groundIntaking() {
-    return this.startEnd(
+    return this.runEnd(
         // When the command is initialized, set the wheels to the intake speed values
         () -> {
-          runGroundIntake();
-          LaserCan.Measurement measurement = laserCan.getMeasurement();
-          int distanceMeasuremnt = measurement.distance_mm;
-          if (distanceMeasuremnt < UnderTheBumperConstants.kRingDistanceMM){
+
+          if (this.intakeBlocked()){
+            underTheBumperMotor.set(0);
+            underTheBumperFollower.set(0);
+          } else {
+            runGroundIntake();
+          }
+          },
+          () -> {
             underTheBumperMotor.set(0);
             underTheBumperFollower.set(0);
           }
-        },        
+        );
+        
+  }
+
+  public Command runGroundForShoot() {
+    return this.startEnd(
+        () -> {
+          runGroundIntake();
+        },
         // When the command stops, stop the wheels
         () -> {
           underTheBumperMotor.set(0);
           underTheBumperFollower.set(0);
-        });
-  }
-
-  public Command runGroundForShoot(){
-    return this.startEnd(
-      () -> {
-          runGroundIntake();
-        },        
-        // When the command stops, stop the wheels
-        () -> {
-           underTheBumperMotor.set(0);
-           underTheBumperFollower.set(0);
+          noteStored = false;
         });
   }
 }
-
-

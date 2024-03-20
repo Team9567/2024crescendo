@@ -7,16 +7,15 @@ package frc.robot.commands;
 import static frc.robot.Constants.LauncherConstants;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.LauncherConstants;
 import frc.robot.subsystems.RobotLauncher;
 
-public class PrepareLaunch extends Command {
+public class IntakeNoteWithShooter extends Command {
   RobotLauncher launcher;
 
   
 
   /** Creates a new PrepareLaunch. */
-  public PrepareLaunch(RobotLauncher newlauncher) {
+  public IntakeNoteWithShooter(RobotLauncher newlauncher) {
     // save the launcher system internally
     launcher = newlauncher;
 
@@ -28,7 +27,8 @@ public class PrepareLaunch extends Command {
   @Override
   public void initialize() {
     // Set launch wheel to speed, keep feed wheel at 0 to let launch wheel spin up.
-    
+   // launcher.setLaunchWheel(LauncherConstants.kIntakeForShooterLauncherSpeed);
+    launcher.setFeedWheel(LauncherConstants.kIntakeForShooterLauncherSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,12 +37,12 @@ public class PrepareLaunch extends Command {
     // There is nothing we need this command to do on each iteration. You could remove this method
     // and the default blank method
     // of the base class will run.
-    launcher.setLaunchWheel(LauncherConstants.kLauncherForIntakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    launcher.setFeedWheel(0);
     // Do nothing when the command ends. The launch wheel needs to keep spinning in order to launch
   }
 
