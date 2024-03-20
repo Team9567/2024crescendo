@@ -17,7 +17,7 @@ public class LinearActuatorHomer {
         homingMotor = homerMotor;
         m_limit = limit;
         homerChannel = new DigitalInput(DIOPort);
-        homerMotor.set(.15);
+        homerMotor.set(.1);
     }
 
     public boolean limitTripped(){

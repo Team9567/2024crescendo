@@ -14,17 +14,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RobotChassisConstants;
 import frc.robot.Constants.autonomousCommand;
+import frc.robot.commands.IntakeNoteWithShooter;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.PrepareLaunch;
 import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotClimber;
 import frc.robot.subsystems.RobotLauncher;
+import frc.robot.subsystems.UnderTheBumperGroundIntake;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
@@ -46,6 +49,7 @@ public class RobotContainer {
   public RobotLauncher launcher = new RobotLauncher();
   public Vision vision = new Vision(poseEstimator, field);
   public RobotClimber climber = new RobotClimber(navxGyro);
+  public UnderTheBumperGroundIntake intakeMotor = new UnderTheBumperGroundIntake();
 
   // ROBOT COMMAND DEFINITIONS
 
@@ -107,30 +111,60 @@ public class RobotContainer {
       chassis.setHighGear();
     }));
     /*
-     * Create an inline sequence to run when the operator presses and holds the A
+     * Create an inline sequence to run when the operator presses the A
      * (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command
      */
+     
+    ParallelCommandGroup intakeAndLaunchGroup = new ParallelCommandGroup();
+    //intakeAndLaunchGroup.beforeStarting(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay));
+    intakeAndLaunchGroup.addCommands(new LaunchNote(launcher), intakeMotor.runGroundForShoot());
+    //SequentialCommandGroup launchNote = new SequentialCommandGroup(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay), intakeAndLaunchGroup);
     controller
         .button(OperatorConstants.kOperatorButtonLaunch)
         .onTrue(
+          new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay)
+          .andThen(new LaunchNote(launcher).withTimeout(3))
+        );
+    /*
+    controller
+        .button(OperatorConstants.kOperatorButtonLaunch)
+        .onTrue(
+          launchNote.withTimeout(5)
+        );
+        */
+        
+          /*
             new PrepareLaunch(launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
-                .andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
+                .alongWith(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant), intakeMotor.runGroundForShoot()));
+                //.andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
+                */
 
     driver
         .button(OperatorConstants.kDriveOrientApriltag).whileTrue(
           vision.getOrientAprilTag(chassis)
         );
 
+
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
+
 
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
     controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.ampLauncher());
 
+
+    
+    //Buttons for operating the ground intake
+    //controller.button(6).whileTrue(intakeMotor.groundIntaking().until(()-> intakeMotor.intakeBlocked()));
+    ParallelCommandGroup intakeGroup = new ParallelCommandGroup();
+    intakeGroup.addCommands(intakeMotor.groundIntaking(), new IntakeNoteWithShooter(launcher));
+    controller.button(6).onTrue(intakeGroup.until(()-> intakeMotor.intakeBlocked()).andThen(launcher.getIntakeCommand().withTimeout(5)));
+    controller.button(7).onTrue(intakeMotor.groundExtacking().withTimeout(.5));
+    
     controller
 
         .axisGreaterThan(OperatorConstants.kOperatorAxisLeftClimb, 0.05)
@@ -150,6 +184,10 @@ public class RobotContainer {
                       climber.rightClimb(0);
 
                     }));
+
+    // public Command getAutonomousCommand() {
+    // return new DriveDistanceCommand(chassis);
+    // }
   }
 
   public Command getAutonomousCommand() {

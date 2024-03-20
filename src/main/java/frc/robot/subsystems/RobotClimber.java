@@ -24,9 +24,9 @@ public class RobotClimber extends SubsystemBase {
     // targeting at 15 degrees we get 0.16 power at 45 we get 0.5, we half it for
     // each motor
     PIDController thetaController = new PIDController(1 / 45, 0, 0); // fix constants
-    SparkPIDController m_rightPidController;
-    SparkPIDController m_leftPidController;
-    double pidP = RobotClimberConstants.kP; // The local variable in our code
+    //SparkPIDController m_rightPidController;
+    //SparkPIDController m_leftPidController;
+    //double pidP = RobotClimberConstants.kP; // The local variable in our code
     AHRS navxGyro;
 
     // LinearActuatorHomer
@@ -52,14 +52,17 @@ public class RobotClimber extends SubsystemBase {
         m_climberRight.setInverted(RobotClimberConstants.kClimberRightInversion);
         m_climberLeft.setInverted(RobotClimberConstants.kClimberLeftInversion);
 
-        m_rightPidController = m_climberRight.getPIDController();
-        m_leftPidController = m_climberLeft.getPIDController();
+
 
         // encoders
         rightClimberEncoder = m_climberRight.getEncoder();
         leftClimberEncoder = m_climberLeft.getEncoder();
-
+/*
         // set PID coefficients
+        m_rightPidController = m_climberRight.getPIDController();
+        m_leftPidController = m_climberLeft.getPIDController();
+
+        
         m_rightPidController.setP(RobotClimberConstants.kP);
         m_leftPidController.setP(RobotClimberConstants.kP);
         m_rightPidController.setI(RobotClimberConstants.kI);
@@ -73,6 +76,7 @@ public class RobotClimber extends SubsystemBase {
         m_rightPidController.setOutputRange(RobotClimberConstants.kMinOutput, RobotClimberConstants.kMaxOutput);
         m_leftPidController.setOutputRange(RobotClimberConstants.kMinOutput, RobotClimberConstants.kMaxOutput);
         SmartDashboard.putNumber("P Gain", pidP);
+        */
 
         // linear Motors
         leftHomer = new LinearActuatorHomer(0, m_climberLeft, -280); // upper -280 limmit left

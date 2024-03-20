@@ -67,10 +67,12 @@ public final class Constants {
     // Speeds for wheels when intaking and launching. Intake speeds are negative to
     // run the wheels
     // in reverse
+    public static final double kLauncherForIntakeSpeed = .2;
     public static final double kLauncherSpeed = 1;
     public static final double kLaunchFeederSpeed = 1;
     public static final double kIntakeLauncherSpeed = -1;
     public static final double kIntakeFeederSpeed = -.2;
+    public static final double kPositionSpeed = -.2;
 
     public static final double kAmpLaunchSpeed = 0.1;
 
@@ -78,6 +80,9 @@ public final class Constants {
 
     public static final IdleMode kLaunchBrakeMode = IdleMode.kBrake;
     public static final IdleMode kFeedBrakeMode = IdleMode.kBrake;
+
+    //Run the motors for intaking with the ground intake
+    public static final double kIntakeForShooterLauncherSpeed = .45;
   }
 
   public static class RobotConstants {
@@ -165,4 +170,14 @@ public final class Constants {
     public static final double kMinOutput = -1;
     public static final double maxRPM = 5700;// TODO turn down
   }
+
+  public static final class UnderTheBumperConstants {
+    public static final int kUnderTheBumperCanId = 14; //Lower Track
+    public static final int kUnderTheBumperFollowerID = 15; //Upper Track
+    public static final double kUnderTheBumperMotorShootingSpeed = .1;
+    public static final double kUnderTheBumperMotorIntakeSpeed = 1;
+    public static final double kUnderTheBumperMotorExtakeSpeed = .15;
+    public static final int kRingDistanceMM = 300; //TODO change later
+  }
 }
+
