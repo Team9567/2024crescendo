@@ -21,7 +21,6 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
   public CANSparkMax underTheBumperFollower = new CANSparkMax(UnderTheBumperConstants.kUnderTheBumperFollowerID,
       MotorType.kBrushless);
   public LaserCan laserCan = new LaserCan(9);
-  public boolean noteStored = false;
   // laserC
   public UnderTheBumperGroundIntake(){
     try {
@@ -75,14 +74,11 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
   }
 
   public boolean intakeBlocked() {
-    if (noteStored){
-      return true;
-    }
+
     LaserCan.Measurement measurement = laserCan.getMeasurement();
     int distanceMeasuremnt = measurement.distance_mm;
     SmartDashboard.putNumber("Laser Can", distanceMeasuremnt);
     if (distanceMeasuremnt < UnderTheBumperConstants.kRingDistanceMM) {
-      noteStored = true;
       return true;
     } else {
       return false;
@@ -119,7 +115,6 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
         () -> {
           underTheBumperMotor.set(0);
           underTheBumperFollower.set(0);
-          noteStored = false;
         });
   }
 }

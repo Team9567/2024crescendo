@@ -28,6 +28,7 @@ import frc.robot.Constants.autonomousCommand;
 import frc.robot.commands.IntakeNoteWithShooter;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.PrepareLaunch;
+import frc.robot.commands.PositionNoteWithShooter;
 import frc.robot.subsystems.RobotChassis;
 import frc.robot.subsystems.RobotClimber;
 import frc.robot.subsystems.RobotLauncher;
@@ -114,7 +115,7 @@ public class RobotContainer {
         .button(OperatorConstants.kOperatorButtonLaunch)
         .onTrue(
           new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay)
-          .andThen(intakeAndLaunchGroup.withTimeout(3))
+          .andThen(new LaunchNote(launcher).withTimeout(3))
         );
     /*
     controller
@@ -138,11 +139,13 @@ public class RobotContainer {
 
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
+
+    
     //Buttons for operating the ground intake
     //controller.button(6).whileTrue(intakeMotor.groundIntaking().until(()-> intakeMotor.intakeBlocked()));
     ParallelCommandGroup intakeGroup = new ParallelCommandGroup();
     intakeGroup.addCommands(intakeMotor.groundIntaking(), new IntakeNoteWithShooter(launcher));
-    controller.button(6).onTrue(intakeGroup.until(()-> intakeMotor.intakeBlocked()));
+    controller.button(6).onTrue(intakeGroup.until(()-> intakeMotor.intakeBlocked()).andThen(launcher.getIntakeCommand().withTimeout(5)));
     controller.button(7).onTrue(intakeMotor.groundExtacking().withTimeout(.5));
     
     controller
