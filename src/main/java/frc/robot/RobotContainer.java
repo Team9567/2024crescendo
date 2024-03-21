@@ -63,30 +63,51 @@ public class RobotContainer {
 
   // The container for the robot. Contains subsystems, OI devices, and commands
   public RobotContainer() {
+
     // Configure the trigger bindings
     configureBindings();
 
-    // autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
-    autoChooser.addOption("BlueShort", shootAndReatreat(autonomousCommand.kBlueShortBack1,
-        autonomousCommand.kBlueShortTurnDistance2, autonomousCommand.kBlueShortBack2,
-        autonomousCommand.KCounterClockWise));
-    /*
-     * autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1,
-     * autonomousCommand.kPosBBack1,
-     * autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));
-     */
-    autoChooser.addOption("BlueLong", shootAndReatreat(autonomousCommand.kBlueLongBack1,
-        autonomousCommand.kBlueLongTurnDistance2, autonomousCommand.kBlueLongBack2, autonomousCommand.kClockWise));
-    autoChooser.addOption("RedShort", shootAndReatreat(autonomousCommand.kRedShortBack1,
-        autonomousCommand.kRedShortTurnDistance2, autonomousCommand.kRedShortBack2, autonomousCommand.kClockWise));
-    /*
-     * autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1,
-     * autonomousCommand.kPosBBack1,
-     * autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));
-     */
-    autoChooser.addOption("RedLong", shootAndReatreat(autonomousCommand.kRedLongBack1,
-        autonomousCommand.kRedLongTurnDistance2, autonomousCommand.kRedLongBack2, autonomousCommand.KCounterClockWise));
+    autoChooser.addOption("Middle", shootAndReatreat(1, 0, 1));
 
+    autoChooser.addOption("SHOOT ONLY", shootAndReatreat(0, 0, 0));
+
+    /*
+     * 
+     * 
+     * 
+     * 
+     * 
+     * /*
+     * // autoChooser.setDefaultOption("shoot and retreat", shootAndReatreat());
+     * autoChooser.addOption("BlueShort",
+     * shootAndReatreat(autonomousCommand.kBlueShortBack1,
+     * autonomousCommand.kBlueShortTurnDistance2, autonomousCommand.kBlueShortBack2,
+     * autonomousCommand.KCounterClockWise));
+     * /*
+     * autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1,
+     * autonomousCommand.kPosBBack1,
+     * autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));
+     * 
+     * autoChooser.addOption("BlueLong",
+     * shootAndReatreat(autonomousCommand.kBlueLongBack1,
+     * autonomousCommand.kBlueLongTurnDistance2, autonomousCommand.kBlueLongBack2,
+     * autonomousCommand.kClockWise));
+     * 
+     * 
+     * autoChooser.addOption("RedShort",
+     * shootAndReatreat(autonomousCommand.kRedShortBack1,
+     * autonomousCommand.kRedShortTurnDistance2, autonomousCommand.kRedShortBack2,
+     * autonomousCommand.kClockWise));
+     * 
+     * autoChooser.addOption("posB", shootAndReatreat(autonomousCommand.kPosBTurn1,
+     * autonomousCommand.kPosBBack1,
+     * autonomousCommand.kPosBTurn2, autonomousCommand.kPosBBack2));
+     * 
+     * autoChooser.addOption("RedLong",
+     * shootAndReatreat(autonomousCommand.kRedLongBack1,
+     * autonomousCommand.kRedLongTurnDistance2, autonomousCommand.kRedLongBack2,
+     * autonomousCommand.KCounterClockWise));
+     */
     SmartDashboard.putData("AutoPosition", autoChooser);
 
     SmartDashboard.putNumber("AutoWaitTime", sleepTimeout);
@@ -115,56 +136,58 @@ public class RobotContainer {
      * (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command
      */
-     
+
     ParallelCommandGroup intakeAndLaunchGroup = new ParallelCommandGroup();
-    //intakeAndLaunchGroup.beforeStarting(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay));
+    // intakeAndLaunchGroup.beforeStarting(new
+    // PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay));
     intakeAndLaunchGroup.addCommands(new LaunchNote(launcher), intakeMotor.runGroundForShoot());
-    //SequentialCommandGroup launchNote = new SequentialCommandGroup(new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay), intakeAndLaunchGroup);
+    // SequentialCommandGroup launchNote = new SequentialCommandGroup(new
+    // PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay),
+    // intakeAndLaunchGroup);
     controller
         .button(OperatorConstants.kOperatorButtonLaunch)
         .onTrue(
-          new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay)
-          .andThen(new LaunchNote(launcher).withTimeout(3))
-        );
+            new PrepareLaunch(launcher).withTimeout(LauncherConstants.kLauncherDelay)
+                .andThen(new LaunchNote(launcher).withTimeout(3)));
     /*
-    controller
-        .button(OperatorConstants.kOperatorButtonLaunch)
-        .onTrue(
-          launchNote.withTimeout(5)
-        );
-        */
-        
-          /*
-            new PrepareLaunch(launcher)
-                .withTimeout(LauncherConstants.kLauncherDelay)
-                .alongWith(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant), intakeMotor.runGroundForShoot()));
-                //.andThen(new LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant)));
-                */
+     * controller
+     * .button(OperatorConstants.kOperatorButtonLaunch)
+     * .onTrue(
+     * launchNote.withTimeout(5)
+     * );
+     */
+
+    /*
+     * new PrepareLaunch(launcher)
+     * .withTimeout(LauncherConstants.kLauncherDelay)
+     * .alongWith(new
+     * LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant),
+     * intakeMotor.runGroundForShoot()));
+     * //.andThen(new
+     * LaunchNote(launcher).withTimeout(OperatorConstants.klauncherRunTimeConstant))
+     * );
+     */
 
     driver
         .button(OperatorConstants.kDriveOrientApriltag).whileTrue(
-          vision.getOrientAprilTag(chassis)
-        );
-
+            vision.getOrientAprilTag(chassis));
 
     // Set up a binding to run the intake command while the operator is pressing and
     // holding the
     // left Bumper
 
-
     controller.button(OperatorConstants.kOperatorButtonIntake).whileTrue(launcher.getIntakeCommand());
 
     controller.button(OperatorConstants.kOperatorButtonAmp).whileTrue(launcher.ampLauncher());
 
-
-    
-    //Buttons for operating the ground intake
-    //controller.button(6).whileTrue(intakeMotor.groundIntaking().until(()-> intakeMotor.intakeBlocked()));
-    ParallelCommandGroup intakeGroup = new ParallelCommandGroup();
-    intakeGroup.addCommands(intakeMotor.groundIntaking(), new IntakeNoteWithShooter(launcher));
-    controller.button(6).onTrue(intakeGroup.until(()-> intakeMotor.intakeBlocked()).andThen(launcher.getIntakeCommand().withTimeout(5)));
+    // Buttons for operating the ground intake
+    // controller.button(6).whileTrue(intakeMotor.groundIntaking().until(()->
+    // intakeMotor.intakeBlocked()));
+    Command intakeGroup = makeGroundIntakeCommand();
+    controller.button(6).onTrue(
+        intakeGroup.until(() -> intakeMotor.intakeBlocked()).andThen(launcher.getIntakeCommand().withTimeout(5)));
     controller.button(7).onTrue(intakeMotor.groundExtacking().withTimeout(.5));
-    
+
     controller
 
         .axisGreaterThan(OperatorConstants.kOperatorAxisLeftClimb, 0.05)
@@ -194,7 +217,13 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
-  public Command shootAndReatreat(double retreat1, double rotate2, double retreat2, int turnDirection) {
+  public Command makeGroundIntakeCommand() {
+    ParallelCommandGroup intakeGroup = new ParallelCommandGroup();
+    intakeGroup.addCommands(intakeMotor.groundIntaking(), new IntakeNoteWithShooter(launcher));
+    return intakeGroup;
+  }
+
+  public Command shootAndReatreat(double retreat1, double rotate1, double retreat2) {
     // do we want a negation here? is this too much complexity and confusing????
     // NateO - 10:36AM 3/2/24
 
@@ -208,28 +237,45 @@ public class RobotContainer {
         .andThen(new LaunchNote(launcher)
             .withTimeout(2.5))
         // wait in place for sleepTimer
-        .andThen(new RunCommand(
-            () -> {
-            }).withTimeout(sleepTimer))
+        /*
+         * .andThen(new RunCommand(
+         * () -> {
+         * }).withTimeout(sleepTimer))
+         */
         // retreat towards wall
         .andThen(new RunCommand(
             () -> {
-              chassis.arcadeDrive(0.5, 0);
-            }, chassis)
-            .withTimeout(retreat1))
-        // turn parallel to wall
-        .andThen(new RunCommand(
-            () -> {
-              chassis.chassisToBearing(rotate2);
+              chassis.chassisToBearing(rotate1 * -1);
             }, chassis)
             .withTimeout(3))
+        .andThen(
+            new ParallelCommandGroup(
+                makeGroundIntakeCommand().until(() -> intakeMotor.intakeBlocked()).andThen(launcher.getIntakeCommand())
+                    .withTimeout(2),
+                new RunCommand(
+                    () -> {
+                      chassis.arcadeDrive(0.5 * 1, 0);
+                    }, chassis)
+                    .withTimeout(retreat1)))
+        // turn parallel to wall
+
         // drive parallel to wall
         .andThen(new RunCommand(
             () -> {
               chassis.arcadeDrive(0.5 * -1, 0); // do we want a negation here? is this too much complexity and
                                                 // confusing???? NateO - 10:36AM 3/2/24
             }, chassis)
-            .withTimeout(retreat2));
+            .withTimeout(retreat2))
+        .andThen(new RunCommand(
+            () -> {
+              chassis.chassisToBearing(rotate1 * 1);
+            }, chassis)
+            .withTimeout(3))
+        .andThen(new PrepareLaunch(launcher)
+            // launches for delay + 2.5 seconds
+            .withTimeout(LauncherConstants.kLauncherDelay)
+            .andThen(new LaunchNote(launcher)
+                .withTimeout(2.5)));
 
   }
 
