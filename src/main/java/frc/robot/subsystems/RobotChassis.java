@@ -90,10 +90,10 @@ public class RobotChassis extends SubsystemBase {
     }
 
     public void periodic() {
-        poseEstimator.update(navxGyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
-        field.setRobotPose(poseEstimator.getEstimatedPosition());
+        //poseEstimator.update(navxGyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+        //field.setRobotPose(poseEstimator.getEstimatedPosition());
 
-        SmartDashboard.putData("field", field);
+        //SmartDashboard.putData("field", field);
     }
 
     public void chassisToBearing(double targetRotation) {
