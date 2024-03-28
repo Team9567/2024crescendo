@@ -76,7 +76,8 @@ public class UnderTheBumperGroundIntake extends SubsystemBase {
   public boolean intakeBlocked() {
 
     LaserCan.Measurement measurement = laserCan.getMeasurement();
-    int distanceMeasuremnt = measurement.distance_mm;
+    //Needed on TABI because i don't have a measurement device, so its null
+    int distanceMeasuremnt = measurement==null ? 0 : measurement.distance_mm;
     SmartDashboard.putNumber("Laser Can", distanceMeasuremnt);
     if (distanceMeasuremnt < UnderTheBumperConstants.kRingDistanceMM) {
       return true;

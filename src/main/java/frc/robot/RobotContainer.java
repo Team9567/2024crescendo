@@ -70,6 +70,7 @@ public class RobotContainer {
     autoChooser.addOption("Middle", shootAndReatreat(1, 0, 1));
 
     autoChooser.addOption("SHOOT ONLY", shootAndReatreat(0, 0, 0));
+    autoChooser.addOption("back up turn ", shootAndReatreat(0.4, 30, 0.5));
 
     /*
      * 

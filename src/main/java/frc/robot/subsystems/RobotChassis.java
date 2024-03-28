@@ -75,6 +75,7 @@ public class RobotChassis extends SubsystemBase {
     }
 
     public void arcadeDrive(double power, double turn) {
+        power /=2; 
         double targetSpeed = 0.0;
         double targetTurn = 0.0;
         if (lowGear == true) {

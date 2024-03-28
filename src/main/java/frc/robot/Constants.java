@@ -57,8 +57,8 @@ public final class Constants {
 
   public static class LauncherConstants {
     // PWM ports/CAN IDs for motor controllers
-    public static final int kFeederID = 5;
-    public static final int kLauncherID = 6;
+    public static final int kFeederID = 14;
+    public static final int kLauncherID = 20;
 
     // Current limit for launcher and feed wheels
     public static final int kLauncherCurrentLimit = 60;
@@ -137,8 +137,8 @@ public final class Constants {
   public static class RobotChassisConstants {
     public static final int kCurrentLimit = 60; // rev robotics recommendations 40-60
     public static final int kLeftCanId = 1;
-    public static final int kRightCanId = 3;
-    public static final int kLeftFollowerCanId = 2;
+    public static final int kRightCanId = 2;
+    public static final int kLeftFollowerCanId = 3;
     public static final int kRightFollowerCanId = 4;
     public static final IdleMode kMotorBrakeMode = IdleMode.kBrake;
     public static final double kTrackWidth = 1.0; // TODO change later
@@ -172,7 +172,7 @@ public final class Constants {
   }
 
   public static final class UnderTheBumperConstants {
-    public static final int kUnderTheBumperCanId = 14; //Lower Track
+    public static final int kUnderTheBumperCanId = 21; //Lower Track
     public static final int kUnderTheBumperFollowerID = 15; //Upper Track
     public static final double kUnderTheBumperMotorShootingSpeed = .1;
     public static final double kUnderTheBumperMotorIntakeSpeed = 1;
