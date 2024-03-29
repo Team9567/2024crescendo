@@ -67,9 +67,12 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    autoChooser.addOption("Middle", shootAndReatreat(1, 0, 1));
+    autoChooser.addOption("Middle", shootAndReatreat(1, 0, 0.85));
 
     autoChooser.addOption("SHOOT ONLY", shootAndReatreat(0, 0, 0));
+
+
+    autoChooser.addOption("Long retreat", shootAndReatreat(3.5, 0, 0));
 
     /*
      * 
@@ -237,17 +240,15 @@ public class RobotContainer {
         .andThen(new LaunchNote(launcher)
             .withTimeout(2.5))
         // wait in place for sleepTimer
-        /*
-         * .andThen(new RunCommand(
-         * () -> {
-         * }).withTimeout(sleepTimer))
-         */
-        // retreat towards wall
+        .andThen(new RunCommand(
+            () -> {
+            }).withTimeout(sleepTimer))
+
         .andThen(new RunCommand(
             () -> {
               chassis.chassisToBearing(rotate1 * -1);
             }, chassis)
-            .withTimeout(3))
+            .withTimeout(0))
         .andThen(
             new ParallelCommandGroup(
                 makeGroundIntakeCommand().until(() -> intakeMotor.intakeBlocked()).andThen(launcher.getIntakeCommand())
@@ -270,7 +271,7 @@ public class RobotContainer {
             () -> {
               chassis.chassisToBearing(rotate1 * 1);
             }, chassis)
-            .withTimeout(3))
+            .withTimeout(0))
         .andThen(new PrepareLaunch(launcher)
             // launches for delay + 2.5 seconds
             .withTimeout(LauncherConstants.kLauncherDelay)
