@@ -20,12 +20,18 @@ import com.revrobotics.CANSparkBase.IdleMode;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class DriverConstants {
+    public static final int kDriverControllerPort = 0;
+    public static final int kDriverAxisThrottle = 1; // Left Analog Vertical axis
+    //public static final int kDriverAxisTurn = 0; // Left Analog Horizontal axis
+    public static final int kDriverAxisTurn = 4; // Right Analog Horizontal axis
+  }
+
   public static class OperatorConstants {
     // Port numbers for driver and operator gamepads. These correspond with the
     // numbers on the USB
     // tab of the DriverStation
 
-    public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
     // orient button
 

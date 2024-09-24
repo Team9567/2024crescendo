@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.DriverConstants;
 import frc.robot.Constants.RobotChassisConstants;
 import frc.robot.Constants.autonomousCommand;
 import frc.robot.commands.IntakeNoteWithShooter;
@@ -54,7 +55,7 @@ public class RobotContainer {
   // ROBOT COMMAND DEFINITIONS
 
   // JOYSTICK AND BUTTON ASSIGNMENTS
-  public CommandJoystick driver = new CommandJoystick(OperatorConstants.kDriverControllerPort);
+  public CommandJoystick driver = new CommandJoystick(DriverConstants.kDriverControllerPort);
   public CommandJoystick controller = new CommandJoystick(OperatorConstants.kOperatorControllerPort);
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -118,7 +119,9 @@ public class RobotContainer {
     chassis.setDefaultCommand(
         new RunCommand(
             () -> {
-              chassis.arcadeDrive(driver.getRawAxis(1), driver.getRawAxis(0));
+              chassis.arcadeDrive(
+                  driver.getRawAxis(DriverConstants.kDriverAxisThrottle),
+                  driver.getRawAxis(DriverConstants.kDriverAxisTurn));
             }, chassis));
     // attach drive distance to button A11
     // m_Chooser.addOption("drive 5 feet", new
