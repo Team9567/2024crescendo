@@ -128,10 +128,10 @@ public class RobotContainer {
     // DriveDistanceCommand(RobotChassis.class));
 
     // Set up for the binding for the soft low gear
-    driver.button(OperatorConstants.kDriverButtonGear).onTrue(new InstantCommand(() -> {
+    driver.button(DriverConstants.kDriverButtonGear).onTrue(new InstantCommand(() -> {
       chassis.setLowGear();
     }));
-    driver.button(OperatorConstants.kDriverButtonGear).onFalse(new InstantCommand(() -> {
+    driver.button(DriverConstants.kDriverButtonGear).onFalse(new InstantCommand(() -> {
       chassis.setHighGear();
     }));
     /*

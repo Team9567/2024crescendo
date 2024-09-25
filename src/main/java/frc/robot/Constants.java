@@ -25,6 +25,7 @@ public final class Constants {
     public static final int kDriverAxisThrottle = 1; // Left Analog Vertical axis
     //public static final int kDriverAxisTurn = 0; // Left Analog Horizontal axis
     public static final int kDriverAxisTurn = 4; // Right Analog Horizontal axis
+    public static final int kDriverButtonGear = 6; // button x driver controller
   }
 
   public static class OperatorConstants {
@@ -44,7 +45,7 @@ public final class Constants {
     public static final int kOperatorAxisLeftClimb = 1; // Left Analog Vertical axis
     public static final int kOperatorAxisRightClimb = 5; // Right Analog Vertical axis
 
-    public static final int kDriverButtonGear = 3; // button x driver controller
+ 
     public static final double klauncherRunTimeConstant = 3.0; //TODO change later
     public static final int kDriveOrientApriltag = 4; // ??????
 
